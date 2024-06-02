@@ -1,4 +1,4 @@
-# nameless-analytics-server-tag
+# Nameless Analytics: Server-side client tag
 
 Lorem ipsum
 
