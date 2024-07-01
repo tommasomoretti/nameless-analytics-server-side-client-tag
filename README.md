@@ -6,7 +6,7 @@ Collect, analyze and activate your website data with a real-time analytics suite
 
 
 
-## Client Tag
+## Nameless Analytics: Client Tag
 Lorem ipsum
 
 
