@@ -6,7 +6,7 @@ Collect, analyze and activate your website data with a real-time analytics suite
 
 
 
-## Client-side Client Tag
+## Server-side client tag
 Lorem ipsum
 
 
