@@ -1,4 +1,4 @@
-﻿___TERMS_OF_SERVICE___
+___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -41,7 +41,7 @@ ___TEMPLATE_PARAMETERS___
         "simpleTableColumns": [
           {
             "defaultValue": "",
-            "displayName": "Domain",
+            "displayName": "Domain name",
             "name": "allowed_domain",
             "type": "TEXT",
             "isUnique": true,
@@ -50,7 +50,7 @@ ___TEMPLATE_PARAMETERS___
                 "type": "NON_EMPTY"
               }
             ],
-            "valueHint": "https://example.com"
+            "valueHint": "(not set)"
           }
         ],
         "alwaysInSummary": true,
@@ -59,7 +59,7 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "help": "Allowed domains list",
+        "help": "Authorized domains from which to accept requests.  Specity the domains, one per row.\u003cp\u003e\u003c/p\u003eE.g.:\u003c/br\u003e domain1.com\u003c/br\u003e domain2.com",
         "displayName": "Allowed domains"
       },
       {
@@ -74,7 +74,7 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "help": "Lorem ipsum"
+        "help": "Custom endpoint for the requests.\u003cp\u003e\u003c/p\u003eE.g.: collect/na"
       }
     ]
   },
@@ -90,7 +90,7 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Project ID",
         "simpleValueType": true,
         "valueHint": "(not set)",
-        "help": "Set the Google Cloud Project ID where the Google BigQuery is located. If the project is the same as the one running the Server container, you can leave this field empty.",
+        "help": "The BigQuery project ID",
         "alwaysInSummary": true,
         "valueValidators": [
           {
@@ -104,7 +104,7 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Dataset ID",
         "simpleValueType": true,
         "valueHint": "(not set)",
-        "help": "Set the Dataset ID of the BigQuery table",
+        "help": "The BigQuery dataset ID",
         "alwaysInSummary": true,
         "valueValidators": [
           {
@@ -118,7 +118,7 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Table ID",
         "simpleValueType": true,
         "valueHint": "(not set)",
-        "help": "Set the BigQuery table",
+        "help": "The BigQuery table ID. Remember to create the table before start sending events.",
         "alwaysInSummary": true,
         "valueValidators": [
           {
@@ -129,9 +129,9 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "CHECKBOX",
         "name": "skip_invalid_rows",
-        "checkboxText": "Set skip_invalid_rows",
+        "checkboxText": "Skip invalid rows",
         "simpleValueType": true,
-        "help": "If set to true, then insert all valid rows of a request, even if invalid rows exist. Defaults to false.",
+        "help": "If set to true, inserts all valid rows of a request, even if invalid rows exist.",
         "defaultValue": false,
         "alwaysInSummary": true,
         "displayName": "Write disposition"
@@ -139,9 +139,9 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "CHECKBOX",
         "name": "ignore_unknown_values",
-        "checkboxText": "Set ignore_unknown_values",
+        "checkboxText": "Ignore unknown values",
         "simpleValueType": true,
-        "help": "If set to true, then accept rows that contain values that do not match the schema. The unknown values are ignored. Defaults to false.",
+        "help": "If set to true, accepts rows that contain values that do not match the schema. The unknown values are ignored.",
         "defaultValue": false,
         "alwaysInSummary": true
       }
@@ -149,17 +149,17 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "GROUP",
-    "name": "options",
-    "displayName": "Options",
+    "name": "advanced_options",
+    "displayName": "Advanced options",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
       {
         "type": "CHECKBOX",
         "name": "change_default_session_duration",
-        "checkboxText": "Set change_default_session_duration",
+        "checkboxText": "Change default session duration",
         "simpleValueType": true,
-        "displayName": "Change default session duration",
-        "help": "If it set to true, then the default session duration will be overridden.",
+        "displayName": "",
+        "help": "If it set to true, overrides the default session duration (30 min)",
         "defaultValue": false,
         "alwaysInSummary": true,
         "subParams": [
@@ -184,10 +184,10 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "CHECKBOX",
         "name": "enable_logs",
-        "checkboxText": "Set enableLogs",
+        "checkboxText": "Enable logs",
         "simpleValueType": true,
         "alwaysInSummary": true,
-        "displayName": "Enable logs",
+        "displayName": "",
         "help": "If it set to true, then enable logging on GTM debug console and Google Cloud Logs Explorer (run the query logName \u003d~ \"stdout\" to see log entries created by this API).",
         "defaultValue": false
       }
@@ -202,8 +202,13 @@ ___TEMPLATE_PARAMETERS___
     "subParams": [
       {
         "type": "LABEL",
+        "name": "nameless_analytics",
+        "displayName": "\u003cimg src\u003d\"https://namelessanalytics.com/img/Logo%20black.svg\" width\u003d\"400\"\u003e"
+      },
+      {
+        "type": "LABEL",
         "name": "version",
-        "displayName": "Version: 1.0"
+        "displayName": "Beta version: 1.0"
       },
       {
         "type": "LABEL",
@@ -253,6 +258,7 @@ var allowed_domains = '';
 const user_cookie_name = 'nameless_analytics_user';
 const session_cookie_name = 'nameless_analytics_session';
 
+
 if(data.enable_logs){log('NAMELESS ANALYTICS');}
 if(data.enable_logs){log('TAG CONFIGURATION');}
 
@@ -274,7 +280,7 @@ if (check_origin()){
       
       if(event_data && Object.keys(event_data).length > 0){
         if (event_data.event_name == 'get_user_data') { // For cross-domain only 
-          claim_request(get_user_data(event_data));
+            claim_request(get_user_data(event_data));
         } else {
           claim_request(build_generic_payload(event_data));
         }
@@ -333,11 +339,14 @@ function claim_request(event_data) {
     }));
     returnResponse();
   });
+  
   if(data.enable_logs){log('🟢 Request claimed succesfully');}
+  
   if(event_data.event_name == 'get_user_data') {
-    if(data.enable_logs){log('SEND EVENT DATA TO BROWSER...');}
-    if(data.enable_logs){log('👉 Payload data: ', event_data);}    
-  } else{
+    if(data.enable_logs){log('READING SESSION ID...');}
+    if(data.enable_logs){log('👉 Current user data: ', event_data);}  
+    if(data.enable_logs){log('🟢 User data has been sent correctly to the browser');}
+  } else {
     send_to_bq(event_data);
   }
 }
@@ -348,11 +357,21 @@ function claim_request(event_data) {
 // Build paylod user data (For cross-domain only)
 
 function get_user_data(event_data) {
-  const info = {
-    event_name: event_data.event_name,
-    // client_id: getCookieValues(user_cookie_name)[0],
-    session_id: getCookieValues(session_cookie_name)[0].split('-')[0]
-  };
+  var info = {};
+  
+  if(getCookieValues(user_cookie_name).length < 1 && getCookieValues(session_cookie_name).length < 1) {
+    if(data.enable_logs){log('Cookies not found');}  
+    info.event_name = event_data.event_name;
+    info.client_id = 'undefined';
+    info.session_id = 'undefined_undefined';
+  } else { 
+    if(data.enable_logs){log('Cookies found');}
+    if(data.enable_logs){log('User cookie value: ', getCookieValues(user_cookie_name)[0]);}
+    if(data.enable_logs){log('Sessions cookie value', getCookieValues(session_cookie_name)[0].split('-')[0]);}
+    info.event_name = event_data.event_name;
+    info.client_id = getCookieValues(user_cookie_name)[0];
+    info.session_id = getCookieValues(session_cookie_name)[0].split('-')[0];
+  }
   
   event_data = info;
   
@@ -361,13 +380,10 @@ function get_user_data(event_data) {
 
 
 // Build payload
-function build_generic_payload(event_data){
-  // Add additional info    
-  event_data.event_data.country = getRequestHeader('X-Appengine-Country');
-  event_data.event_data.city = getRequestHeader('X-Appengine-City');
-  
-  event_data.event_data.ss_hostname = getRequestHeader('Host');
-  event_data.event_data.ss_container_id = getContainerVersion().containerId;
+function build_generic_payload(event_data){ 
+  const page_id = event_data.event_data.page_id;
+  const event_id = event_data.event_data.event_id;  
+  const current_event_timestamp = event_data.event_timestamp;
   
   // Cross domain
   const cross_domain_id = event_data.event_data.cross_domain_id;
@@ -375,10 +391,11 @@ function build_generic_payload(event_data){
   if (cross_domain_id) {
     const client_id = cross_domain_id.split('_')[0];
     const session_id = cross_domain_id;
-    const current_event_timestamp = event_data.event_timestamp;
 
-    event_data.client_id = cross_domain_id.split('_')[0];
-    event_data.session_id = cross_domain_id;
+    event_data.client_id = client_id;
+    event_data.session_id = session_id;
+    event_data.event_data.page_id = session_id + '_' + page_id;
+    event_data.event_data.event_id = session_id + '_' + event_id;
     
     set_user_cookie(user_cookie_name, client_id);
     set_session_cookie(session_cookie_name, session_id + '-' + current_event_timestamp);
@@ -387,15 +404,16 @@ function build_generic_payload(event_data){
   } else {
     const user_cookie_value = getCookieValues(user_cookie_name)[0];
     const session_cookie_value = getCookieValues(session_cookie_name)[0];
-    
+        
     // New user with no session
     if (user_cookie_value === undefined) {
       const new_client_id = makeString(generateRandom(1000000000, 9999999999));
-      const new_session_id = new_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));
-      const current_event_timestamp = event_data.event_timestamp;
+      const new_session_id = new_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));      
       
       event_data.client_id = new_client_id;
       event_data.session_id = new_session_id;
+      event_data.event_data.page_id = new_session_id + '_' + page_id;
+      event_data.event_data.event_id = new_session_id + '_' + event_id;
       
       set_user_cookie(user_cookie_name, new_client_id);
       set_session_cookie(session_cookie_name, new_session_id + '-' + current_event_timestamp);
@@ -404,10 +422,11 @@ function build_generic_payload(event_data){
     } else if (user_cookie_value != undefined && session_cookie_value === undefined) {
       const old_client_id = user_cookie_value;
       const new_session_id = old_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));
-      const current_event_timestamp = event_data.event_timestamp;
       
       event_data.client_id = old_client_id;
-      event_data.session_id = new_session_id; 
+      event_data.session_id = new_session_id;
+      event_data.event_data.page_id = new_session_id + '_' + page_id;
+      event_data.event_data.event_id = new_session_id + '_' + event_id;     
   
       set_user_cookie(user_cookie_name, old_client_id);
       set_session_cookie(session_cookie_name, new_session_id + '-' + current_event_timestamp);
@@ -417,7 +436,6 @@ function build_generic_payload(event_data){
       const old_client_id = user_cookie_value;
       const old_session_id = session_cookie_value.split('-')[0];
       const last_event_timestamp = session_cookie_value.split('-')[1];
-      const current_event_timestamp = event_data.event_timestamp;
       
       const timestamp_diff = current_event_timestamp - last_event_timestamp;
       const session_timeout = data.session_timeout || 30;
@@ -429,6 +447,8 @@ function build_generic_payload(event_data){
         
         event_data.client_id = old_client_id;
         event_data.session_id = new_session_id; 
+        event_data.event_data.page_id = new_session_id + '_' + page_id;
+        event_data.event_data.event_id = new_session_id + '_' + event_id;
   
         set_user_cookie(user_cookie_name, old_client_id);            
         set_session_cookie(session_cookie_name, new_session_id + '-' + current_event_timestamp);
@@ -436,12 +456,20 @@ function build_generic_payload(event_data){
       } else {
         event_data.client_id = old_client_id;
         event_data.session_id = old_session_id;
+        event_data.event_data.page_id = old_session_id + '_' + page_id;
+        event_data.event_data.event_id = old_session_id + '_' + event_id;
         
         set_user_cookie(user_cookie_name, old_client_id);
         set_session_cookie(session_cookie_name, old_session_id + '-' + current_event_timestamp);
       }
     }
   }
+  
+  // Add additional info    
+  event_data.event_data.country = getRequestHeader('X-Appengine-Country');
+  event_data.event_data.city = getRequestHeader('X-Appengine-City');
+  event_data.event_data.ss_hostname = getRequestHeader('Host');
+  event_data.event_data.ss_container_id = getContainerVersion().containerId;
     
   return event_data;
 } 
@@ -873,6 +901,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 02/06/2024, 15:33:39
+Created on 02/08/2024, 18:22:40
 
 
