@@ -1,4 +1,4 @@
-___TERMS_OF_SERVICE___
+﻿___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -13,7 +13,7 @@ ___INFO___
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "Nameless Analytics | SS | Client tag",
+  "displayName": "Nameless Analytics | SS | Client Tag",
   "brand": {
     "id": "brand_dummy",
     "displayName": "",
@@ -59,7 +59,7 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "help": "Authorized domains from which to accept requests.  Specity the domains, one per row.\u003cp\u003e\u003c/p\u003eE.g.:\u003c/br\u003e domain1.com\u003c/br\u003e domain2.com",
+        "help": "Authorized domains from which to accept requests. Add the domains with the protocol, one per row.\u003cp\u003e\u003c/p\u003eE.g.:\u003c/br\u003e https://domain1.com\u003c/br\u003e https://domain2.com",
         "displayName": "Allowed domains"
       },
       {
@@ -90,7 +90,7 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Project ID",
         "simpleValueType": true,
         "valueHint": "(not set)",
-        "help": "The BigQuery project ID",
+        "help": "The BigQuery project ID.",
         "alwaysInSummary": true,
         "valueValidators": [
           {
@@ -101,7 +101,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "TEXT",
         "name": "bq_dataset_id",
-        "displayName": "Dataset ID",
+        "displayName": "Dataset ID.",
         "simpleValueType": true,
         "valueHint": "(not set)",
         "help": "The BigQuery dataset ID",
@@ -168,7 +168,6 @@ ___TEMPLATE_PARAMETERS___
             "name": "session_max_age",
             "displayName": "Session duration",
             "simpleValueType": true,
-            "defaultValue": 30,
             "enablingConditions": [
               {
                 "paramName": "change_default_session_duration",
@@ -177,7 +176,19 @@ ___TEMPLATE_PARAMETERS___
               }
             ],
             "alwaysInSummary": true,
-            "valueUnit": "min"
+            "valueUnit": "min",
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              },
+              {
+                "type": "POSITIVE_NUMBER"
+              },
+              {
+                "type": "NUMBER"
+              }
+            ],
+            "valueHint": "(not set)"
           }
         ]
       },
@@ -207,13 +218,8 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "LABEL",
-        "name": "version",
-        "displayName": "Beta version: 1.0"
-      },
-      {
-        "type": "LABEL",
-        "name": "creator",
-        "displayName": "Created by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dss_analytics_tag\u0026utm_medium\u003dreferral\"\u003eTommaso Moretti\u003c/a\u003e"
+        "name": "info",
+        "displayName": "Beta version: 1.0. \n\u003cp\u003e\u003cp/\u003e\nRead more about the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics-server-tag\"\u003eServer-side Client Tag\u003c/a\u003e.\n\u003cp\u003e\u003c/p\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\"\u003eTommaso Moretti\u003c/a\u003e"
       }
     ]
   }
@@ -901,6 +907,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 02/08/2024, 18:22:40
+Created on 03/08/2024, 09:49:30
 
 
