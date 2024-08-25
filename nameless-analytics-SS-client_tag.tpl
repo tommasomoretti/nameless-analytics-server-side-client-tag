@@ -1,4 +1,4 @@
-﻿___TERMS_OF_SERVICE___
+___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -59,7 +59,7 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "help": "Authorized domains from which to accept requests. Add the domains with the protocol, one per row.\u003cp\u003e\u003c/p\u003eE.g.:\u003c/br\u003e https://domain1.com\u003c/br\u003e https://domain2.com",
+        "help": "Authorized domains from which to accept requests. Add the domains without the protocol, one per row.\u003cp\u003e\u003c/p\u003eE.g.:\u003c/br\u003e domain1.com\u003c/br\u003e domain2.com",
         "displayName": "Allowed domains"
       },
       {
@@ -74,13 +74,13 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "help": "Custom endpoint for the requests.\u003cp\u003e\u003c/p\u003eE.g.: collect/na"
+        "help": "Custom endpoint for the requests.\u003cp\u003e\u003c/p\u003eE.g.: /collect/na"
       }
     ]
   },
   {
     "type": "GROUP",
-    "name": "bq_log_options",
+    "name": "bq_options",
     "displayName": "Google BigQuery options",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
@@ -90,13 +90,14 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Project ID",
         "simpleValueType": true,
         "valueHint": "(not set)",
-        "help": "The BigQuery project ID.",
+        "help": "The Google Cloud project ID for BigQuery.",
         "alwaysInSummary": true,
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "enablingConditions": []
       },
       {
         "type": "TEXT",
@@ -104,13 +105,14 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Dataset ID.",
         "simpleValueType": true,
         "valueHint": "(not set)",
-        "help": "The BigQuery dataset ID",
+        "help": "The BigQuery dataset ID.",
         "alwaysInSummary": true,
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "enablingConditions": []
       },
       {
         "type": "TEXT",
@@ -124,26 +126,114 @@ ___TEMPLATE_PARAMETERS___
           {
             "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "enablingConditions": []
       },
       {
         "type": "CHECKBOX",
-        "name": "skip_invalid_rows",
-        "checkboxText": "Skip invalid rows",
+        "name": "add_parameters",
+        "checkboxText": "Manually add/override event parameters",
         "simpleValueType": true,
-        "help": "If set to true, inserts all valid rows of a request, even if invalid rows exist.",
+        "subParams": [
+          {
+            "type": "SIMPLE_TABLE",
+            "name": "add_event_params",
+            "displayName": "Event parameters",
+            "simpleTableColumns": [
+              {
+                "defaultValue": "",
+                "displayName": "Param name",
+                "name": "param_name",
+                "type": "TEXT",
+                "isUnique": true,
+                "valueHint": "(not set)",
+                "valueValidators": [
+                  {
+                    "type": "NON_EMPTY"
+                  }
+                ]
+              },
+              {
+                "defaultValue": "",
+                "displayName": "Param value",
+                "name": "param_value",
+                "type": "TEXT",
+                "valueHint": "(not set)"
+              }
+            ],
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ],
+            "alwaysInSummary": true,
+            "enablingConditions": [
+              {
+                "paramName": "add_parameters",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ],
+            "help": "Custom parameter names and values for a specific event.  \u003cp\u003e\u003c/p\u003e E.g.: param name \u003d page_status_code and param value \u003d 200"
+          }
+        ],
+        "alwaysInSummary": true,
+        "help": "If set to true, adds custom event parameters to the BigQuery payload. If a parameter is already present, it will be overridden.",
+        "defaultValue": false,
+        "displayName": "Event parameters"
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "remove_parameters",
+        "checkboxText": "Remove parameters manually",
+        "simpleValueType": true,
+        "displayName": "",
+        "help": "If set to true, remove custom event parameters to the BigQuery payload.",
         "defaultValue": false,
         "alwaysInSummary": true,
-        "displayName": "Write disposition"
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "ignore_unknown_values",
-        "checkboxText": "Ignore unknown values",
-        "simpleValueType": true,
-        "help": "If set to true, accepts rows that contain values that do not match the schema. The unknown values are ignored.",
-        "defaultValue": false,
-        "alwaysInSummary": true
+        "subParams": [
+          {
+            "type": "SIMPLE_TABLE",
+            "name": "remove_event_params",
+            "displayName": "Event parameters",
+            "simpleTableColumns": [
+              {
+                "defaultValue": "",
+                "displayName": "Param name",
+                "name": "param_name",
+                "type": "TEXT",
+                "isUnique": true,
+                "valueHint": "(not set)",
+                "valueValidators": [
+                  {
+                    "type": "NON_EMPTY"
+                  }
+                ]
+              },
+              {
+                "defaultValue": "",
+                "displayName": "Param value",
+                "name": "param_value",
+                "type": "TEXT",
+                "valueHint": "(not set)"
+              }
+            ],
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ],
+            "alwaysInSummary": true,
+            "enablingConditions": [
+              {
+                "paramName": "remove_parameters",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ],
+            "help": "Custom parameter names and values for a specific event.  \u003cp\u003e\u003c/p\u003e E.g.: param name \u003d page_status_code and param value \u003d 200"
+          }
+        ]
       }
     ]
   },
@@ -219,7 +309,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "LABEL",
         "name": "info",
-        "displayName": "Beta version: 1.0. \n\u003cp\u003e\u003cp/\u003e\nRead more about the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics-server-tag\"\u003eServer-side Client Tag\u003c/a\u003e.\n\u003cp\u003e\u003c/p\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\"\u003eTommaso Moretti\u003c/a\u003e"
+        "displayName": "Beta version: 1.0. \n\u003cp\u003e\u003cp/\u003e\nRead more about the \n\u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/tommasomoretti/nameless-analytics-server-tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eServer-side Client Tag\u003c/a\u003e.\n\u003cp\u003e\u003c/p\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eTommaso Moretti\u003c/a\u003e"
       }
     ]
   }
@@ -242,6 +332,7 @@ const log = require('logToConsole');
 const JSON = require('JSON');
 const Object = require('Object');
 const BigQuery = require('BigQuery');
+const Firestore = require('Firestore');
 const getTimestampMillis = require('getTimestampMillis');
 const getType = require('getType');
 const makeNumber = require('makeNumber');
@@ -252,6 +343,7 @@ const makeString = require('makeString');
 const generateRandom = require('generateRandom');
 const computeEffectiveTldPlusOne = require('computeEffectiveTldPlusOne');
 
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const endpoint = data.endpoint;
 const request_origin = getRequestHeader('Origin');
@@ -264,31 +356,30 @@ var allowed_domains = '';
 const user_cookie_name = 'nameless_analytics_user';
 const session_cookie_name = 'nameless_analytics_session';
 
-
 if(data.enable_logs){log('NAMELESS ANALYTICS');}
 if(data.enable_logs){log('TAG CONFIGURATION');}
 
 for(let i = 0; i < allowed_domains_list.length; i++){
-  allowed_domains = allowed_domains.concat(', ', allowed_domains_list[i].allowed_domain);
+  const allowed_domains_tld = computeEffectiveTldPlusOne(allowed_domains_list[i].allowed_domain);
+  allowed_domains = allowed_domains.concat(', ', allowed_domains_tld);
 } 
 if(data.enable_logs){log('👉 Authorized origins:', allowed_domains.slice(2));}
-
-if(data.enable_logs){log('👉 Endpoint:', endpoint);}
-
-if(data.enable_logs){log('CLAIMING REQUEST...');}
+if(data.enable_logs){log('👉 Request origin:', computeEffectiveTldPlusOne(request_origin));}
 
 
-// Claim the request
-if (check_origin()){
-  if(getRequestPath() === '/' + endpoint){
+//Check origin and request path
+if (check_origin()){  
+  if(data.enable_logs){log('👉 Endpoint:', endpoint);}
+  if(data.enable_logs){log('👉 Request endpoint:', getRequestPath());}
+  if(getRequestPath() === endpoint){  
     if(request_method === 'POST'){
       const event_data = JSON.parse(getRequestBody());
       
       if(event_data && Object.keys(event_data).length > 0){
-        if (event_data.event_name == 'get_user_data') { // For cross-domain only 
-            claim_request(get_user_data(event_data));
+        if (event_data.event_name == 'get_user_data') { // For cross-domain only
+            claim_request(get_user_data(event_data)); 
         } else {
-          claim_request(build_generic_payload(event_data));
+          claim_request(build_hit_payload(event_data));
         }
       }
     }
@@ -318,7 +409,6 @@ if (check_origin()){
 }
 
 
-//Check origin
 function check_origin(){
   for(let i = 0; i < allowed_domains_list.length; i++){
     if(computeEffectiveTldPlusOne(request_origin) == computeEffectiveTldPlusOne(allowed_domains_list[i].allowed_domain)){
@@ -330,6 +420,7 @@ function check_origin(){
 
 // Claim requests
 function claim_request(event_data) {
+  if(data.enable_logs){log('CLAIM REQUEST...');}
   claimRequest();
   runContainer(event_data, () => {
     setResponseStatus(200);
@@ -348,11 +439,14 @@ function claim_request(event_data) {
   
   if(data.enable_logs){log('🟢 Request claimed succesfully');}
   
-  if(event_data.event_name == 'get_user_data') {
-    if(data.enable_logs){log('READING SESSION ID...');}
-    if(data.enable_logs){log('👉 Current user data: ', event_data);}  
-    if(data.enable_logs){log('🟢 User data has been sent correctly to the browser');}
+  if (event_data.event_name == 'get_user_data') {
+    if(data.enable_logs){log('GET USER DATA...');}
+    if(data.enable_logs){log('👉 Client ID:', event_data.client_id);}
+    if(data.enable_logs){log('👉 Session ID:', event_data.session_id);}
+    if(data.enable_logs){log('🟢 User data has been sent back correctly to the browser');}
   } else {
+    if(data.enable_logs){log('SEND EVENT DATA TO GOOGLE BIGQUERY...');}    
+    if(data.enable_logs){log('👉 Payload to send: ', event_data);}
     send_to_bq(event_data);
   }
 }
@@ -360,36 +454,26 @@ function claim_request(event_data) {
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Build paylod user data (For cross-domain only)
-
+// Build response for user data (For cross-domain only)
 function get_user_data(event_data) {
-  var info = {};
+  // if(data.enable_logs){log('Cookies found');}
+  // if(data.enable_logs){log('User cookie value: ', getCookieValues(user_cookie_name)[0]);}
+  // if(data.enable_logs){log('Sessions cookie value', getCookieValues(session_cookie_name)[0]}
   
-  if(getCookieValues(user_cookie_name).length < 1 && getCookieValues(session_cookie_name).length < 1) {
-    if(data.enable_logs){log('Cookies not found');}  
-    info.event_name = event_data.event_name;
-    info.client_id = 'undefined';
-    info.session_id = 'undefined_undefined';
-  } else { 
-    if(data.enable_logs){log('Cookies found');}
-    if(data.enable_logs){log('User cookie value: ', getCookieValues(user_cookie_name)[0]);}
-    if(data.enable_logs){log('Sessions cookie value', getCookieValues(session_cookie_name)[0].split('-')[0]);}
-    info.event_name = event_data.event_name;
-    info.client_id = getCookieValues(user_cookie_name)[0];
-    info.session_id = getCookieValues(session_cookie_name)[0].split('-')[0];
-  }
-  
-  event_data = info;
-  
+  event_data.client_id = getCookieValues(user_cookie_name)[0] || 'undefined';
+  event_data.session_id = (getCookieValues(session_cookie_name)[0] || 'undefined_undefined'); 
+
   return event_data;
 }
 
 
-// Build payload
-function build_generic_payload(event_data){ 
+// Build response for generic data
+function build_hit_payload(event_data){ 
   const page_id = event_data.event_data.page_id;
   const event_id = event_data.event_data.event_id;  
-  const current_event_timestamp = event_data.event_timestamp;
+  
+  // Set Cookies
+  if(data.enable_logs){log('READ COOKIES...');}
   
   // Cross domain
   const cross_domain_id = event_data.event_data.cross_domain_id;
@@ -398,23 +482,32 @@ function build_generic_payload(event_data){
     const client_id = cross_domain_id.split('_')[0];
     const session_id = cross_domain_id;
 
+    if(data.enable_logs){log('Cross-domain visit.');}
+    if(data.enable_logs){log('Create or overwrite User cookie: ', client_id);}
+    if(data.enable_logs){log('Create or overwrite Session cookie: ', session_id);}
+    
     event_data.client_id = client_id;
     event_data.session_id = session_id;
     event_data.event_data.page_id = session_id + '_' + page_id;
     event_data.event_data.event_id = session_id + '_' + event_id;
     
     set_user_cookie(user_cookie_name, client_id);
-    set_session_cookie(session_cookie_name, session_id + '-' + current_event_timestamp);
+    set_session_cookie(session_cookie_name, session_id);
   
   // No cross domain
   } else {
     const user_cookie_value = getCookieValues(user_cookie_name)[0];
     const session_cookie_value = getCookieValues(session_cookie_name)[0];
         
-    // New user with no session
+    // New user
     if (user_cookie_value === undefined) {
       const new_client_id = makeString(generateRandom(1000000000, 9999999999));
-      const new_session_id = new_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));      
+      const new_session_id = new_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));
+      
+      if(data.enable_logs){log('New user.');}
+      if(data.enable_logs){log('Create new User cookie: ', new_client_id);}
+      if(data.enable_logs){log('Create new Session cookie: ', new_session_id);}
+
       
       event_data.client_id = new_client_id;
       event_data.session_id = new_session_id;
@@ -422,76 +515,85 @@ function build_generic_payload(event_data){
       event_data.event_data.event_id = new_session_id + '_' + event_id;
       
       set_user_cookie(user_cookie_name, new_client_id);
-      set_session_cookie(session_cookie_name, new_session_id + '-' + current_event_timestamp);
+      set_session_cookie(session_cookie_name, new_session_id);
     
-    // Returning user with no session cookie
-    } else if (user_cookie_value != undefined && session_cookie_value === undefined) {
-      const old_client_id = user_cookie_value;
-      const new_session_id = old_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));
-      
-      event_data.client_id = old_client_id;
-      event_data.session_id = new_session_id;
-      event_data.event_data.page_id = new_session_id + '_' + page_id;
-      event_data.event_data.event_id = new_session_id + '_' + event_id;     
-  
-      set_user_cookie(user_cookie_name, old_client_id);
-      set_session_cookie(session_cookie_name, new_session_id + '-' + current_event_timestamp);
-    // Returning user with session cookie  
-    } else {
-      //check if session is expire
-      const old_client_id = user_cookie_value;
-      const old_session_id = session_cookie_value.split('-')[0];
-      const last_event_timestamp = session_cookie_value.split('-')[1];
-      
-      const timestamp_diff = current_event_timestamp - last_event_timestamp;
-      const session_timeout = data.session_timeout || 30;
-      const is_session_expire = (timestamp_diff < session_timeout) ? true : false;
-      
-      // If session is expire
-      if (is_session_expire) {
+    // Returning user
+    } else if (user_cookie_value != undefined) {
+      // No session cookie
+      if (session_cookie_value === undefined){
+        const old_client_id = user_cookie_value;
         const new_session_id = old_client_id + '_' + makeString(generateRandom(1000000000, 9999999999));
+
+        if(data.enable_logs){log('Returning user, no active session.');}       
+        if(data.enable_logs){log('Create new Session cookie: ', new_session_id);}      
         
         event_data.client_id = old_client_id;
-        event_data.session_id = new_session_id; 
+        event_data.session_id = new_session_id;
         event_data.event_data.page_id = new_session_id + '_' + page_id;
-        event_data.event_data.event_id = new_session_id + '_' + event_id;
-  
-        set_user_cookie(user_cookie_name, old_client_id);            
-        set_session_cookie(session_cookie_name, new_session_id + '-' + current_event_timestamp);
-      // If session is not expire
-      } else {
+        event_data.event_data.event_id = new_session_id + '_' + event_id;     
+    
+        set_user_cookie(user_cookie_name, old_client_id);
+        set_session_cookie(session_cookie_name, new_session_id);
+      // Yes session cookie
+      } else {        
+        const old_client_id = user_cookie_value;
+        const old_session_id = session_cookie_value.split('-')[0];
+              
+        if(data.enable_logs){log('Returning user, same session. Extend cookie max-age.');}
+
         event_data.client_id = old_client_id;
         event_data.session_id = old_session_id;
         event_data.event_data.page_id = old_session_id + '_' + page_id;
         event_data.event_data.event_id = old_session_id + '_' + event_id;
-        
+
         set_user_cookie(user_cookie_name, old_client_id);
-        set_session_cookie(session_cookie_name, old_session_id + '-' + current_event_timestamp);
+        set_session_cookie(session_cookie_name, old_session_id);
       }
     }
   }
   
+  
   // Add additional info    
+  event_data.received_event_timestamp = getTimestampMillis();
+  log(event_data.received_event_timestamp);
   event_data.event_data.country = getRequestHeader('X-Appengine-Country');
   event_data.event_data.city = getRequestHeader('X-Appengine-City');
   event_data.event_data.ss_hostname = getRequestHeader('Host');
   event_data.event_data.ss_container_id = getContainerVersion().containerId;
-    
+  
+  
+  
+  // Add data manually
+  if(data.add_parameters){
+    const event_params = data.add_event_params;
+    if (event_params != undefined) {
+      for (let i = 0; i < event_params.length; i++) {
+        const name = event_params[i].param_name;
+        const value = event_params[i].param_value;
+        event_data.event_data[name] = value;
+      }
+    } 
+  }
+  
+   // Remove data manually  
+  if(data.remove_parameters){
+    const event_params = data.remove_event_params;
+    if (event_params != undefined) {
+      for (let i = 0; i < event_params.length; i++) {
+        const name = event_params[i].param_name;
+        const value = event_params[i].param_value;
+        Object.delete(event_data.event_data, name);
+      }
+    } 
+  }
+  
   return event_data;
 } 
 
 
 // Set user cookie
-function set_user_cookie(cookie_name, cookie_value){
-  let allowed_domain = '';
-  for(let i = 0; i < allowed_domains_list.length; i++){
-    if(request_origin.match(allowed_domains_list[i].allowed_domain)){
-      allowed_domain = allowed_domains_list[i].allowed_domain;
-    }
-  }
-    
-  const cookie_domain = '.' + computeEffectiveTldPlusOne(allowed_domain);
-  // const cookie_domain = 'auto';
+function set_user_cookie(cookie_name, cookie_value){  
+  const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
   const cookie_path = '/';
   const cookie_secure = true;
   const sameSite = "strict";
@@ -512,16 +614,8 @@ function set_user_cookie(cookie_name, cookie_value){
 
 
 // Set session cookie
-function set_session_cookie(cookie_name, cookie_value){
-  let allowed_domain = '';
-  for(let i = 0; i < allowed_domains_list.length; i++){
-    if(request_origin.match(allowed_domains_list[i].allowed_domain)){
-      allowed_domain = allowed_domains_list[i].allowed_domain;
-    }
-  }
-    
-  const cookie_domain = '.' + computeEffectiveTldPlusOne(allowed_domain);
-  // const cookie_domain = 'auto';
+function set_session_cookie(cookie_name, cookie_value){    
+  const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
   const cookie_path = '/';
   const cookie_secure = true;
   const sameSite = "strict";
@@ -552,10 +646,7 @@ function send_to_bq(event_data){
     datasetId: data.bq_dataset_id,
     tableId: data.bq_table_id
   };
-  
-  if(data.enable_logs){log('SEND EVENT DATA TO GOOGLE BIGQUERY...');}
-  if(data.enable_logs){log('👉 Payload data: ', event_data);}
-  
+    
   const payload_copy = JSON.parse(JSON.stringify(event_data));
   
   // Encode data in GA4 style        
@@ -564,8 +655,8 @@ function send_to_bq(event_data){
   
   // Write options
   const options = {
-    ignoreUnknownValues: data.ignore_unknown_values,
-    skipInvalidRows: data.skip_invalid_rows
+    skipInvalidRows: false,
+    ignoreUnknownValues: false
   };
   
   // Write to Google BigQuery
@@ -895,6 +986,59 @@ ___SERVER_PERMISSIONS___
       "isEditedByUser": true
     },
     "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "access_firestore",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "allowedOptions",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "projectId"
+                  },
+                  {
+                    "type": 1,
+                    "string": "path"
+                  },
+                  {
+                    "type": 1,
+                    "string": "operation"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "*"
+                  },
+                  {
+                    "type": 1,
+                    "string": "*"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
   }
 ]
 
@@ -907,6 +1051,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 03/08/2024, 09:49:30
+Created on 25/08/2024, 11:09:07
 
 
