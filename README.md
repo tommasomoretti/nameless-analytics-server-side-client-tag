@@ -6,7 +6,7 @@ Lorem ipsum
 
 
 ## Measurement Protocol
-```
+```bash
 set full_endpoint="https://gtm.tommasomoretti.com/tm/nameless"
 origin="https://tommasomoretti.com"
 gtm_preview_header="ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5MThmMjVhMTQwNWViZjcwYmE5Yw==" 
