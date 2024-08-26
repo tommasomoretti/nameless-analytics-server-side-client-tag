@@ -8,9 +8,9 @@ Lorem ipsum
 ## Measurement Protocol
 ```bash
 set full_endpoint="https://gtm.tommasomoretti.com/tm/nameless"
-origin="https://tommasomoretti.com"
-gtm_preview_header="ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5MThmMjVhMTQwNWViZjcwYmE5Yw==" 
-payload='{
+set origin="https://tommasomoretti.com"
+set gtm_preview_header="ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5MThmMjVhMTQwNWViZjcwYmE5Yw==" 
+set payload='{
        "event_name": "pv",
        "event_timestamp": 123456789,
        "client_id": "4079777164",
