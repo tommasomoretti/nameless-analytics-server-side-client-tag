@@ -20,7 +20,6 @@ After that, the hit will be logged in a BigQuery event date partitioned table.
 
 <img width="1512" alt="Nameless Analytics server-side logs" src="https://github.com/user-attachments/assets/225ae759-b4d8-4632-9ee8-b608fb5e4a12">
 
-For more details, see [Nameless Analytics server side tag](https://github.com/tommasomoretti/nameless-analytics-server-tag)
 
 
 ## Troubleshooting
