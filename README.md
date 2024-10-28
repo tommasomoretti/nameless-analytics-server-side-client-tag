@@ -10,7 +10,7 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 
 - If both cookies are present, the tag does not create any new cookies but adds their values to the hit.
 
-### Cookie values
+### Standard cookie values
 | Cookie name                | Example value                                   | Default expiration | Description                                                                                     |
 |----------------------------|-------------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------|
 | nameless_analytics_user    | pLQQFjUv7IBJuDA                                 | 400 days           | 15 chars random string                                                                          |
