@@ -5,6 +5,8 @@ The Nameless Analytics Server-side Client Tag is a highly customizable GTM custo
 
 
 ## Server-side Client Tag
+
+### Cookies
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
 
 - If no cookies are present or the ```nameless_analytics_user``` cookie is not set but ```nameless_analytics_session cookie``` is set, the client tag generates generates two values, one for ```nameless_analytics_user``` cookie and one for ```nameless_analytics_session``` cookie), adds these values as event parameters and sets two cookies with the response.
@@ -13,7 +15,7 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 
 - If both cookies are present, the tag does not create any new cookies but adds their values to the hit.
 
-### Standard cookie values
+#### Standard cookie values
 | Cookie name                | Example value                                   | Default expiration | Description                                                                                     |
 |----------------------------|-------------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------|
 | nameless_analytics_user    | pLQQFjUv7IBJuDA                                 | 400 days           | 15 chars random string                                                                          |
