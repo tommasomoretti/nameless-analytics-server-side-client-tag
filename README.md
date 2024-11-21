@@ -92,10 +92,11 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 - If both cookies are present, the tag does not create any new cookies but adds their values to the hit.
 
 #### Standard cookie values
-| Cookie name                | Example value                                   | Default expiration | Description                                                                                     |
-|----------------------------|-------------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------|
-| nameless_analytics_user    | pLQQFjUv7IBJuDA                                 | 400 days           | 15 chars random string                                                                          |
-| nameless_analytics_session | pLQQFjUv7IBJuDA_BxEtSZuKR71XL7K-fEErCpUjYPgbVqd | 30 minutes         | nameless_analytics_user + 15 chars random string + current page_id                              |
+
+| Default cookie name        | Example value                                   | Default exp. | Description                                                        |
+|----------------------------|-------------------------------------------------|--------------|--------------------------------------------------------------------|
+| nameless_analytics_user    | Lxt3Tvvy28gGcbp                                 | 400 days     | 15 chars random string                                             |
+| nameless_analytics_session | Lxt3Tvvy28gGcbp_vpdXoWImLJZCoba-Np15ZLKO7SAk1WF | 30 minutes   | nameless_analytics_user + 15 chars random string + current page_id |
 
 After that, the hit will be logged in a BigQuery event date partitioned table.
 
