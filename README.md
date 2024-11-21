@@ -7,14 +7,19 @@ Start from here:
 - [Basic settings](#basic-settings)
   - [Allowed domains](#allowed-domains)
   - [Endpoint path](#endpoint-path)
- 
-
-
-- [Event data](#event-data)
-  - [Event name](#event-type)
+- [Google BigQuery settings](#google-bigquery-settings)
+  - [Project ID](#project-id)
+  - [Dataser ID](#dataser-id)
+  - [Table ID](#table-id)
   - [Event parameters](#event-parameters)
-- [Advanced settings](#advanced-settings)
-  - [Disable logs in JavaScript console for this event](#Disable-logs-in-javascript-console-for-this-event)
+    - [Add/override event parameters](#add_override_event_parameters)
+    - [Remove parameters manually](#remove-parameters-manually)
+-  [Advanced settings](#advanced-settings)
+  - [Change user cookie name](#change-user-cookie-name)
+  - [Change session cookie name](#change-session-cookie-name)
+  - [Change default session duration](#change-default-session-duration)
+  - [Enable logs in debug view](#enable-logs-in-debug-view)
+- [Cookies](#cookies)
 
 
 
