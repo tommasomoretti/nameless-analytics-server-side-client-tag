@@ -26,7 +26,8 @@ Start from here:
 ## Tag UI
 This is the UI of the Client-side Tracker Tag.
 
-<img width="1265" alt="Nameless Analytics server-side UI" src="https://github.com/user-attachments/assets/871e9849-e57c-4863-bc2d-437fb0549fe4">
+<img width="1265" alt="server-side-client-tag" src="https://github.com/user-attachments/assets/764ca893-9a9f-4494-a4ec-8182016f5624">
+
 
 
 ## Basic settings
