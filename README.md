@@ -41,6 +41,16 @@ Lorem ipsum
 
 
 
+## Event data
+### Event parameters
+#### Add/override event parameters
+Lorem ipsum
+
+#### Remove parameters manually
+Lorem ipsum
+
+
+
 ## Google BigQuery settings
 ### Project ID
 Lorem ipsum
@@ -51,14 +61,6 @@ Lorem ipsum
 
 
 ### Table ID
-Lorem ipsum
-
-
-### Event parameters
-#### Add/override event parameters
-Lorem ipsum
-
-#### Remove parameters manually
 Lorem ipsum
 
 
