@@ -9,7 +9,7 @@ Start from here:
   - [Endpoint path](#endpoint-path)
 - [Event data](#event-data)
   - [Event parameters](#event-parameters)
-    - [Add/override event parameters](#add-override-event-parameters)
+    - [Add/override event parameters](#addoverride-event-parameters)
     - [Remove parameters manually](#remove-parameters-manually)
 - [Google BigQuery settings](#google-bigquery-settings)
   - [Project ID](#project-id)
