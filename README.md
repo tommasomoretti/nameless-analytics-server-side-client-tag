@@ -7,7 +7,8 @@ Start from here:
 - [How it works](#how-it-works)
 - [Server-side client tag UI](#tag-ui)
 - [Basic settings](#basic-settings)
-  - [Allowed domains](#allowed-domains)
+  - [Allowed domains and cross-domain](#a-lowed-domains-and_cross-domain)
+    - [Cross-domain](#cross-domain)
   - [Endpoint path](#endpoint-path)
 - [Event data](#event-data)
   - [Event parameters](#event-parameters)
@@ -41,6 +42,8 @@ This is the UI of the Server-side client tag.
 ### Allowed domains
 Lorem ipsum
 
+#### Cross-domain
+Lorem ipsum
 
 ### Endpoint path
 Lorem ipsum
