@@ -7,7 +7,7 @@ Start from here:
 - [How it works](#how-it-works)
 - [Server-side client tag UI](#tag-ui)
 - [Basic settings](#basic-settings)
-  - [Allowed domains and cross-domain](#a-lowed-domains-and_cross-domain)
+  - [Allowed domains](#a-lowed-domains)
     - [Cross-domain](#cross-domain)
   - [Endpoint path](#endpoint-path)
 - [Event data](#event-data)
