@@ -15,7 +15,7 @@ Start from here:
   - [Event parameters](#event-parameters)
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Remove parameters manually](#remove-parameters-manually)
-    - [Override user ID parameter](#modify-user-id-parameter)
+    - [Modify user ID parameter](#modify-user-id-parameter)
 - [Google BigQuery settings](#google-bigquery-settings)
   - [Project ID](#project-id)
   - [Dataser ID](#dataser-id)
@@ -54,6 +54,9 @@ Lorem ipsum
 Lorem ipsum
 
 #### Remove parameters manually
+Lorem ipsum
+
+#### Modify user ID parameter
 Lorem ipsum
 
 
