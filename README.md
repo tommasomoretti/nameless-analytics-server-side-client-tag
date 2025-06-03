@@ -24,10 +24,10 @@ Start from here:
   - [Dataser ID](#dataser-id)
   - [Table ID](#table-id)
 -  Advanced settings
-  - [Change user cookie name](#change-user-cookie-name)
-  - [Change session cookie name](#change-session-cookie-name)
-  - [Change default session duration](#change-default-session-duration)
-  - [Enable logs in debug view](#enable-logs-in-debug-view)
+   - [Change user cookie name](#change-user-cookie-name)
+   - [Change session cookie name](#change-session-cookie-name)
+   - [Change default session duration](#change-default-session-duration)
+   - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Cookies](#cookies)
 
 
