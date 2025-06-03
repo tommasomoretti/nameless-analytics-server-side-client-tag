@@ -9,7 +9,6 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Server-side client tag UI](#tag-ui)
-- [Default payload](#default-payload)
 - Basic settings
   - [Allowed domains](#allowed-domains)
     - [Cross-domain](#cross-domain)
