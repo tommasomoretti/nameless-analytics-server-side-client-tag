@@ -9,24 +9,25 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Server-side client tag UI](#tag-ui)
-- [Basic settings](#basic-settings)
+- [Default payload](#default-payload)
+- Basic settings
   - [Allowed domains](#allowed-domains)
     - [Cross-domain](#cross-domain)
   - [Endpoint path](#endpoint-path)
-- [Event data](#event-data)
+- Event data
   - [Event parameters](#event-parameters)
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Remove parameters manually](#remove-parameters-manually)
     - [Modify user ID parameter](#modify-user-id-parameter)
-- [Google BigQuery settings](#google-bigquery-settings)
+- Google BigQuery settings
   - [Project ID](#project-id)
   - [Dataser ID](#dataser-id)
   - [Table ID](#table-id)
--  [Advanced settings](#advanced-settings)
-    - [Change user cookie name](#change-user-cookie-name)
-    - [Change session cookie name](#change-session-cookie-name)
-    - [Change default session duration](#change-default-session-duration)
-    - [Enable logs in debug view](#enable-logs-in-debug-view)
+-  Advanced settings
+  - [Change user cookie name](#change-user-cookie-name)
+  - [Change session cookie name](#change-session-cookie-name)
+  - [Change default session duration](#change-default-session-duration)
+  - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Cookies](#cookies)
 
 
@@ -42,9 +43,6 @@ This is the UI of the Server-side client tag.
 ### Allowed domains
 Lorem ipsum
 
-#### Cross-domain
-Lorem ipsum
-
 ### Endpoint path
 Lorem ipsum
 
@@ -58,7 +56,7 @@ Lorem ipsum
 #### Remove parameters manually
 Lorem ipsum
 
-#### Modify user ID parameter
+#### Override user ID parameter
 Lorem ipsum
 
 
@@ -78,6 +76,10 @@ Lorem ipsum
 
 
 ## Advanced settings
+### Send data to custom endpoint
+Lorem ipsum
+
+
 ### Change user cookie name
 Lorem ipsum
 
