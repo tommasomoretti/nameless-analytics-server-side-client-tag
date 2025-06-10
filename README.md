@@ -11,7 +11,6 @@ Start from here:
 - [Server-side client tag UI](#tag-ui)
 - Basic settings
   - [Allowed domains](#allowed-domains)
-    - [Cross-domain](#cross-domain)
   - [Endpoint path](#endpoint-path)
 - Event data
   - [Event parameters](#event-parameters)
