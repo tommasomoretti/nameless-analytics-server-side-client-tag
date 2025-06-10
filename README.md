@@ -98,6 +98,12 @@ Lorem ipsum
 ## Cookies
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
 
+If client and session cookies are missing in the request, The Nameless Analytics Server-side Client Tag creates a client cookie and a session cookie.
+
+If client cookie is present but session cookie is not, the Nameless Analytics Server-side Client Tag recreates a client cookie with the same value and create a new session cookie.
+
+If the client and session cookies already exist, the Nameless Analytics Server-side Client Tag recreates the two cookies with the same values.
+
 - If no cookies are present or the ```nameless_analytics_user``` cookie is not set but ```nameless_analytics_session cookie``` is set, the client tag generates generates two values, one for ```nameless_analytics_user``` cookie and one for ```nameless_analytics_session``` cookie), adds these values as event parameters and sets two cookies with the response.
 
 - If the ```nameless_analytics_user``` cookie is set but ```nameless_analytics_session cookie``` is not (session expires), the client tag generates generates only one value for ```nameless_analytics_session``` cookie, adds that value to the hit, as event parameters, set again the same ```nameless_analytics_user``` cookie and set the ```nameless_analytics_session``` cookie with the response.
