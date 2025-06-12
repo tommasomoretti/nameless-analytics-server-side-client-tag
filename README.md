@@ -9,6 +9,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 Start from here:
 - [Server-side client tag UI](#tag-ui)
+- [Response payload](#response-payload)
 - Basic settings
   - [Allowed domains](#allowed-domains)
   - [Endpoint path](#endpoint-path)
@@ -36,8 +37,8 @@ This is the UI of the Server-side client tag.
 <img width="1265" alt="Screenshot 2025-06-03 alle 15 43 44" src="https://github.com/user-attachments/assets/abe898b5-4c30-46b9-abeb-489081d64b7c" />
 
 
-## Standard payload
-This is a response payload made by Nameless Analytics Server-side client tag with only standard parameters and no customization at all. [See request payload](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag) made by [Nameless Analytics Client-side tracker tag](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag).
+## Response payload
+This is the response payload made by Nameless Analytics Server-side client tag with only standard parameters and no customization at all. [See request payload](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag) made by [Nameless Analytics Client-side tracker tag](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag).
 
 
 
