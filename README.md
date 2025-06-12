@@ -95,6 +95,7 @@ Lorem ipsum
 Lorem ipsum
 
 
+
 ## Cookies
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
 - If client and session cookies are missing in the request, The Nameless Analytics Server-side Client Tag creates a client cookie and a session cookie.
@@ -109,6 +110,10 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 | nameless_analytics_session | Lxt3Tvvy28gGcbp_vpdXoWImLJZCoba-Np15ZLKO7SAk1WF | 30 minutes   | nameless_analytics_user + 15 chars random string + current page_id |
 
 Please note: The actual session_id is without the current page_id wich.  
+
+
+
+## Cross-domain
 
 ---
 
