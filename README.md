@@ -27,6 +27,7 @@ Start from here:
    - [Change default session duration](#change-default-session-duration)
    - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Cookies](#cookies)
+- [Cross-domain](#cross-domain)
 
 
 
@@ -96,29 +97,18 @@ Lorem ipsum
 
 ## Cookies
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
+- If client and session cookies are missing in the request, The Nameless Analytics Server-side Client Tag creates a client cookie and a session cookie.
+- If client cookie is present but session cookie is not, the Nameless Analytics Server-side Client Tag recreates a client cookie with the same value and create a new session cookie.
+- If the client and session cookies already exist, the Nameless Analytics Server-side Client Tag recreates the two cookies with the same values.
 
-If client and session cookies are missing in the request, The Nameless Analytics Server-side Client Tag creates a client cookie and a session cookie.
-
-If client cookie is present but session cookie is not, the Nameless Analytics Server-side Client Tag recreates a client cookie with the same value and create a new session cookie.
-
-If the client and session cookies already exist, the Nameless Analytics Server-side Client Tag recreates the two cookies with the same values.
-
-- If no cookies are present or the ```nameless_analytics_user``` cookie is not set but ```nameless_analytics_session cookie``` is set, the client tag generates generates two values, one for ```nameless_analytics_user``` cookie and one for ```nameless_analytics_session``` cookie), adds these values as event parameters and sets two cookies with the response.
-
-- If the ```nameless_analytics_user``` cookie is set but ```nameless_analytics_session cookie``` is not (session expires), the client tag generates generates only one value for ```nameless_analytics_session``` cookie, adds that value to the hit, as event parameters, set again the same ```nameless_analytics_user``` cookie and set the ```nameless_analytics_session``` cookie with the response.
-
-- If both cookies are present, the tag does not create any new cookies but adds their values to the hit.
-
-#### Standard cookie values
+### Standard cookie values
 
 | Default cookie name        | Example value                                   | Default exp. | Description                                                        |
 |----------------------------|-------------------------------------------------|--------------|--------------------------------------------------------------------|
 | nameless_analytics_user    | Lxt3Tvvy28gGcbp                                 | 400 days     | 15 chars random string                                             |
 | nameless_analytics_session | Lxt3Tvvy28gGcbp_vpdXoWImLJZCoba-Np15ZLKO7SAk1WF | 30 minutes   | nameless_analytics_user + 15 chars random string + current page_id |
 
-After that, the hit will be logged in a BigQuery event date partitioned table.
-
-<img width="1512" alt="Nameless Analytics server-side logs" src="https://github.com/user-attachments/assets/225ae759-b4d8-4632-9ee8-b608fb5e4a12">
+Please note: The actual session_id is without the current page_id wich.  
 
 ---
 
