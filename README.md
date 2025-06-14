@@ -34,7 +34,7 @@ Start from here:
 ## Tag UI
 This is the UI of the Server-side client tag.
 
-<img width="1265" alt="Screenshot 2025-06-03 alle 15 43 44" src="https://github.com/user-attachments/assets/abe898b5-4c30-46b9-abeb-489081d64b7c" />
+![SS](https://github.com/user-attachments/assets/0e20ded7-6041-498a-b2d8-1d0de1bbdbdc)
 
 
 
@@ -80,15 +80,15 @@ Lorem ipsum
 
 
 ### Change user cookie name
-Lorem ipsum
+Change the user cookie name. Default name: nameless_analytics_user.
 
 
 ### Change session cookie name
-Lorem ipsum
+Change the session cookie name. Default name: nameless_analytics_session.
 
 
 ### Change default session duration
-Lorem ipsum
+Change the session duration in minutes. Default value: 30 min.
 
 
 ### Enable logs in debug view 
@@ -109,7 +109,7 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 | nameless_analytics_user    | Lxt3Tvvy28gGcbp                                 | 400 days     | 15 chars random string                                             |
 | nameless_analytics_session | Lxt3Tvvy28gGcbp_vpdXoWImLJZCoba-Np15ZLKO7SAk1WF | 30 minutes   | nameless_analytics_user + 15 chars random string + current page_id |
 
-Please note: The actual session_id is without the current page_id wich.  
+Please note: the user cookie is used to store the client_id. The session cookie stores the session_id along with the page_id of the last event. The session_id corresponds to the session cookie value without the page_id.
 
 
 
