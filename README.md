@@ -13,17 +13,17 @@ Start from here:
   - [Allowed domains](#allowed-domains)
   - [Endpoint path](#endpoint-path)
 - User data
-  - [User level parameters](#user-parameters)
-    - [Add/override user level parameters](#addoverride-user-parameters)
-    - [Remove user level parameters](#remove-user-parameters)
+  - [User level parameters](#user-level-parameters)
+    - [Add/override user level parameters](#addoverride-user-level-parameters)
+    - [Remove user level parameters](#remove-user-level-parameters)
 - Session data
-  - [Session level parameters](#session-parameters)
-    - [Add/override session level parameters](#addoverride-session-parameters)
-    - [Remove session level parameters](#remove-session-parameters)
+  - [Session level parameters](#session-level-parameters)
+    - [Add/override session level parameters](#addoverride-session-level-parameters)
+    - [Remove session level parameters](#remove-session-level-parameters)
 - Event data
-  - [Event parameters](#event-parameters)
-    - [Add/override event parameters](#addoverride-event-parameters)
-    - [Remove parameters manually](#remove-parameters-manually)
+  - [Event level parameters](#event-level-parameters)
+    - [Add/override event level parameters](#addoverride-event-level-parameters)
+    - [Remove event level parameters](#remove-event-level-parameters)
 - Google BigQuery settings
   - [Project ID](#project-id)
   - [Dataser ID](#dataser-id)
@@ -54,16 +54,37 @@ Lorem ipsum
 
 
 
-## Event data
-### Event parameters
-#### Add/override event parameters
-Lorem ipsum
-
-#### Remove parameters manually
-Lorem ipsum
-
+## User data
+### User parameters
 #### Override user ID parameter
 Lorem ipsum
+
+#### Add/override user level parameters
+Lorem ipsum
+
+#### Remove user level parameters
+Lorem ipsum
+
+
+
+## Session data
+### Session parameters
+#### Add/override session level parameters
+Lorem ipsum
+
+#### Remove session level parameters
+Lorem ipsum
+
+
+
+## Event data
+### Event level parameters
+#### Add/override event level parameters
+Lorem ipsum
+
+#### Remove event level parameters
+Lorem ipsum
+
 
 
 
