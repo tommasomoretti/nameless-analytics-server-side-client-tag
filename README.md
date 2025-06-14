@@ -12,11 +12,18 @@ Start from here:
 - Basic settings
   - [Allowed domains](#allowed-domains)
   - [Endpoint path](#endpoint-path)
+- User data
+  - [User level parameters](#user-parameters)
+    - [Add/override user level parameters](#addoverride-user-parameters)
+    - [Remove user level parameters](#remove-user-parameters)
+- Session data
+  - [Session level parameters](#session-parameters)
+    - [Add/override session level parameters](#addoverride-session-parameters)
+    - [Remove session level parameters](#remove-session-parameters)
 - Event data
   - [Event parameters](#event-parameters)
     - [Add/override event parameters](#addoverride-event-parameters)
     - [Remove parameters manually](#remove-parameters-manually)
-    - [Modify user ID parameter](#modify-user-id-parameter)
 - Google BigQuery settings
   - [Project ID](#project-id)
   - [Dataser ID](#dataser-id)
