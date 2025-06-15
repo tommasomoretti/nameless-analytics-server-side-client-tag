@@ -56,6 +56,13 @@ Lorem ipsum
 
 ## User data
 ### User parameters
+Add user parameters for all events. The parameters will be added in the user object in the payload.
+
+Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
+
+This is the hierarchy of event parameter importance: 
+[Server side parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/blob/main/README.md#addoverride-event-parameters) > [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#user-parameters)
+
 #### Override user ID parameter
 Lorem ipsum
 
