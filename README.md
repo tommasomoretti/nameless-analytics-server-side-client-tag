@@ -55,7 +55,7 @@ Lorem ipsum
 
 
 ## User data
-### User parameters
+### User level parameters
 Add user parameters for all events. The parameters will be added in the user object in the payload.
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
@@ -75,7 +75,7 @@ Lorem ipsum
 
 
 ## Session data
-### Session parameters
+### Session level parameters
 #### Add/override session level parameters
 Lorem ipsum
 
