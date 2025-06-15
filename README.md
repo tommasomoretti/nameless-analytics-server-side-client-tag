@@ -13,15 +13,15 @@ Start from here:
   - [Allowed domains](#allowed-domains)
   - [Endpoint path](#endpoint-path)
 - User data
-  - [User level parameters](#user-level-parameters)
+  - [User level parameters](#user-parameters)
     - [Add/override user level parameters](#addoverride-user-level-parameters)
     - [Remove user level parameters](#remove-user-level-parameters)
 - Session data
-  - [Session level parameters](#session-level-parameters)
+  - [Session level parameters](#session-parameters)
     - [Add/override session level parameters](#addoverride-session-level-parameters)
     - [Remove session level parameters](#remove-session-level-parameters)
 - Event data
-  - [Event level parameters](#event-level-parameters)
+  - [Event level parameters](#event-parameters)
     - [Add/override event level parameters](#addoverride-event-level-parameters)
     - [Remove event level parameters](#remove-event-level-parameters)
 - Google BigQuery settings
@@ -55,7 +55,7 @@ Lorem ipsum
 
 
 ## User data
-### User level parameters
+### User parameters
 Add user parameters for all events. The parameters will be added in the user object in the payload.
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
@@ -75,7 +75,7 @@ Lorem ipsum
 
 
 ## Session data
-### Session level parameters
+### Session parameters
 #### Add/override session level parameters
 Lorem ipsum
 
@@ -85,7 +85,7 @@ Lorem ipsum
 
 
 ## Event data
-### Event level parameters
+### Event parameters
 #### Add/override event level parameters
 Lorem ipsum
 
