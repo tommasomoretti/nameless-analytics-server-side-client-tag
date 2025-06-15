@@ -58,10 +58,14 @@ Lorem ipsum
 ### User parameters
 Add user parameters for all events. The parameters will be added in the user object in the payload.
 
+They are:
+- write in Google Cloud Firestore every time they change --> latest update 
+- read and sent to BigQuery with the current parameter status --> every update 
+
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
 
 This is the hierarchy of event parameter importance: 
-[Server side parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/blob/main/README.md#user-parameters) > [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#user-parameters)
+[Server side parameters](https://github.com/tommasomoretti/nameless-analytics-server-client-tracker-tag/blob/main/README.md#user-parameters) > [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#user-parameters)
 
 #### Override user ID parameter
 Lorem ipsum
@@ -76,6 +80,17 @@ Lorem ipsum
 
 ## Session data
 ### Session parameters
+Add session parameters for all events. The parameters will be added in the session object in the payload.
+
+They are:
+- write in Google Cloud Firestore every time they change --> latest update 
+- read and sent to BigQuery with the current parameter status --> every update 
+
+Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
+
+This is the hierarchy of event parameter importance: 
+[Server side parameters](https://github.com/tommasomoretti/nameless-analytics-server-client-tracker-tag/blob/main/README.md#session-parameters) > [Session parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/blob/main/README.md#session-parameters)
+
 #### Add/override session level parameters
 Lorem ipsum
 
