@@ -59,7 +59,7 @@ Lorem ipsum
 
 ## User data
 ### User parameters
-Add user parameters for all events. The parameters will be added in the user object in the payload.
+Add user parameters for all events. The parameters will be added in the user_data object in the payload.
 
 They are:
 - wrote in Google Cloud Firestore every time they change --overrides latest update 
