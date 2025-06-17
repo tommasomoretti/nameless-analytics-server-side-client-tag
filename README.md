@@ -74,13 +74,13 @@ This is the hierarchy of event parameter importance:
 #### Override user ID parameter
 Override User ID parameters in user_id field. 
 
-This parameter can overrides [users ID](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-id) added in Nameless Analytics Client-Side configuration variable.
+This parameter can override [users ID](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-id) added in Nameless Analytics Client-Side configuration variable.
 
 
 #### Add/override user level parameters
 Add user level parameters in user_data object in the payload. Values accepted: strings, integers, float and json.
 
-These parameter can overrides [user parameters]([url](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-level-parameters)) added in Nameless Analytics Server-side client tag.
+These parameter can override [user parameters]([url](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-level-parameters)) added in Nameless Analytics Server-side client tag.
 
 #### Remove user level parameters
 Remove user level parameters in user_data object in the payload. 
@@ -103,7 +103,7 @@ This is the hierarchy of event parameter importance:
 #### Add/override session level parameters
 Add session level parameters in session_data object in the payload. Values accepted: strings, integers, float and json.
 
-These parameter can overrides [session parameters]([url](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-session-level-parameters)) added in Nameless Analytics Server-side client tag.
+These parameter can override [session parameters]([url](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-session-level-parameters)) added in Nameless Analytics Server-side client tag.
 
 #### Remove session level parameters
 Remove session level parameters in session_data object in the payload. 
