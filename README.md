@@ -173,14 +173,12 @@ Please note:  If cross-domain is enabled, all domains will send events in relati
 
 
 ## Cookies
-Cookies are served as:
-HTTP
+All cookies are served as HttpOnly, secure, sameSite=Strict. 
 
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
-- If client
-- If client and session cookies are missing in the request, The Nameless Analytics Server-side Client Tag creates a client cookie and a session cookie.
-- If client cookie is present but session cookie is not, the Nameless Analytics Server-side Client Tag recreates a client cookie with the same value and create a new session cookie.
-- If the client and session cookies already exist, the Nameless Analytics Server-side Client Tag recreates the two cookies with the same values.
+- If client and session cookies are missing in the request, Nameless Analytics Server-side client tag creates a client cookie and a session cookie.
+- If client cookie is present but session cookie is not, Nameless Analytics Server-side client tag recreates a client cookie with the same value and create a new session cookie.
+- If the client and session cookies already exist, Nameless Analytics Server-side client tag recreates the two cookies with the same values.
 
 ### Standard cookie values
 
@@ -190,9 +188,8 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 | nameless_analytics_session | Lxt3Tvvy28gGcbp_vpdXoWImLJZCoba-Np15ZLKO7SAk1WF | 30 minutes   | nameless_analytics_user + 15 chars random string + current page_id |
 
 Please note: 
-  - the user cookie is used to store the client_id.
-  - The session cookie stores the session_id along with the page_id of the last event. The session_id corresponds to the cookie value excluding the page_id.
-
+  - the user cookie contains the client_id.
+  - The session cookie contains both the session_id and the page_id of the last event. The actual session_id is the cookie value without the page_id.
 
 
 ## Cross-domain
