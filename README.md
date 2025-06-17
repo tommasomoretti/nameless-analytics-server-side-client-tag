@@ -50,10 +50,10 @@ This is the UI of the Server-side client tag.
 
 ## Basic settings
 ### Allowed domains
-Lorem ipsum
+Allowed domains from which requests can be claimed.
 
 ### Endpoint path
-Lorem ipsum
+Endpoint path to receive requests
 
 
 
