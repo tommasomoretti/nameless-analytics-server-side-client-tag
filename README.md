@@ -28,9 +28,9 @@ Start from here:
     - [Add/override event level parameters](#addoverride-event-level-parameters)
     - [Remove event level parameters](#remove-event-level-parameters)
 - Google BigQuery settings
-  - [Project ID](#project-id)
-  - [Dataser ID](#dataser-id)
-  - [Table ID](#table-id)
+  - [Project name](#project-name)
+  - [Dataset name](#dataset-name)
+  - [Table name](#table-name)
 -  Advanced settings
    - [Change user cookie name](#change-user-cookie-name)
    - [Change session cookie name](#change-session-cookie-name)
