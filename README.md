@@ -173,7 +173,11 @@ Please note:  If cross-domain is enabled, all domains will send events in relati
 
 
 ## Cookies
+Cookies are served as:
+HTTP
+
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
+- If client
 - If client and session cookies are missing in the request, The Nameless Analytics Server-side Client Tag creates a client cookie and a session cookie.
 - If client cookie is present but session cookie is not, the Nameless Analytics Server-side Client Tag recreates a client cookie with the same value and create a new session cookie.
 - If the client and session cookies already exist, the Nameless Analytics Server-side Client Tag recreates the two cookies with the same values.
@@ -192,6 +196,13 @@ Please note:
 
 
 ## Cross-domain
+
+<img width="1800" alt="Screenshot 2025-06-17 alle 09 27 04" src="https://github.com/user-attachments/assets/97ab7224-444b-452e-a9f2-4a74b6a3104e" />
+
+<img width="910" alt="Screenshot 2025-06-17 alle 09 22 28" src="https://github.com/user-attachments/assets/2ee51716-0fe4-42c2-b1e6-df5697c5809a" />
+
+<img width="283" alt="Screenshot 2025-06-17 alle 09 21 51" src="https://github.com/user-attachments/assets/6fd6d60e-34fc-4e90-86e1-7f53c915847f" />
+
 
 ---
 
