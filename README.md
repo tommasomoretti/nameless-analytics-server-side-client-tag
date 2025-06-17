@@ -168,7 +168,7 @@ Change the session duration in minutes. Default value: 30 min.
 ### Enable logs in preview mode 
 Enable logs for all events in preview mode. 
 
-Please note: if cross-domain is enabled, every domain sends events in relative preview mode. Read more in [Cross-domain](#cross-domain) section.
+Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the Cross-domain section.
 
 
 
@@ -185,7 +185,9 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 | nameless_analytics_user    | Lxt3Tvvy28gGcbp                                 | 400 days     | 15 chars random string                                             |
 | nameless_analytics_session | Lxt3Tvvy28gGcbp_vpdXoWImLJZCoba-Np15ZLKO7SAk1WF | 30 minutes   | nameless_analytics_user + 15 chars random string + current page_id |
 
-Please note: the user cookie is used to store the client_id. The session cookie stores the session_id along with the page_id of the last event. The session_id corresponds to the session cookie value without the page_id.
+Please note: 
+  - the user cookie is used to store the client_id.
+  - The session cookie stores the session_id along with the page_id of the last event. The session_id corresponds to the cookie value excluding the page_id.
 
 
 
