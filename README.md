@@ -204,7 +204,13 @@ and the container must be configured as well.
 
 <img width="910" alt="Screenshot 2025-06-17 alle 09 22 28" src="https://github.com/user-attachments/assets/2ee51716-0fe4-42c2-b1e6-df5697c5809a" />
 
+To select a domain fot the preview mode open the panel
+
 <img width="283" alt="Screenshot 2025-06-17 alle 09 21 51" src="https://github.com/user-attachments/assets/6fd6d60e-34fc-4e90-86e1-7f53c915847f" />
+
+and select a domain.
+
+<img width="641" alt="Screenshot 2025-06-17 alle 10 49 22" src="https://github.com/user-attachments/assets/f43322f8-f128-4a5a-8a1a-0fc3a9b75513" />
 
 
 ---
