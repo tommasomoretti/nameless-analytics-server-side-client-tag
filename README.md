@@ -135,16 +135,16 @@ Remove event level parameters in event_data object in the payload.
 
 
 ## Google BigQuery settings
-### Project ID
-Lorem ipsum
+### Project name
+Google BigQuery's project name.
 
 
-### Dataser ID
-Lorem ipsum
+### Dataset name
+Google BigQuery's Nameless Analytics dataset name.
 
 
-### Table ID
-Lorem ipsum
+### Table name
+Google BigQuery's Nameless Analytics table name.
 
 
 
@@ -165,8 +165,10 @@ Change the session cookie name. Default name: nameless_analytics_session.
 Change the session duration in minutes. Default value: 30 min.
 
 
-### Enable logs in debug view 
-Lorem ipsum
+### Enable logs in preview mode 
+Enable logs for all events in preview mode. 
+
+Please note: if cross-domain is enabled, every domain sends events in relative preview mode. Read more in [Cross-domain](#cross-domain) section.
 
 
 
