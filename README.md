@@ -10,7 +10,7 @@ The Nameless Analytics Server-side client tag is a highly customizable GTM custo
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/).
 
-Start from here:
+Table of contents:
 - [Server-side client tag UI](#tag-ui)
 - Basic settings
   - [Allowed domains](#allowed-domains)
