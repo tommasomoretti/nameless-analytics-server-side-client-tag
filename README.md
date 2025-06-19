@@ -150,7 +150,7 @@ Google BigQuery's Nameless Analytics table name.
 
 ## Advanced settings
 ### Send data to custom endpoint
-Lorem ipsum
+Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
 
 
 ### Change user cookie name
