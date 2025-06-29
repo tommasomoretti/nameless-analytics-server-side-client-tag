@@ -63,7 +63,7 @@ Add user parameters for all events. The parameters will be added in the user_dat
 
 They are:
 - written in Google Cloud Firestore every time they change --overrides latest update 
-- readed and sent to BigQuery with the current parameter status --overrides every update
+- read and sent to BigQuery with the current parameter status --overrides every update
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
 
@@ -93,7 +93,7 @@ Add session parameters for all events. The parameters will be added in the sessi
 
 They are:
 - written in Google Cloud Firestore every time they change --overrides latest update 
-- readed and sent to BigQuery with the current parameter status --overrides every update
+- read and sent to BigQuery with the current parameter status --overrides every update
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
 
