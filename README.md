@@ -189,7 +189,7 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 
 Please note: 
   - the user cookie contains the client_id.
-  - The session cookie contains both the session_id and the page_id of the last event. The actual session_id is the cookie value without the page_id.
+  - the session cookie contains the client_id, the session_id and the page_id of the last event. The actual session_id is the cookie value without the page_id.
 
 
 ## Cross-domain
