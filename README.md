@@ -193,7 +193,7 @@ Please note:
 
 
 ## Cross-domain
-When cross-domain is enable in Nameless Analytics Client-Side tracker tag and all the requests from different domains are claimed within the same Server-Side Google Tag Manager, all the domains must be mapped for Google App Engine or Google Cloud Run.
+When cross-domain is enabled in Nameless Analytics Client-Side tracker tag and all the requests from different domains are claimed within the same Server-Side Google Tag Manager, all the domains must be mapped for Google App Engine or Google Cloud Run.
 
 <img width="1800" alt="Screenshot 2025-06-17 alle 09 27 04" src="https://github.com/user-attachments/assets/97ab7224-444b-452e-a9f2-4a74b6a3104e" />
 
@@ -201,7 +201,7 @@ and the container must be configured as well.
 
 <img width="910" alt="Screenshot 2025-06-17 alle 09 22 28" src="https://github.com/user-attachments/assets/2ee51716-0fe4-42c2-b1e6-df5697c5809a" />
 
-To select a domain for the preview mode, click the icon near preview
+To select a domain for the preview mode, click the icon near the preview button
 
 <img width="283" alt="Screenshot 2025-06-17 alle 09 21 51" src="https://github.com/user-attachments/assets/6fd6d60e-34fc-4e90-86e1-7f53c915847f" />
 
