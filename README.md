@@ -73,7 +73,9 @@ and select a domain.
 
 
 ### Endpoint path
-Endpoint path to receive requests
+Endpoint path to which requests have to be sent.
+
+<img width="1800" alt="Screenshot 2025-07-03 alle 20 04 02" src="https://github.com/user-attachments/assets/cf3e9cf0-3634-4ce1-a25f-c94bc576ff87" />
 
 
 
