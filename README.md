@@ -50,12 +50,11 @@ This is the UI of the Server-side client tag.
 
 ## Basic settings
 ### Allowed domains
-Allowed domains from which requests can be claimed.
+Set the domains domains from which requests can be claimed.
 
-<img width="1800" alt="Screenshot 2025-07-03 alle 19 59 46" src="https://github.com/user-attachments/assets/a6073508-9e38-41cd-bf4b-b3e6e6186700" />
+<img width="1800" alt="Screenshot 2025-07-03 alle 20 02 13" src="https://github.com/user-attachments/assets/6dc3e7bd-f89e-4bd7-baba-17c93735441e" />
 
 
-#### Receive cross-domain hits
 If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed and mapped in Google App Engine or Google Cloud Run.
 
 <img width="1800" alt="Screenshot 2025-06-17 alle 09 27 04" src="https://github.com/user-attachments/assets/97ab7224-444b-452e-a9f2-4a74b6a3104e" />
