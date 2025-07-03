@@ -50,7 +50,7 @@ This is the UI of the Server-side client tag.
 
 ## Basic settings
 ### Allowed domains
-Set the domains domains from which requests can be claimed.
+Set the allowed domains from which requests can be claimed.
 
 <img width="1800" alt="Screenshot 2025-07-03 alle 20 02 13" src="https://github.com/user-attachments/assets/6dc3e7bd-f89e-4bd7-baba-17c93735441e" />
 
