@@ -52,10 +52,14 @@ This is the UI of the Server-side client tag.
 ### Allowed domains
 Set the allowed domains from which requests can be claimed.
 
+<img width="1800" alt="Screenshot 2025-07-03 alle 20 06 04" src="https://github.com/user-attachments/assets/e7089bdd-89ec-4348-b89a-0cf23865d22b" />
+
+
+If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed,
+
 <img width="1800" alt="Screenshot 2025-07-03 alle 20 02 13" src="https://github.com/user-attachments/assets/6dc3e7bd-f89e-4bd7-baba-17c93735441e" />
 
-
-If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed and mapped in Google App Engine or Google Cloud Run.
+mapped in Google App Engine or Google Cloud Run.
 
 <img width="1800" alt="Screenshot 2025-06-17 alle 09 27 04" src="https://github.com/user-attachments/assets/97ab7224-444b-452e-a9f2-4a74b6a3104e" />
 
