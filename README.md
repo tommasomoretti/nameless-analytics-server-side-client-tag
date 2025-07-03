@@ -52,22 +52,25 @@ This is the UI of the Server-side client tag.
 ### Allowed domains
 Allowed domains from which requests can be claimed.
 
-# Receive cross-domain hits
+<img width="1800" alt="Screenshot 2025-07-03 alle 19 59 46" src="https://github.com/user-attachments/assets/a6073508-9e38-41cd-bf4b-b3e6e6186700" />
+
+
+#### Receive cross-domain hits
 If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed and mapped in Google App Engine or Google Cloud Run.
 
 <img width="1800" alt="Screenshot 2025-06-17 alle 09 27 04" src="https://github.com/user-attachments/assets/97ab7224-444b-452e-a9f2-4a74b6a3104e" />
 
 and the container must be configured as well.
 
-<img width="910" alt="Screenshot 2025-06-17 alle 09 22 28" src="https://github.com/user-attachments/assets/2ee51716-0fe4-42c2-b1e6-df5697c5809a" />
+<img width="1800" alt="Screenshot 2025-06-17 alle 09 22 28" src="https://github.com/user-attachments/assets/2ee51716-0fe4-42c2-b1e6-df5697c5809a" />
 
 To select a domain for the preview mode, click the icon near the preview button
 
-<img width="283" alt="Screenshot 2025-06-17 alle 09 21 51" src="https://github.com/user-attachments/assets/6fd6d60e-34fc-4e90-86e1-7f53c915847f" />
+<img width="1800" alt="Screenshot 2025-06-17 alle 09 21 51" src="https://github.com/user-attachments/assets/6fd6d60e-34fc-4e90-86e1-7f53c915847f" />
 
 and select a domain.
 
-<img width="641" alt="Screenshot 2025-06-17 alle 10 49 22" src="https://github.com/user-attachments/assets/f43322f8-f128-4a5a-8a1a-0fc3a9b75513" />
+<img width="1800" alt="Screenshot 2025-06-17 alle 10 49 22" src="https://github.com/user-attachments/assets/f43322f8-f128-4a5a-8a1a-0fc3a9b75513" />
 
 
 ### Endpoint path
