@@ -210,9 +210,9 @@ Together, these three attributes ensure that cookies are used securely, respecti
 
 ### How cookies are set
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
-- If client and session cookies are missing in the request, Nameless Analytics Server-side client tag creates a client cookie and a session cookie.
-- If client cookie is present but session cookie is not, Nameless Analytics Server-side client tag recreates a client cookie with the same value and create a new session cookie.
-- If the client and session cookies already exist, Nameless Analytics Server-side client tag recreates the two cookies with the same values.
+- If user and session cookies are missing in the request, Nameless Analytics Server-side client tag creates a user cookie and a session cookie.
+- If user cookie is present but session cookie is not, Nameless Analytics Server-side client tag extends user cookie expiration and create a new session cookie.
+- If the client and session cookies already exist, Nameless Analytics Server-side client tag extends user and session cookies expiration.
 
 ### Standard cookie values
 
@@ -220,6 +220,8 @@ When the server-side Google Tag Manager Client Tag receives the request, it chec
 |----------------------------|-------------------------------------------------|--------------|--------------------------------------------------------------------|
 | nameless_analytics_user    | Lxt3Tvvy28gGcbp                                 | 400 days     | 15 chars random string                                             |
 | nameless_analytics_session | Lxt3Tvvy28gGcbp_vpdXoWImLJZCoba-Np15ZLKO7SAk1WF | 30 minutes   | nameless_analytics_user + 15 chars random string + current page_id |
+
+Cookie names and session default expiration can be customized in Nameless Analytics Server-Side client tag [advanced settings section](#advanced-settings).
 
 Please note: 
   - the user cookie contains the client_id.
