@@ -52,16 +52,19 @@ Set the allowed domains from which requests can be claimed.
 
 <img width="1800" alt="Screenshot 2025-07-03 alle 20 06 04" src="https://github.com/user-attachments/assets/e7089bdd-89ec-4348-b89a-0cf23865d22b" />
 
-
-If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed,
+If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed, in Allowed domains field. Add a domain, one per row.
 
 <img width="1800" alt="Screenshot 2025-07-03 alle 20 02 13" src="https://github.com/user-attachments/assets/6dc3e7bd-f89e-4bd7-baba-17c93735441e" />
 
-mapped in Google App Engine or Google Cloud Run.
+To guarantee accurate DNS resolution, the IP addresses of Google App Engine or Cloud Run instances need to be appropriately associated with each relevant domain name.
+Here's how for:
+- [Google App Engine standard environment](https://cloud.google.com/appengine/docs/standard/mapping-custom-domains)
+- [Google App Engine flexible environment](https://cloud.google.com/appengine/docs/flexible/mapping-custom-domains)
+- [Google Cloud Run](https://cloud.google.com/run/docs/mapping-custom-domains)
 
 <img width="1800" alt="Screenshot 2025-06-17 alle 09 27 04" src="https://github.com/user-attachments/assets/97ab7224-444b-452e-a9f2-4a74b6a3104e" />
 
-and the container must be configured as well.
+Container must be configured as well. Add the domains in the Container settings of the Server-side Google Tag Manager.
 
 <img width="1800" alt="Screenshot 2025-06-17 alle 09 22 28" src="https://github.com/user-attachments/assets/2ee51716-0fe4-42c2-b1e6-df5697c5809a" />
 
