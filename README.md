@@ -35,7 +35,6 @@ Table of contents:
    - [Change default session duration](#change-default-session-duration)
    - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Set Cookies](#cookies)
-- [Receive cross-domain hits](#receive-cross-domain-hits)
 
 
 
