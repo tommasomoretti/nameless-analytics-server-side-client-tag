@@ -34,7 +34,7 @@ Table of contents:
    - [Change session cookie name](#change-session-cookie-name)
    - [Change default session duration](#change-default-session-duration)
    - [Enable logs in debug view](#enable-logs-in-debug-view)
-- [Set Cookies](#cookies)
+- [Cookies](#cookies)
 
 
 
@@ -199,8 +199,16 @@ Please note:  If cross-domain is enabled, all domains will send events in relati
 
 
 ## Cookies
-All cookies are served as HttpOnly, secure, sameSite=Strict. 
+The cookies used by Nameless Analytics to manage users and sessions are configured with specific security attributes that ensure their proper functioning and privacy protection:
 
+- HttpOnly: This attribute prevents cookies from being accessed via JavaScript in the browser. This reduces the risk of malicious scripts reading or modifying cookies, protecting sensitive data such as user and session identifiers.
+- Secure: The cookie is sent only over secure HTTPS connections. This prevents interception of cookies on unsecured networks or man-in-the-middle attacks, enhancing the security of data transmission.
+- SameSite=Strict: This attribute restricts the cookie to be sent only with requests originating from the same domain. Essentially, it prevents the cookie from being sent in cross-site contexts, blocking tracking attempts or attacks based on third-party requests (CSRF).
+
+Together, these three attributes ensure that cookies are used securely, respecting user privacy and limiting misuse or unauthorized use of identifiers. 
+
+
+### How cookies are set
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
 - If client and session cookies are missing in the request, Nameless Analytics Server-side client tag creates a client cookie and a session cookie.
 - If client cookie is present but session cookie is not, Nameless Analytics Server-side client tag recreates a client cookie with the same value and create a new session cookie.
