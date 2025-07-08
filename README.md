@@ -41,7 +41,7 @@ Table of contents:
 ## Tag UI
 This is the UI of the Server-side client tag.
 
-![Nameless Analytics - Server-side client tag UI](https://github.com/user-attachments/assets/0e20ded7-6041-498a-b2d8-1d0de1bbdbdc)
+![Nameless Analytics - Server-side client tag UI](https://github.com/user-attachments/assets/b00d6eff-92d2-4fca-8b53-a1cf7e58a04f)
 
 
 
