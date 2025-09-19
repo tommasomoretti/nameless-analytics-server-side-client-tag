@@ -38,15 +38,15 @@ Table of contents:
 
 
 
-## Tag UI
+# Tag UI
 This is the UI of the Server-side client tag.
 
 <img src="https://github.com/user-attachments/assets/aa36f128-9006-430c-9913-e61c022c04e5" alt="Nameless Analytics - Server-side client tag UI" />
 
 
 
-## Basic settings
-### Allowed domains
+# Basic settings
+## Allowed domains
 Set the allowed domains from which requests can be claimed.
 
 <img src="https://github.com/user-attachments/assets/e7089bdd-89ec-4348-b89a-0cf23865d22b" alt="Allowed domains" />
@@ -75,14 +75,16 @@ and select a domain.
 
 <img src="https://github.com/user-attachments/assets/f43322f8-f128-4a5a-8a1a-0fc3a9b75513" alt="Allowed domains" />
 
-### Endpoint path
+
+## Endpoint path
 Endpoint path to which requests have to be sent.
 
 <img src="https://github.com/user-attachments/assets/cf3e9cf0-3634-4ce1-a25f-c94bc576ff87" alt="Endpoint path" />
 
 
-## User data
-### User parameters
+
+# User data
+## User parameters
 Add user parameters for all events. The parameters will be added in the user_data object in the payload.
 
 They are:
@@ -95,24 +97,23 @@ This is the hierarchy of event parameter importance:
 
 [Server side parameters](https://github.com/tommasomoretti/nameless-analytics-server-client-tracker-tag/#user-parameters) overrides [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#user-parameters)
 
-#### Override user ID parameter
+### Override user ID parameter
 Override User ID parameters in user_id field. 
 
 This parameter can override [users ID](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-id) added in Nameless Analytics Client-Side configuration variable.
 
-
-#### Add/override user level parameters
+### Add/override user level parameters
 Add user level parameters in user_data object in the payload. Values accepted: strings, integers, float and json.
 
 These parameter can override [user parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-level-parameters) added in Nameless Analytics Server-side client tag.
 
-#### Remove user level parameters
+### Remove user level parameters
 Remove user level parameters in user_data object in the payload. 
 
 
 
-## Session data
-### Session parameters
+# Session data
+## Session parameters
 Add session parameters for all events. The parameters will be added in the session_data object in the payload.
 
 They are:
@@ -124,18 +125,18 @@ Please note: if a parameter has the same name as another, it can override or be 
 This is the hierarchy of event parameter importance: 
 [Server side parameters](https://github.com/tommasomoretti/nameless-analytics-server-client-tracker-tag/#session-parameters) overrides [Session parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#session-parameters)
 
-#### Add/override session level parameters
+### Add/override session level parameters
 Add session level parameters in session_data object in the payload. Values accepted: strings, integers, float and json.
 
 These parameter can override [session parameters]([url](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-session-level-parameters)) added in Nameless Analytics Server-side client tag.
 
-#### Remove session level parameters
+### Remove session level parameters
 Remove session level parameters in session_data object in the payload. 
 
 
 
-## Event data
-### Event parameters
+# Event data
+## Event parameters
 Add event parameters for all events. The parameters will be added in the event_data object in the payload.
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
@@ -144,7 +145,7 @@ This is the hierarchy of event parameter importance:
 
 [Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#event-parameters) overrides [Specific event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#add-shared-event-parameters) overrides [dataLayer parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
 
-#### Add/override event level parameters
+### Add/override event level parameters
 Add event level parameters in event_data object in the payload. Values accepted: strings, integers, float and json.
 
 These parameters can override:
@@ -153,50 +154,50 @@ These parameters can override:
 - shared event parameters added in Nameless Analytics Client-side Configuration variable
 - event parameters added in Nameless Analytics Client-side tracker tag
 
-#### Remove event level parameters
+### Remove event level parameters
 Remove event level parameters in event_data object in the payload. 
 
 
 
-## Google BigQuery settings
-### Project name
+# Google BigQuery settings
+## Project name
 Google BigQuery's project name.
 
 
-### Dataset name
+## Dataset name
 Google BigQuery's Nameless Analytics dataset name.
 
 
-### Table name
+## Table name
 Google BigQuery's Nameless Analytics table name.
 
 
 
-## Advanced settings
-### Send data to custom endpoint
+# Advanced settings
+## Send data to custom endpoint
 Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
 
 
-### Change user cookie name
+## Change user cookie name
 Change the user cookie name. Default name: nameless_analytics_user.
 
 
-### Change session cookie name
+## Change session cookie name
 Change the session cookie name. Default name: nameless_analytics_session.
 
 
-### Change default session duration
+## Change default session duration
 Change the session duration in minutes. Default value: 30 min.
 
 
-### Enable logs in preview mode 
+## Enable logs in preview mode 
 Enable logs for all events in preview mode. 
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the Cross-domain section.
 
 
 
-## Cookies
+# Cookies
 The cookies used by Nameless Analytics to manage users and sessions are configured with specific security attributes that ensure their proper functioning and privacy protection:
 
 - HttpOnly: This attribute prevents cookies from being accessed via JavaScript in the browser. This reduces the risk of malicious scripts reading or modifying cookies, protecting sensitive data such as user and session identifiers.
@@ -206,13 +207,13 @@ The cookies used by Nameless Analytics to manage users and sessions are configur
 Together, these three attributes ensure that cookies are used securely, respecting user privacy and limiting misuse or unauthorized use of identifiers. 
 
 
-### How cookies are set
+## How cookies are set
 When the server-side Google Tag Manager Client Tag receives the request, it checks if any cookies in there.
 - If user and session cookies are missing in the request, Nameless Analytics Server-side client tag creates a user cookie and a session cookie.
 - If user cookie is present but session cookie is not, Nameless Analytics Server-side client tag extends user cookie expiration and create a new session cookie.
 - If the client and session cookies already exist, Nameless Analytics Server-side client tag extends user and session cookies expiration.
 
-### Standard cookie values
+## Standard cookie values
 
 | Default cookie name        | Example value                                   | Default exp. | Description                                                        |
 |----------------------------|-------------------------------------------------|--------------|--------------------------------------------------------------------|
