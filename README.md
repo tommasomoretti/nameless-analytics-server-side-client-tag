@@ -36,14 +36,14 @@ Table of contents:
    - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Cookies](#cookies)
 
-
+</br>
 
 # Tag UI
 This is the UI of the Server-side client tag.
 
 <img src="https://github.com/user-attachments/assets/76a7e097-78b7-406a-bc01-39a886dcd2d3" alt="Nameless Analytics - Server-side client tag UI" />
 
-
+</br>
 
 # Basic settings
 ## Allowed domains
@@ -51,9 +51,13 @@ Set the allowed domains from which requests can be claimed.
 
 <img src="https://github.com/user-attachments/assets/e7089bdd-89ec-4348-b89a-0cf23865d22b" alt="Allowed domains" />
 
+</br>
+
 If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed, in Allowed domains field. Add a domain, one per row.
 
 <img src="https://github.com/user-attachments/assets/6dc3e7bd-f89e-4bd7-baba-17c93735441e" alt="Allowed domains" />
+
+</br>
 
 To guarantee accurate DNS resolution, the IP addresses of Google App Engine or Cloud Run instances need to be appropriately associated with each relevant domain name.
 Here's how for:
@@ -63,13 +67,19 @@ Here's how for:
 
 <img src="https://github.com/user-attachments/assets/97ab7224-444b-452e-a9f2-4a74b6a3104e" alt="Allowed domains" />
 
+</br>
+
 Container must be configured as well. Add the domains in the Container settings of the Server-side Google Tag Manager.
 
 <img src="https://github.com/user-attachments/assets/2ee51716-0fe4-42c2-b1e6-df5697c5809a" alt="Allowed domains" />
 
+</br>
+
 To select a domain for the preview mode, click the icon near the preview button
 
 <img src="https://github.com/user-attachments/assets/6fd6d60e-34fc-4e90-86e1-7f53c915847f" alt="Allowed domains" />
+
+</br>
 
 and select a domain.
 
@@ -81,7 +91,7 @@ Endpoint path to which requests have to be sent.
 
 <img src="https://github.com/user-attachments/assets/cf3e9cf0-3634-4ce1-a25f-c94bc576ff87" alt="Endpoint path" />
 
-
+</br>
 
 # User data
 ## User parameters
@@ -110,7 +120,7 @@ These parameter can override [user parameters](https://github.com/tommasomoretti
 ### Remove user level parameters
 Remove user level parameters in user_data object in the payload. 
 
-
+</br>
 
 # Session data
 ## Session parameters
@@ -133,7 +143,7 @@ These parameter can override [session parameters]([url](https://github.com/tomma
 ### Remove session level parameters
 Remove session level parameters in session_data object in the payload. 
 
-
+</br>
 
 # Event data
 ## Event parameters
@@ -157,7 +167,7 @@ These parameters can override:
 ### Remove event level parameters
 Remove event level parameters in event_data object in the payload. 
 
-
+</br>
 
 # Google BigQuery settings
 ## Project name
@@ -171,7 +181,7 @@ Google BigQuery's Nameless Analytics dataset name.
 ## Table name
 Google BigQuery's Nameless Analytics table name.
 
-
+</br>
 
 # Advanced settings
 ## Send data to custom endpoint
@@ -195,7 +205,7 @@ Enable logs for all events in preview mode.
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the Cross-domain section.
 
-
+</br>
 
 # Cookies
 The cookies used by Nameless Analytics to manage users and sessions are configured with specific security attributes that ensure their proper functioning and privacy protection:
@@ -226,6 +236,6 @@ Please note:
   - the user cookie contains the client_id.
   - the session cookie contains the client_id, the session_id and the page_id of the last event. The actual session_id is the cookie value without the page_id.
 
----
+#
 
 Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [Linkedin](https://www.linkedin.com/in/tommasomoretti/)
