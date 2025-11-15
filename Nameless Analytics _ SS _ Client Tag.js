@@ -1,10 +1,11 @@
-﻿const log = require('logToConsole');
+const log = require('logToConsole');
 const getTimestampMillis = require('getTimestampMillis');
 const claimRequest = require('claimRequest');
 const getRequestHeader = require('getRequestHeader');
 const getRequestBody = require('getRequestBody');
 const getRequestMethod = require('getRequestMethod');
 const getRequestPath = require('getRequestPath');
+const getClientName = require('getClientName');
 const setResponseHeader = require('setResponseHeader');
 const setResponseBody = require('setResponseBody');
 const setResponseStatus = require('setResponseStatus');
@@ -27,139 +28,193 @@ const sendHttpRequest = require('sendHttpRequest');
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+// Request data
 const endpoint = data.endpoint;
 const request_origin = getRequestHeader('Origin');
 const request_method = getRequestMethod();
-const authorized_domains_list = (data.add_authorized_domains) ? data.authorized_domains_list : [request_origin];
-var authorized_domains = '';
 
-const user_cookie_name = data.user_cookie_name || 'nameless_analytics_user';
+// Cookie data
+const user_cookie_name = (data.change_cookie_prefix) ? data.cookie_prefix + '_na_u' : 'na_u';
 const user_cookie_value = getCookieValues(user_cookie_name)[0];
 
-const session_cookie_name = data.session_cookie_name || 'nameless_analytics_session';
+const session_cookie_name = (data.change_cookie_prefix) ? data.cookie_prefix + '_na_s' : 'na_s';
 const session_cookie_value = getCookieValues(session_cookie_name)[0];
 
-if(data.enable_logs){log('NAMELESS ANALYTICS');}
-if(data.enable_logs){log('CLIENT TAG CONFIGURATION');}
+// Check request endpoint
+if(getRequestPath() === endpoint){
+  if(data.enable_logs){log('NAMELESS ANALYTICS');}
+  if(data.enable_logs){log('CLIENT TAG CONFIGURATION');}
 
-for(let i = 0; i < authorized_domains_list.length; i++){
-  const authorized_domains_tld = computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain);
-  authorized_domains = authorized_domains.concat(', ', authorized_domains_tld);
-} 
-if(data.enable_logs){log('👉 Authorized origins:', (data.add_authorized_domains) ? authorized_domains.slice(2) : ' All');}
-if(data.enable_logs){log('👉 Endpoint:', endpoint);}
+  const event_data = JSON.parse(getRequestBody());
 
-// Check origin, request endpoint and required fields and claim requests
-if (check_origin()){  
-  // Check request endpoint
-  if(getRequestPath() === endpoint){  
+  const event_origin = event_data.event_origin;
+  const event_date = event_data.event_date;
+  const event_name = event_data.event_name;
+  const event_timestamp = event_data.event_timestamp;
+  
+  // const client_id = event_data.client_id;
+  // const user_data_obj = event_data.user_data;
+  
+  // const session_id = event_data.session_id;
+  // const session_data_obj = event_data.session_data;
+  
+  const page_id = event_data.page_id;
+  const page_data_obj = event_data.page_data;
+  
+  const event_id = event_data.event_id;
+  const event_data_obj = event_data.event_data;
+
+  // Check request origin, required fields and claim requests
+  if (check_origin()){
+    if(data.enable_logs){log('CHECK REQUEST...');}  
+
     if(request_method === 'POST'){
-      const event_data = JSON.parse(getRequestBody());
+      // Check event origin 
+      if (event_origin !== 'Website' && event_origin !== 'Streaming protocol' && event_name != 'get_user_data') {
+        const message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
+        const status_code = 403;
+        claim_request({event_name: event_name}, status_code, message);
+      }
+      
+      if (event_name == 'get_user_data' && event_origin !== 'Website') {
+        const message = '🔴 Invalid event_origin parameter value. Accepted value: Website';
+        const status_code = 403;
+        claim_request({event_name: event_name}, status_code, message);
+      }
       
       // Check required fields
-      if(event_data && Object.keys(event_data).length > 0) {
-        const missingFields = [];
-
-        const event_origin = event_data.event_origin;
-        if(!event_origin) missingFields.push('event_origin');
+      if(event_data && Object.keys(event_data).length > 0) {        
+        const missing_fields = [];
         
-        const event_date = event_data.event_date;
-        if(!event_date) missingFields.push('event_date');
+        if(!event_origin) missing_fields.push('event_origin');
+        if(!event_date) missing_fields.push('event_date');
+        if(!event_name) missing_fields.push('event_name');
+        if(!event_timestamp) missing_fields.push('event_timestamp');
         
-        const event_name = event_data.event_name;
-        if(!event_name) missingFields.push('event_name');
-  
-        const event_timestamp = event_data.event_timestamp;
-        if(!event_timestamp) missingFields.push('event_timestamp');
+        // if(!client_id && event_origin == 'Streaming protocol') missing_fields.push('client_id');
+        // if(!user_data_obj || Object.keys(user_data_obj).length === 0) missing_fields.push('user_data');
         
-        const client_id = event_data.client_id;
-        if(!client_id && event_origin == 'Streaming protocol') missingFields.push('client_id');
-
-        const session_id = event_data.session_id;
-        if(!session_id && event_origin == 'Streaming protocol') missingFields.push('session_id');
-
-        const user_data_obj = event_data.user_data;
-        if(!user_data_obj || user_data_obj == "{}") missingFields.push('user_data');
-
-        const session_data_obj = event_data.session_data;
-        if(!session_data_obj || session_data_obj == "{}") missingFields.push('session_data');
-
-        const event_data_obj = event_data.event_data;
-        if(!event_data_obj || event_data_obj == "{}") missingFields.push('event_data');
+        // if(!session_id && event_origin == 'Streaming protocol') missing_fields.push('session_id');
+        // if(!session_data_obj || Object.keys(session_data_obj).length === 0) missing_fields.push('session_data');
         
-        if(event_data_obj && event_data_obj != "{}") {
-          const page_id = event_data.event_data.page_id;
-          if(!page_id) missingFields.push('page_id');
+        if(!page_id) missing_fields.push('page_id');
+        if(!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');        
+        
+        if(!event_id) missing_fields.push('event_id');
+        if(!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');        
+        
+        let message; 
+        let status_code;
+
+        // REFUSE REQUESTS
+        // If some required parameter is missing 
+        if (missing_fields.length > 0 && event_name != 'get_user_data') {
+          if(data.enable_logs){log('🔴 Missing required parameters: '.concat(missing_fields.join(', ')));}
           
-          const event_id = event_data.event_id;
-          if(!event_id) missingFields.push('event_id');
-        }
-                
-        var response_error;
+          message = '🔴 Request refused';
+          status_code = 403;
+          claim_request({event_name: event_name}, status_code, message);
         
-        // REJECT REQUESTS 
-        // Check cookie name
-        if (user_cookie_name == session_cookie_name){
-          response_error = "🔴 User cookie name and session cookie name can't be equal";
+        // If user cookie is missing
+        } else if(event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
+          if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session');}
+            
+            message = '🔴 Request refused';
+            status_code = 403;
+            claim_request({event_name: event_name}, status_code, message);
           
-        // Check required fields
-        } else if (missingFields.length > 0 && event_name != 'get_user_data') {
-          response_error = '🔴 Missing event parameters: '.concat(missingFields.join(', '));
-          
-        // Check event origin 
-        } else if (event_origin !== 'Website' && event_origin !== 'Streaming protocol' && event_name != 'get_user_data') {
-          response_error = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
-                
-        // CLAIM REQUESTS 
+        // If session cookie is missing
+        } else if (event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
+          if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new session');}
+
+          message = '🔴 Request refused';
+          status_code = 403;
+          claim_request({event_name: event_name}, status_code, message);
+
         // Claim requests for get_user_data
-        } else if(event_name == 'get_user_data') {
-          if(data.enable_logs){log('CLAIM REQUEST...');}
+        } else if(event_name == 'get_user_data' && user_cookie_value === undefined && session_cookie_value === undefined) {
           if(data.enable_logs){log('👉 Request from get_user_data event');}
-          
-          if(event_origin && event_origin == 'Website'){
-            claim_request(get_user_data());
-          } else {
-            response_error = '🔴 Invalid event_origin parameter value. Accepted value: Website';
-            if(data.enable_logs) {log(response_error);}
+            
+          if(data.enable_logs){log('CHECK COOKIES...');}
+            
+          if (user_cookie_value === undefined) {
+            if(data.enable_logs){log('🔴 User cookie not found. No cross-domain link decoration will be applied');}
+              
+            message = '🔴 Request refused';
+            status_code = 403;
+            claim_request(set_ids_get_user_data(), status_code, message);  
+          } else if (session_cookie_value === undefined) {
+            if(data.enable_logs){log('🔴 Session cookie not found. No cross-domain link decoration will be applied');}
+              
+            message = '🔴 Request refused';
+            status_code = 403;
+            claim_request(set_ids_get_user_data(), status_code, message);      
           } 
-
-        // Claim standard requests
+        
+        // CLAIM REQUESTS 
         } else {
-          if(data.enable_logs){log('CLAIM REQUEST...');}
+          // Claim get user data requests
+          if(event_name == 'get_user_data'){
+            if(data.enable_logs){log('🟢 Correct request, user and session cookie found. Cross-domain link decoration will be applied');}
+              
+            message = '🟢 Request claimed successfully';
+            status_code = 200;
 
-          claim_request(add_data_to_payload(set_ids(event_data)));
+            if(data.enable_logs){log('CLAIM REQUEST...');}
+            claim_request(set_ids_get_user_data(), status_code, message); 
+
+          } else {
+            // Claim standard requests
+            if(data.enable_logs){log('🟢 Correct request, all required parameters found');}
+                  
+            if(data.enable_logs){log('CLAIM REQUEST...');}
+            claim_request(build_payload(set_ids(event_data)), null, '');
+          }
         }
-        
-        // RETURN RESPONSE ERRORS
-        if(response_error) {
-          return_response_error(response_error);
-        }
-        
       } else {
         // RETURN RESPONSE ERRORS
-        return_response_error('🔴 Empty or bad formatted request body');
+        if(data.enable_logs){log('🔴 Empty request body');}
+
+        const message = '🔴 Request refused';
+        const status_code = 403;
+        claim_request({event_name: event_name}, status_code, message);
       }
+    } else {
+      // RETURN RESPONSE ERRORS
+      if(data.enable_logs){log('🔴 Request method not correct');}
+
+      const message = '🔴 Request refused';
+      const status_code = 403;
+      claim_request({event_name: event_name}, status_code, message);  
     }
   } else {
     // RETURN RESPONSE ERRORS
-    return_response_error('🔴 The request endpoint is not correct');
+    if(data.enable_logs){log('🔴 Request origin not authorized');}
+
+    const message = '🔴 Request refused';
+    const status_code = 403;
+    claim_request({event_name: event_name}, status_code, message);  
   }
-} else {
-  // RETURN RESPONSE ERRORS
-  return_response_error('🔴 The request origin is not authorized');
 }
 
 
 // Check request origin
 function check_origin(){
-  if (data.add_authorized_domains) {
-    for(let i = 0; i < authorized_domains_list.length; i++){    
-      if(computeEffectiveTldPlusOne(request_origin) == computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain)){
-        return true;
-      }
-    }
-  } else {
-    return true;
+  const authorized_domains_list = (data.add_authorized_domains) ? data.authorized_domains_list : [{authorized_domain: request_origin}];
+  var authorized_domains = '';
+  
+  for(let i = 0; i < authorized_domains_list.length; i++){
+    const authorized_domains_tld = computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain);
+    authorized_domains = authorized_domains.concat(', ', authorized_domains_tld);
+  } 
+  
+  if(data.enable_logs){log('👉 Authorized origins:', (data.add_authorized_domains) ? authorized_domains.slice(2) : ' All');}
+  if(data.enable_logs){log('👉 Endpoint:', endpoint);}
+
+  for(let i = 0; i < authorized_domains_list.length; i++){    
+    if(computeEffectiveTldPlusOne(request_origin) == computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain)){
+      return true;
+    } 
   }
 }
 
@@ -169,8 +224,8 @@ function check_origin(){
 
 
 
-// Build response for get_user_data requests (For cross-domain only)
-function get_user_data() {   
+// Handle ids for get_user_data requests (For cross-domain only)
+function set_ids_get_user_data() {
   const client_id = user_cookie_value || 'undefined';
   const session_id = session_cookie_value || 'undefined';
   const page_id = (session_cookie_value) ? session_cookie_value.split('-')[1] : 'undefined';
@@ -181,6 +236,9 @@ function get_user_data() {
     session_id: session_id.split('-')[0] || 'undefined',
     page_id: page_id
   };
+  
+  if(data.enable_logs){log('👉 Client ID: ' + event_data.client_id);} 
+  if(data.enable_logs){log('👉 Session ID: ' + event_data.session_id);} 
     
   return event_data;
 }
@@ -191,27 +249,14 @@ function get_user_data() {
 
 
 
-// Handle client id and session_id for standard requests
+// Handle ids for standard requests
 function set_ids(event_data){
   // Streaming protocol
-  if(event_data.event_origin == 'Streaming protocol'){
-    if(data.enable_logs){log('👉 Request from Streaming protocol');}
+  if (event_data.event_origin == 'Website') {
+    // if(data.enable_logs){log('👉 Request from website');}
     if(data.enable_logs){log('👉 Event name: ', event_data.event_name);}
     
-    event_data.event_data.page_id = event_data.session_id + '-' + event_data.event_data.page_id;
-    event_data.event_id = event_data.session_id + '-' + event_data.event_id;
-    event_data.event_data.page_hostname = computeEffectiveTldPlusOne(request_origin);
-    
-    add_data_to_payload(event_data);
-    
-    return event_data; 
-    
-  // Website  
-  } else if (event_data.event_origin == 'Website') {
-    if(data.enable_logs){log('👉 Request from website');}
-    if(data.enable_logs){log('👉 Event name: ', event_data.event_name);}
-    
-    const page_id = event_data.event_data.page_id;
+    const page_id = event_data.page_id;
     const event_id = event_data.event_id;  
     const cross_domain_id = event_data.event_data.cross_domain_id;
     
@@ -220,7 +265,7 @@ function set_ids(event_data){
       const cross_domain_client_id = cross_domain_id.split('_')[0];
       const cross_domain_session_id = cross_domain_id;
       
-      if(data.enable_logs){log('👉 Cross-domain visit.');}
+      if(data.enable_logs){log('👉 Cross-domain visit');}
       
       // With an active session
       if (session_cookie_value){
@@ -228,13 +273,10 @@ function set_ids(event_data){
         if (cross_domain_session_id != session_cookie_value.split('-')[0]) {       
           event_data.client_id = cross_domain_client_id;
           event_data.session_id = cross_domain_session_id;
-          event_data.event_data.page_id = cross_domain_session_id + '-' + page_id;
+          event_data.page_id = cross_domain_session_id + '-' + page_id;
           event_data.event_id = cross_domain_session_id + '-' + event_id;
-       
+  
           if(data.enable_logs){log('👉 Create new client_id: ', cross_domain_client_id + ' and new session_id: ', cross_domain_session_id);}
-          
-          // set_user_cookie(user_cookie_name, cross_domain_client_id);
-          // set_session_cookie(session_cookie_name, event_data.event_data.page_id);
         
         // With the same session id   
         } else {   
@@ -243,27 +285,22 @@ function set_ids(event_data){
           
           event_data.client_id = old_client_id;
           event_data.session_id = old_session_id;
-          event_data.event_data.page_id = old_session_id + '-' + page_id;
+          event_data.page_id = old_session_id + '-' + page_id;
           event_data.event_id = old_session_id + '-' + event_id;
           
-          if(data.enable_logs){log('👉 Same client_id, same session_id.');}
-          if(data.enable_logs){log('👉 Extend cookies max-age.');}
-          
-          // set_user_cookie(user_cookie_name, old_client_id);
-          // set_session_cookie(session_cookie_name, event_data.event_data.page_id);
+          if(data.enable_logs){log('👉 Same client_id, same session_id');}
+          if(data.enable_logs){log('👉 Extend cookies max-age');}
         }
+
       // Without an active session         
       } else {
         event_data.client_id = cross_domain_client_id;
         event_data.session_id = cross_domain_session_id;
-        event_data.event_data.page_id = cross_domain_session_id + '-' + page_id;
+        event_data.page_id = cross_domain_session_id + '-' + page_id;
         event_data.event_id = cross_domain_session_id + '-' + event_id;
         
-        if(data.enable_logs){log('👉 Returning user, no active session.');}
+        if(data.enable_logs){log('👉 Returning user, no active session');}
         if(data.enable_logs){log('👉 Same client_id: ', cross_domain_client_id + ', create new session_id: ', cross_domain_session_id);}
-        
-        // set_user_cookie(user_cookie_name, cross_domain_client_id);
-        // set_session_cookie(session_cookie_name, event_data.event_data.page_id);
       }
       
     // No cross-domain request
@@ -275,15 +312,12 @@ function set_ids(event_data){
           
         event_data.client_id = new_client_id;
         event_data.session_id = new_session_id;
-        event_data.event_data.page_id = new_session_id + '-' + page_id;
+        event_data.page_id = new_session_id + '-' + page_id;
         event_data.event_id = new_session_id + '-' + event_id;
         
-        if(data.enable_logs){log('👉 New user, no active session.');}
+        if(data.enable_logs){log('👉 New user, no active session');}
         if(data.enable_logs){log('👉 Create new client_id: ', new_client_id + ' and new session_id: ', new_session_id);}
-     
-        // set_user_cookie(user_cookie_name, new_client_id);
-        // set_session_cookie(session_cookie_name, event_data.event_data.page_id);
-      
+            
       // Returning user
       } else if (user_cookie_value != undefined) {
         // No session cookie
@@ -293,14 +327,12 @@ function set_ids(event_data){
           
           event_data.client_id = old_client_id;
           event_data.session_id = new_session_id;
-          event_data.event_data.page_id = new_session_id + '-' + page_id;
+          event_data.page_id = new_session_id + '-' + page_id;
           event_data.event_id = new_session_id + '-' + event_id;    
           
-          if(data.enable_logs){log('👉 Returning user, no active session.');}
+          if(data.enable_logs){log('👉 Returning user, no active session');}
           if(data.enable_logs){log('👉 Same client_id: ', old_client_id + ', create new session_id: ', new_session_id);}
-                                         
-          // set_user_cookie(user_cookie_name, old_client_id);
-          // set_session_cookie(session_cookie_name, event_data.event_data.page_id);
+          
         // Yes session cookie
         } else {
           const old_client_id = user_cookie_value;
@@ -308,14 +340,11 @@ function set_ids(event_data){
                   
           event_data.client_id = old_client_id;
           event_data.session_id = old_session_id;
-          event_data.event_data.page_id = old_session_id + '-' + page_id;
+          event_data.page_id = old_session_id + '-' + page_id;
           event_data.event_id = old_session_id + '-' + event_id;
           
-          if(data.enable_logs){log('👉 Same client_id, same session_id.');}
-          if(data.enable_logs){log('👉 Extend cookies max-age.');}
-     
-          // set_user_cookie(user_cookie_name, old_client_id);
-          // set_session_cookie(session_cookie_name, event_data.event_data.page_id);
+          if(data.enable_logs){log('👉 Same client_id, same session_id');}
+          if(data.enable_logs){log('👉 Extend cookies max-age');}      
         }
       }
     }
@@ -326,28 +355,43 @@ function set_ids(event_data){
 } 
 
 
+// Generate random alphanumeric ID 
+function generate_alphanumeric() {
+  var max_length = 15; // Change this to the desired length
+  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var alphanumeric_id = '';
+  
+  for (var i = 0; i < max_length; i++) {
+    alphanumeric_id += chars.charAt(generateRandom(0, chars.length));
+  }
+  
+  return alphanumeric_id;
+}
+
+
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-// Enhance payload data
-function add_data_to_payload(event_data){
+// Build payload data for standard requests
+function build_payload(event_data){
   // Add additional info    
-  event_data.processing_event_timestamp = getTimestampMillis();
-  event_data.content_length = makeNumber(getRequestHeader('content-length'));
-  if(event_data.event_origin == 'Website' || event_data.event_origin == 'Streaming protocol') {
-    event_data.event_data.country = getRequestHeader('X-Appengine-Country');
-    event_data.event_data.city = getRequestHeader('X-Appengine-City');
-  }
-  event_data.event_data.ss_hostname = getRequestHeader('Host');
-  event_data.event_data.ss_container_id = getContainerVersion().containerId;
-  
+  event_data.event_data.country = getRequestHeader('X-Appengine-Country');
+  event_data.event_data.city = getRequestHeader('X-Appengine-City');
+
+  event_data.gtm_data.ss_hostname = getRequestHeader('Host');
+  event_data.gtm_data.ss_container_id = getContainerVersion().containerId;
+  event_data.gtm_data.ss_tag_name = getClientName();
+  event_data.gtm_data.ss_tag_id = null; 
+  event_data.gtm_data.processing_event_timestamp = getTimestampMillis();
+  event_data.gtm_data.content_length = makeNumber(getRequestHeader('content-length'));
+
   
   // User data
   // Add or override user ID
   if (data.override_user_id) {
-    event_data.user_data.user_id = (data.user_id == "null")? null : data.user_id;
+    event_data.user_id = (data.user_id == "null")? null : data.user_id;
   }
   
   // Add user data from tag fields
@@ -379,7 +423,7 @@ function add_data_to_payload(event_data){
   
   
   // Session data
-    // Add session data from tag fields
+  // Add session data from tag fields
   if (data.add_session_parameters) {
     const session_params = data.session_params_to_add;
     
@@ -408,7 +452,9 @@ function add_data_to_payload(event_data){
   
   
   // Event data
-  event_data.event_data.tld_source = (computeEffectiveTldPlusOne(event_data.event_data.source) !== '') ? computeEffectiveTldPlusOne(event_data.event_data.source) : event_data.event_data.source;  
+  if (event_data.event_data.source){
+    event_data.event_data.tld_source = (computeEffectiveTldPlusOne(event_data.event_data.source) !== '') ? computeEffectiveTldPlusOne(event_data.event_data.source) : event_data.event_data.source;
+  }
   
   // Add event data from tag fields
   if (data.add_event_parameters) {
@@ -441,46 +487,27 @@ function add_data_to_payload(event_data){
 }
 
 
-// Generate random alphanumeric ID 
-function generate_alphanumeric() {
- var max_length = 15; // Change this to the desired length
- var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
- var alphanumeric_id = '';
-  
- for (var i = 0; i < max_length; i++) {
-   alphanumeric_id += chars.charAt(generateRandom(0, chars.length));
- }
-  
- return alphanumeric_id;
-}
-
-
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 // Claim requests
-function claim_request(event_data) {
+function claim_request(event_data, status_code, message) {
   claimRequest();
+  
+  // For error requests and get_user_data requests
+  if ((status_code === 403) || event_data.event_name == 'get_user_data') {
+    if(data.enable_logs){log('TAG EXECUTION STATUS');}
+    return_response(event_data, status_code, message);
     
-  // Get user data requests
-  if (event_data.event_name == 'get_user_data') {    
-    return_response(event_data);
-    
-    if(data.enable_logs){log('SEND USER DATA BACK TO BROWSER...');}
-    if(data.enable_logs){log('👉 Client ID:', event_data.client_id);}
-    if(data.enable_logs){log('👉 Session ID:', event_data.session_id);}
-    if(data.enable_logs){log('🟢 User data has been sent back correctly to the browser');}
-     
-  // Standard requests
+    // For standard requests
   } else {
     // Send data to Firestore
     send_to_firestore(event_data)
     // Return response
     .then((res) => {
-      if(res.status == true) {return_response(event_data);}
-      else {return_response_error(res.response_error);}
+      return_response(event_data, res.status_code, res.message);
       return res;
     })
     // Send data to BigQuery
@@ -488,15 +515,17 @@ function claim_request(event_data) {
       if (res.status == true) {
         if (data.enable_logs) {log('SEND EVENT DATA TO GOOGLE BIGQUERY...');}
         send_to_bq(event_data);
+        if(data.enable_logs && !data.send_data_to_custom_endpoint){log('TAG EXECUTION STATUS:');}
       }
       return res;
     })
     // Send data to custom endpoint
     .then((res) => {
       if(res.status == true){
-        if (data.send_data_to_custom_endpoint) {
-          if (data.enable_logs) {log('SEND EVENT DATA TO CUSTOM ENDPOINT...');}
+        if(data.send_data_to_custom_endpoint) {
+          if(data.enable_logs){log('SEND EVENT DATA TO CUSTOM ENDPOINT...');}
           send_to_custom_endpoint(data.custom_request_endpoint_path, event_data);
+          if(data.enable_logs){log('TAG EXECUTION STATUS:');}
         }
       }
     });
@@ -505,37 +534,23 @@ function claim_request(event_data) {
 
 
 // Return response
-function return_response(event_data) { 
+function return_response(event_data, status_code, message) { 
   runContainer(event_data, () => {
-    setResponseStatus(200);
+    setResponseStatus(status_code);
     setResponseHeader('Access-Control-Allow-Credentials', 'true');
     setResponseHeader('Access-Control-Allow-Origin', request_origin);
     setResponseHeader('Access-Control-Allow-Methods', 'POST');
     setResponseHeader('cache-control', 'no-store');
     setResponseBody(JSON.stringify({
-      status_code: 200,
-      response: '🟢 Request claimed succesfully',
+      status_code: status_code,
+      response: message,
       data: event_data
     }));
     
     returnResponse();
-    if(data.enable_logs){log('🟢 Request claimed succesfully');}
+
+    if(data.enable_logs){log(message);}
   });
-}
-
-
-// Return response error
-function return_response_error(response_error){
-  setResponseStatus(500);
-  setResponseHeader('Access-Control-Allow-Credentials', 'true');
-  setResponseHeader('Access-Control-Allow-Origin', request_origin);
-  setResponseBody(JSON.stringify({
-      status_code: 500,
-      response: response_error
-  }));
-  
-  returnResponse();
-  if(data.enable_logs){log(response_error);}
 }
 
 
@@ -552,32 +567,13 @@ function send_to_firestore(event_data) {
   const document_path = collection_path + '/' + event_data.client_id;
   
   return Firestore.query(collection_path, queries, {projectId: projectId, limit: 1})
-  .then((documents) => {
-    
-    let response_error = ''; 
-    
-    // REJECT REQUESTS (orphan events) 
-    if(event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value == undefined) {
-      response_error = '🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session.';
-      return {status: false, response_error: response_error};
-    } else if (event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value == undefined) {
-      response_error = '🔴 Website orphan event. Trigger a page_view event first to create a new session.';
-      return {status: false, response_error: response_error};
-    } else if (event_data.event_origin == 'Streaming protocol' && documents.length === 0) {
-      response_error = '🔴 Streaming protocol orphan event. Trigger a page_view event from website first to create a new user and a new session.';
-      return {status: false, response_error: response_error};
-    } else if (event_data.event_origin == 'Streaming protocol' && event_data.session_id != documents[0].data.sessions.slice(-1)[0].session_id) {
-      response_error = '🔴 Streaming protocol orphan event. Trigger a page_view event from website first to create a new session.';
-      return {status: false, response_error: response_error};
-    } 
-    
+  .then((documents) => {    
     // Set cookies
-    set_user_cookie(user_cookie_name, event_data.client_id);
-    set_session_cookie(session_cookie_name, event_data.event_data.page_id);
-  
-    // Create user_data and session_data if not exist 
-    if (!event_data.user_data) {event_data.user_data = {};}
-    if (!event_data.session_data) {event_data.session_data = {};}
+    const user_cookie_max_age = 400 * 24 * 60 * 60;
+    const session_cookie_max_age = (makeNumber(data.session_max_age) || 30) * 60; 
+
+    set_cookie(user_cookie_name, event_data.client_id, user_cookie_max_age);
+    set_cookie(session_cookie_name, event_data.page_id, session_cookie_max_age);
         
     // If user does not exist in Firestore
     if (documents && documents.length === 0) {
@@ -591,9 +587,12 @@ function send_to_firestore(event_data) {
         client_id: event_data.client_id,
         user_channel_grouping: event_data.event_data.channel_grouping,
         user_source: event_data.event_data.source,
-        user_tld_source: event_data.event_data.tld_source,
+        user_tld_source: event_data.event_data.tld_source,  
         user_campaign: event_data.event_data.campaign,
         user_campaign_id: event_data.event_data.campaign_id,
+        user_campaign_click_id: event_data.event_data.campaign_click_id,
+        user_campaign_term: event_data.event_data.campaign_term,
+        user_campaign_content: event_data.event_data.campaign_content,        
         user_device_type: event_data.event_data.device_type,
         user_country: event_data.event_data.country,
         user_language: event_data.event_data.browser_language,
@@ -608,20 +607,21 @@ function send_to_firestore(event_data) {
           session_source: event_data.event_data.source,
           session_tld_source: event_data.event_data.tld_source,           
           session_campaign: event_data.event_data.campaign,
-          session_campaign_content: event_data.event_data.campaign_content,
           session_campaign_id: event_data.event_data.campaign_id,
+          session_campaign_click_id: event_data.event_data.campaign_click_id,
           session_campaign_term: event_data.event_data.campaign_term,
+          session_campaign_content: event_data.event_data.campaign_content,      
           session_device_type: event_data.event_data.device_type,
           session_country: event_data.event_data.country,
           session_language: event_data.event_data.browser_language,
-          session_hostname: event_data.event_data.page_hostname,
+          session_hostname: event_data.page_data.page_hostname,
           session_browser_name: event_data.event_data.browser_name,
-          session_landing_page_category: event_data.event_data.page_category,            
-          session_landing_page_location: event_data.event_data.page_location,
-          session_landing_page_title: event_data.event_data.page_title,
-          session_exit_page_category: event_data.event_data.page_category,
-          session_exit_page_location: event_data.event_data.page_location,
-          session_exit_page_title: event_data.event_data.page_title,
+          session_landing_page_category: event_data.page_data.page_category,            
+          session_landing_page_location: event_data.page_data.page_location,
+          session_landing_page_title: event_data.page_data.page_title,
+          session_exit_page_category: event_data.page_data.page_category,
+          session_exit_page_location: event_data.page_data.page_location,
+          session_exit_page_title: event_data.page_data.page_title,
           session_start_timestamp: (event_data.event_name == 'page_view') ? event_data.event_timestamp : 'null',
           session_end_timestamp: event_data.event_timestamp,
         }]
@@ -645,9 +645,10 @@ function send_to_firestore(event_data) {
       if(data.enable_logs){log('👉 Payload to send: ', firestore_data);}
 
       Firestore.write(document_path, firestore_data, {projectId: projectId, merge: true})
-        .then(() => {
-          if(data.enable_logs){log('🟢 User successfully created in Firestore, session successfully added into Firestore');}
-        });
+        .then(
+          (id) => {if(data.enable_logs){log('🟢 User successfully created in Firestore, session successfully added into Firestore');}}, 
+          () => {return {status: false, status_code: 403, message: '🔴 Request refused'};}
+        );
       
       // Add user parameters to Big Query        
       for (let key in firestore_data) {
@@ -656,11 +657,16 @@ function send_to_firestore(event_data) {
         }
       }
       
+      event_data.user_date = event_data.user_data.user_date;
+      
+      Object.delete(event_data.user_data, 'user_date');
       Object.delete(event_data.user_data, 'client_id');
             
       // Add session parameters to Big Query 
       event_data.session_data = firestore_data.sessions[0];
-
+      event_data.session_date = event_data.session_data.session_date;
+      
+      Object.delete(event_data.session_data, 'session_date');      
       Object.delete(event_data.session_data, 'session_id');
 
     // If user exists in Firestore  
@@ -680,6 +686,9 @@ function send_to_firestore(event_data) {
         "user_tld_source", 
         "user_campaign", 
         "user_campaign_id", 
+        "user_campaign_click_id",
+        "user_campaign_term",
+        "user_campaign_content",
         "user_device_type", 
         "user_country", 
         "user_language",
@@ -710,8 +719,11 @@ function send_to_firestore(event_data) {
         }
       }
       
+      event_data.user_date = event_data.user_data.user_date;
+      
+      Object.delete(event_data.user_data, 'user_date');
       Object.delete(event_data.user_data, 'client_id');
-                       
+      
       // If session doesn't exists in Firestore
       if (event_data.session_id != last_session.session_id) {  
         if(data.enable_logs){log('👉 Session does not exist');}
@@ -726,21 +738,22 @@ function send_to_firestore(event_data) {
           session_source: event_data.event_data.source,
           session_tld_source: event_data.event_data.tld_source,
           session_campaign: event_data.event_data.campaign,
-          session_campaign_content: event_data.event_data.campaign_content,
           session_campaign_id: event_data.event_data.campaign_id,
+          session_campaign_click_id: event_data.event_data.campaign_click_id,
           session_campaign_term: event_data.event_data.campaign_term,
+          session_campaign_content: event_data.event_data.campaign_content,
           session_device_type: event_data.event_data.device_type,
           session_country: event_data.event_data.country,
           session_language: event_data.event_data.browser_language,
-          session_hostname: event_data.event_data.page_hostname,
+          session_hostname: event_data.page_data.page_hostname,
           session_browser_name: event_data.event_data.browser_name,
-          session_landing_page_category: (event_data.event_data.page_category) ? event_data.event_data.page_category : null,
-          session_landing_page_location: event_data.event_data.page_location,
-          session_landing_page_title: event_data.event_data.page_title,
-          session_exit_page_category: (event_data.event_data.page_category) ? event_data.event_data.page_category : null,          
-          session_exit_page_location: event_data.event_data.page_location,
-          session_exit_page_title: event_data.event_data.page_title,
-          session_start_timestamp: (event_data.event_name == 'page_view') ? event_data.event_timestamp : 'null',
+          session_landing_page_category: (event_data.page_data.page_category) ? event_data.page_data.page_category : null,
+          session_landing_page_location: event_data.page_data.page_location,
+          session_landing_page_title: event_data.page_data.page_title,
+          session_exit_page_category: (event_data.page_data.page_category) ? event_data.page_data.page_category : null,          
+          session_exit_page_location: event_data.page_data.page_location,
+          session_exit_page_title: event_data.page_data.page_title,
+          session_start_timestamp: (event_data.event_name == 'page_view') ? event_data.event_timestamp : null,
           session_end_timestamp: event_data.event_timestamp
         };
           
@@ -758,12 +771,16 @@ function send_to_firestore(event_data) {
         if(data.enable_logs){log('👉 Payload to send: ', firestore_data);}
 
         Firestore.write(document_path, firestore_data, {projectId: projectId, merge: true})
-          .then(() => {
-            if(data.enable_logs){log('🟢 User already in Firestore, session successfully added into Firestore');}
-          });
+          .then(
+            (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully added into Firestore');}}, 
+            () => {return {status: false, status_code: 403, message: '🔴 Request refused'};}
+          );
 
         // Add data to BigQuery
         event_data.session_data = firestore_data.sessions.slice(-1)[0];
+        event_data.session_date = event_data.session_data.session_date;
+        
+        Object.delete(event_data.session_data, 'session_date');
         Object.delete(event_data.session_data, 'session_id');
         
       // If session exists in Firestore        
@@ -779,9 +796,10 @@ function send_to_firestore(event_data) {
           "session_source", 
           "session_tld_source", 
           "session_campaign", 
-          "session_campaign_content", 
           "session_campaign_id", 
+          "session_campaign_click_id",
           "session_campaign_term", 
+          "session_campaign_content",
           "session_device_type", 
           "session_country", 
           "session_language", 
@@ -809,9 +827,9 @@ function send_to_firestore(event_data) {
         });
             
         // Update session values in Firestore from current event data
-        last_session.session_exit_page_category = (event_data.event_data.page_category) ? event_data.event_data.page_category : null;
-        last_session.session_exit_page_location = event_data.event_data.page_location;
-        last_session.session_exit_page_title = event_data.event_data.page_title;
+        last_session.session_exit_page_category = (event_data.page_data.page_category) ? event_data.page_data.page_category : null;
+        last_session.session_exit_page_location = event_data.page_data.page_location;
+        last_session.session_exit_page_title = event_data.page_data.page_title;
         last_session.session_end_timestamp = event_data.event_timestamp;
         if(last_session.cross_domain_session == 'No'){last_session.cross_domain_session = (event_data.event_data.cross_domain_id) ? 'Yes' : 'No';}
                 
@@ -819,17 +837,21 @@ function send_to_firestore(event_data) {
         if(data.enable_logs){log('👉 Payload to send: ', firestore_data);}
         
         Firestore.write(document_path, firestore_data, {projectId: projectId, merge: true})
-          .then(() => {
-            if(data.enable_logs){log('🟢 User already in Firestore, session successfully updated into Firestore');}
-          });
+          .then(
+            (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully updated into Firestore');}}, 
+            () => {return {status: false, status_code: 403, message: '🔴 Request refused'};}
+          );
         
         // Add data for BigQuery
         event_data.session_data = last_session;
+        event_data.session_date = last_session.session_date;
+        
+        Object.delete(event_data.session_data, 'session_date');
         Object.delete(event_data.session_data, 'session_id');
       }        
     }
     
-    return {status: true};
+    return {status: true, status_code: 200, message: '🟢 Request claimed successfully'};
   });
 }
 
@@ -848,8 +870,10 @@ function send_to_bq(event_data){
   // Encode data for Google BigQuery        
   encode_data(payload_copy, 'user_data');
   encode_data(payload_copy, 'session_data');
+  encode_data(payload_copy, 'page_data');
   encode_data(payload_copy, 'event_data');
   encode_data(payload_copy, 'consent_data');
+  encode_data(payload_copy, 'gtm_data');
   
   payload_copy.datalayer = (payload_copy.datalayer) ? JSON.stringify(payload_copy.datalayer) : null;
   payload_copy.ecommerce = (payload_copy.ecommerce) ? JSON.stringify(payload_copy.ecommerce) : null;
@@ -873,7 +897,6 @@ function send_to_bq(event_data){
     () => {if(data.enable_logs){log('🔴 Payload data not inserted into BigQuery');}}
   );
 }
-
 
 
 // Encode event data
@@ -960,12 +983,11 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
 
 
 // Set user cookie
-function set_user_cookie(cookie_name, cookie_value){  
+function set_cookie(cookie_name, cookie_value, max_age){  
   const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
   const cookie_path = '/';
   const cookie_secure = true;
-  const sameSite = "Lax";
-  const user_max_age = 400 * 24 * 60 * 60;
+  const sameSite = "Strict";
   const httpOnly = true;
   
   const cookie_options = {
@@ -973,29 +995,7 @@ function set_user_cookie(cookie_name, cookie_value){
     path: cookie_path,
     secure: cookie_secure,
     sameSite: sameSite,
-    'max-age': user_max_age,
-    httpOnly: httpOnly
-  };
-      
-  setCookie(cookie_name, cookie_value, cookie_options);
-}
-
-
-// Set session cookie
-function set_session_cookie(cookie_name, cookie_value){    
-  const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
-  const cookie_path = '/';
-  const cookie_secure = true;
-  const sameSite = "Lax";
-  const session_max_age = (makeNumber(data.session_max_age) || 30) * 60;
-  const httpOnly = true;
-
-  const cookie_options = {
-    domain: cookie_domain, 
-    path: cookie_path,
-    secure: cookie_secure,
-    sameSite: sameSite,
-    'max-age': session_max_age,
+    'max-age': max_age,
     httpOnly: httpOnly
   };
       
