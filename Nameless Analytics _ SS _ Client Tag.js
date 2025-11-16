@@ -558,21 +558,20 @@ function send_to_firestore(event_data) {
   
   return Firestore.query(collection_path, queries, {projectId: projectId, limit: 1})
   .then((documents) => {
-
+  
     // REJECT REQUESTS (orphan events) 
-    if (documents.length === 0) {
+    if (event_data.event_name != 'page_view' && documents.length === 0) {
       message = '🔴 Orphan event. Trigger a page_view event first to create a new user and a new session.';
-      return {status: false, message: message};
-
-    } if (!documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
+      return {status: false, staus_code: 403, message: message};
+    } if (event_data.event_name != 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
       message = '🔴 Orphan event. Trigger a page_view event first to create a new session.';
-      return {status: false, message: message };
+      return {status: false, staus_code: 403, message: message };
     }
     
     // Set cookies
     const user_cookie_max_age = 400 * 24 * 60 * 60;
     const session_cookie_max_age = (makeNumber(data.session_max_age) || 30) * 60; 
-
+  
     set_cookie(user_cookie_name, event_data.client_id, user_cookie_max_age);
     set_cookie(session_cookie_name, event_data.page_id, session_cookie_max_age);
         
