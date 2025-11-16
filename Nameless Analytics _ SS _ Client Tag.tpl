@@ -1,4 +1,4 @@
-___TERMS_OF_SERVICE___
+﻿___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -16,7 +16,7 @@ ___INFO___
   "displayName": "Nameless Analytics | SS | Client tag",
   "brand": {
     "id": "brand_dummy",
-    "displayName": "",
+    "displayName": "Nameless Analytics",
     "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAYAAADL1t+KAAAAAXNSR0IArs4c6QAAAHhlWElmTU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAABAAAARgEoAAMAAAABAAIAAIdpAAQAAAABAAAATgAAAAAAAAAkAAAAAQAAACQAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAfSgAwAEAAAAAQAAAfQAAAAANGC8/AAAAAlwSFlzAAAFiQAABYkBbWid+gAALlxJREFUeAHt3QmUXWd9GPDRLJIsb2jQNtLYKCCW4IQ1AZqmtCElkNBS4CQpnHCAOiHHgcMWA8Z2vG9gCCkQQkgCNFAKJJgUOC00hHBamgJtIWURgSDwIGmk0WILL7Kl0cyo/2sbaSzNvHnz3n333ft9vzlHR2/u8n3//+970v99d3sDA34IECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBQkcCKivrRDYFSBTZv3vzl48ePP7XURktobMWKFev37NlzsISm7mtibGzs38eLny+rvbLaCfuvR66PL6u9prYTDm+empr6eFPjTyXujRs3PmNwcPDmVPLpNI/hTne0HwEClQg8Mnp5ciU9LaOT4oNLbL45/mT9f0g4XBsGn4g/c/HHT58Eopg/JLqu3b+TqjkGq+5QfwQIJCFwfsxOv5hEJt0l8ZObNm16SXdN2JtAOQIKejmOWiGQnUDMTi+IpKezS/yUhMPh0lg0dMpivxKoXEBBr5xchwSSEdgQmXwpmWw6T+RRca3DhZ3vbk8C5Qgo6OU4aoVArgLFhXFHck1+Xt5vitdZX08wz8LLPgko6H2C1y2BRASKi5G+mkgu3aTx8DiX/vJuGrAvgW4FFPRuBe1PgMATg+Ce3BniXPolYTCSu4P8+yegoPfPXs8EUhFYE1e8fyOVZLrI42HxfISLutjfrgS6ElDQu+KzMwEChUDMTp8Uf92du0Z8sHnjtm3bVuXuIP/+CCjo/XHXK4HUBFZGUf9Oakl1kM/44cOHX9nBfnYh0LWAgt41oQYIECgEYnb6xPhzZ+4a8cHm9Vu3bl2du4P8qxdQ0Ks31yOBVAWG4hGct6aaXLt5xYeasenp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ividAAECBDoWWLNmzZ/EzsWXt/ipWEBBrxhcdwQIEEhZYMeOHcXXql6fco51zU1Br+vIiIsAAQINFdi7d+8HIvRbGxp+Y8NW0Bs7dAInQIBAbQWOxRXv19Y2ukQDU9ATHVhpESBAoJ8C8cUtH4r+v9fPGHLrW0HPbcTlS4AAgWoEZuMWtqur6UovhYCC7n1AgAABAj0R2LNnz0ej4W/3pHGNniYwfNqSdBd8Oz4tnlun9OIc00zZ8USO3402j5TdbrftxZWvc922MX//sNsRua6Zv6wOr1euXFnqmEaOE5HXN+uQ2/wY4isziyuZ/RBYSmAu/q1eFe/jv1xqQ+u7F1jRfRNaIECAAAECiwqsGBsbuyzWnrHoFlYQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAQLME/j+dHohhvivoygAAAABJRU5ErkJggg\u003d\u003d"
   },
   "description": "A highly customizable GTM custom template designed to claim requests from Nameless Analytics Client-side tracker tag and Nameless Analytics Streaming protocol.",
@@ -1814,6 +1814,11 @@ const user_cookie_value = getCookieValues(user_cookie_name)[0];
 const session_cookie_name = (data.change_cookie_prefix) ? data.cookie_prefix + '_na_s' : 'na_s';
 const session_cookie_value = getCookieValues(session_cookie_name)[0];
 
+// Response data
+var message;
+var status_code;
+
+
 // Check request endpoint
 if(getRequestPath() === endpoint){
   if(data.enable_logs){log('NAMELESS ANALYTICS');}
@@ -1842,131 +1847,116 @@ if(getRequestPath() === endpoint){
   if (check_origin()){
     if(data.enable_logs){log('CHECK REQUEST...');}  
 
-    if(request_method === 'POST'){
-      // Check event origin 
-      if (event_origin !== 'Website' && event_origin !== 'Streaming protocol' && event_name != 'get_user_data') {
-        const message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
-        const status_code = 403;
-        claim_request({event_name: event_name}, status_code, message);
-      }
-      
-      if (event_name == 'get_user_data' && event_origin !== 'Website') {
-        const message = '🔴 Invalid event_origin parameter value. Accepted value: Website';
-        const status_code = 403;
-        claim_request({event_name: event_name}, status_code, message);
-      }
-      
+    if(request_method === 'POST'){      
       // Check required fields
-      if(event_data && Object.keys(event_data).length > 0) {        
-        const missing_fields = [];
-        
-        if(!event_origin) missing_fields.push('event_origin');
-        if(!event_date) missing_fields.push('event_date');
-        if(!event_name) missing_fields.push('event_name');
-        if(!event_timestamp) missing_fields.push('event_timestamp');
-        
-        // if(!client_id && event_origin == 'Streaming protocol') missing_fields.push('client_id');
-        // if(!user_data_obj || Object.keys(user_data_obj).length === 0) missing_fields.push('user_data');
-        
-        // if(!session_id && event_origin == 'Streaming protocol') missing_fields.push('session_id');
-        // if(!session_data_obj || Object.keys(session_data_obj).length === 0) missing_fields.push('session_data');
-        
-        if(!page_id) missing_fields.push('page_id');
-        if(!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');        
-        
-        if(!event_id) missing_fields.push('event_id');
-        if(!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');        
-        
-        let message; 
-        let status_code;
-
-        // REFUSE REQUESTS
-        // If some required parameter is missing 
-        if (missing_fields.length > 0 && event_name != 'get_user_data') {
-          if(data.enable_logs){log('🔴 Missing required parameters: '.concat(missing_fields.join(', ')));}
-          
-          message = '🔴 Request refused';
-          status_code = 403;
-          claim_request({event_name: event_name}, status_code, message);
-        
-        // If user cookie is missing
-        } else if(event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
-          if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session');}
-            
-            message = '🔴 Request refused';
-            status_code = 403;
-            claim_request({event_name: event_name}, status_code, message);
-          
-        // If session cookie is missing
-        } else if (event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
-          if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new session');}
-
-          message = '🔴 Request refused';
-          status_code = 403;
-          claim_request({event_name: event_name}, status_code, message);
-
-        // Claim requests for get_user_data
-        } else if(event_name == 'get_user_data' && user_cookie_value === undefined && session_cookie_value === undefined) {
-          if(data.enable_logs){log('👉 Request from get_user_data event');}
-            
-          if(data.enable_logs){log('CHECK COOKIES...');}
-            
-          if (user_cookie_value === undefined) {
-            if(data.enable_logs){log('🔴 User cookie not found. No cross-domain link decoration will be applied');}
-              
-            message = '🔴 Request refused';
-            status_code = 403;
-            claim_request(set_ids_get_user_data(), status_code, message);  
-          } else if (session_cookie_value === undefined) {
-            if(data.enable_logs){log('🔴 Session cookie not found. No cross-domain link decoration will be applied');}
-              
-            message = '🔴 Request refused';
-            status_code = 403;
-            claim_request(set_ids_get_user_data(), status_code, message);      
-          } 
-        
-        // CLAIM REQUESTS 
-        } else {
-          // Claim get user data requests
-          if(event_name == 'get_user_data'){
-            if(data.enable_logs){log('🟢 Correct request, user and session cookie found. Cross-domain link decoration will be applied');}
-              
-            message = '🟢 Request claimed successfully';
-            status_code = 200;
-
-            if(data.enable_logs){log('CLAIM REQUEST...');}
-            claim_request(set_ids_get_user_data(), status_code, message); 
-
-          } else {
-            // Claim standard requests
-            if(data.enable_logs){log('🟢 Correct request, all required parameters found');}
-                  
-            if(data.enable_logs){log('CLAIM REQUEST...');}
-            claim_request(build_payload(set_ids(event_data)), null, '');
-          }
-        }
-      } else {
-        // RETURN RESPONSE ERRORS
-        if(data.enable_logs){log('🔴 Empty request body');}
-
-        const message = '🔴 Request refused';
-        const status_code = 403;
+      const missing_fields = [];
+      
+      if(!event_origin) missing_fields.push('event_origin');
+      if(!event_date) missing_fields.push('event_date');
+      if(!event_name) missing_fields.push('event_name');
+      if(!event_timestamp) missing_fields.push('event_timestamp');
+      
+      // if(!client_id && event_origin == 'Streaming protocol') missing_fields.push('client_id');
+      // if(!user_data_obj || Object.keys(user_data_obj).length === 0) missing_fields.push('user_data');
+      
+      // if(!session_id && event_origin == 'Streaming protocol') missing_fields.push('session_id');
+      // if(!session_data_obj || Object.keys(session_data_obj).length === 0) missing_fields.push('session_data');
+      
+      if(!page_id) missing_fields.push('page_id');
+      if(!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');        
+      
+      if(!event_id) missing_fields.push('event_id');
+      if(!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');        
+      
+      let message; 
+      let status_code;
+      
+      // REFUSE REQUESTS
+      // Check event origin 
+      if (event_origin !== 'Website') {
+        message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
+        status_code = 403;
         claim_request({event_name: event_name}, status_code, message);
+      }
+      
+      // If some required parameter is missing 
+      if (missing_fields.length > 0 && event_name != 'get_user_data') {
+        if(data.enable_logs){log('🔴 Missing required parameters: '.concat(missing_fields.join(', ')));}
+        
+        message = '🔴 Request refused';
+        status_code = 403;
+        claim_request({event_name: event_name}, status_code, message);
+      
+      // If user cookie is missing
+      } else if(event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
+        if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session');}
+          
+          message = '🔴 Request refused';
+          status_code = 403;
+          claim_request({event_name: event_name}, status_code, message);
+        
+      // If session cookie is missing
+      } else if (event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
+        if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new session');}
+      
+        message = '🔴 Request refused';
+        status_code = 403;
+        claim_request({event_name: event_name}, status_code, message);
+      
+      // If user or session cookie is missing for get_user_data requests
+      } else if(event_name == 'get_user_data' && user_cookie_value === undefined && session_cookie_value === undefined) {
+        if(data.enable_logs){log('👉 Request from get_user_data event');}
+          
+        if(data.enable_logs){log('CHECK COOKIES...');}
+          
+        if (user_cookie_value === undefined) {
+          if(data.enable_logs){log('🔴 User cookie not found. No cross-domain link decoration will be applied');}
+            
+          message = '🔴 Request refused';
+          status_code = 403;
+          claim_request(set_ids_get_user_data(), status_code, message);  
+        } else if (session_cookie_value === undefined) {
+          if(data.enable_logs){log('🔴 Session cookie not found. No cross-domain link decoration will be applied');}
+            
+          message = '🔴 Request refused';
+          status_code = 403;
+          claim_request(set_ids_get_user_data(), status_code, message);      
+        } 
+      
+      // CLAIM REQUESTS 
+      } else {
+        // Claim get user data requests
+        if(event_name == 'get_user_data'){
+          if(data.enable_logs){log('🟢 Correct request, user and session cookie found. Cross-domain link decoration will be applied');}
+            
+          message = '🟢 Request claimed successfully';
+          status_code = 200;
+      
+          if(data.enable_logs){log('CLAIM REQUEST...');}
+          claim_request(set_ids_get_user_data(), status_code, message); 
+      
+        } else {
+          // Claim standard requests
+          if(data.enable_logs){log('🟢 Correct request, all required parameters found');}
+                
+          if(data.enable_logs){log('CLAIM REQUEST...');}
+          claim_request(build_payload(set_ids(event_data)), null, '');
+        }
       }
     } else {
       // RETURN RESPONSE ERRORS
       if(data.enable_logs){log('🔴 Request method not correct');}
-
-      const message = '🔴 Request refused';
-      const status_code = 403;
+        
+      message = '🔴 Request refused';
+      status_code = 403;
       claim_request({event_name: event_name}, status_code, message);  
     }
   } else {
     // RETURN RESPONSE ERRORS
     if(data.enable_logs){log('🔴 Request origin not authorized');}
 
-    const message = '🔴 Request refused';
-    const status_code = 403;
+    message = '🔴 Request refused';
+    status_code = 403;
     claim_request({event_name: event_name}, status_code, message);  
   }
 }
@@ -2341,11 +2331,21 @@ function send_to_firestore(event_data) {
   const document_path = collection_path + '/' + event_data.client_id;
   
   return Firestore.query(collection_path, queries, {projectId: projectId, limit: 1})
-  .then((documents) => {    
+  .then((documents) => {
+  
+    // REJECT REQUESTS (orphan events) 
+    if (event_data.event_name != 'page_view' && documents.length === 0) {
+      message = '🔴 Orphan event. Trigger a page_view event first to create a new user and a new session.';
+      return {status: false, staus_code: 403, message: message};
+    } if (event_data.event_name != 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
+      message = '🔴 Orphan event. Trigger a page_view event first to create a new session.';
+      return {status: false, staus_code: 403, message: message };
+    }
+    
     // Set cookies
     const user_cookie_max_age = 400 * 24 * 60 * 60;
     const session_cookie_max_age = (makeNumber(data.session_max_age) || 30) * 60; 
-
+  
     set_cookie(user_cookie_name, event_data.client_id, user_cookie_max_age);
     set_cookie(session_cookie_name, event_data.page_id, session_cookie_max_age);
         
@@ -2421,7 +2421,10 @@ function send_to_firestore(event_data) {
       Firestore.write(document_path, firestore_data, {projectId: projectId, merge: true})
         .then(
           (id) => {if(data.enable_logs){log('🟢 User successfully created in Firestore, session successfully added into Firestore');}}, 
-          () => {return {status: false, status_code: 403, message: '🔴 Request refused'};}
+          () => {
+            if(data.enable_logs){log('🔴 User or session data not created in Firestore.');}
+            return {status: false, status_code: 403, message: '🔴 Request refused'};
+          }
         );
       
       // Add user parameters to Big Query        
@@ -2547,7 +2550,10 @@ function send_to_firestore(event_data) {
         Firestore.write(document_path, firestore_data, {projectId: projectId, merge: true})
           .then(
             (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully added into Firestore');}}, 
-            () => {return {status: false, status_code: 403, message: '🔴 Request refused'};}
+            () => {
+              if(data.enable_logs){log('🔴 User or session data not added in Firestore.');}
+              return {status: false, status_code: 403, message: '🔴 Request refused'};
+            }
           );
 
         // Add data to BigQuery
@@ -2613,7 +2619,10 @@ function send_to_firestore(event_data) {
         Firestore.write(document_path, firestore_data, {projectId: projectId, merge: true})
           .then(
             (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully updated into Firestore');}}, 
-            () => {return {status: false, status_code: 403, message: '🔴 Request refused'};}
+            () => {
+              if(data.enable_logs){log('🔴 User or session data not created in Firestore.');}
+              return {status: false, status_code: 403, message: '🔴 Request refused'};
+            }
           );
         
         // Add data for BigQuery
@@ -2627,6 +2636,27 @@ function send_to_firestore(event_data) {
     
     return {status: true, status_code: 200, message: '🟢 Request claimed successfully'};
   });
+}
+
+
+// Set user cookie
+function set_cookie(cookie_name, cookie_value, max_age){  
+  const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
+  const cookie_path = '/';
+  const cookie_secure = true;
+  const sameSite = "Strict";
+  const httpOnly = true;
+  
+  const cookie_options = {
+    domain: cookie_domain, 
+    path: cookie_path,
+    secure: cookie_secure,
+    sameSite: sameSite,
+    'max-age': max_age,
+    httpOnly: httpOnly
+  };
+      
+  setCookie(cookie_name, cookie_value, cookie_options);
 }
 
 
@@ -2748,32 +2778,6 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
         if(data.enable_logs){log('🔴 Request do not send succesfully. Error:', result);}      
       }
     });
-}
-
-
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-// Set user cookie
-function set_cookie(cookie_name, cookie_value, max_age){  
-  const cookie_domain = '.' + computeEffectiveTldPlusOne(request_origin);
-  const cookie_path = '/';
-  const cookie_secure = true;
-  const sameSite = "Strict";
-  const httpOnly = true;
-  
-  const cookie_options = {
-    domain: cookie_domain, 
-    path: cookie_path,
-    secure: cookie_secure,
-    sameSite: sameSite,
-    'max-age': max_age,
-    httpOnly: httpOnly
-  };
-      
-  setCookie(cookie_name, cookie_value, cookie_options);
 }
 
 
@@ -3138,6 +3142,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 15/11/2025, 12:03:59
+Created on 16/11/2025, 19:47:21
 
 
