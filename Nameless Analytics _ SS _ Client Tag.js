@@ -57,12 +57,6 @@ if(getRequestPath() === endpoint){
   const event_name = event_data.event_name;
   const event_timestamp = event_data.event_timestamp;
   
-  // const client_id = event_data.client_id;
-  // const user_data_obj = event_data.user_data;
-  
-  // const session_id = event_data.session_id;
-  // const session_data_obj = event_data.session_data;
-  
   const page_id = event_data.page_id;
   const page_data_obj = event_data.page_data;
   
@@ -82,12 +76,6 @@ if(getRequestPath() === endpoint){
       if(!event_name) missing_fields.push('event_name');
       if(!event_timestamp) missing_fields.push('event_timestamp');
       
-      // if(!client_id && event_origin == 'Streaming protocol') missing_fields.push('client_id');
-      // if(!user_data_obj || Object.keys(user_data_obj).length === 0) missing_fields.push('user_data');
-      
-      // if(!session_id && event_origin == 'Streaming protocol') missing_fields.push('session_id');
-      // if(!session_data_obj || Object.keys(session_data_obj).length === 0) missing_fields.push('session_data');
-      
       if(!page_id) missing_fields.push('page_id');
       if(!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');        
       
@@ -98,35 +86,61 @@ if(getRequestPath() === endpoint){
       let status_code;
       
       // REFUSE REQUESTS
-      // Check event origin 
-      if (event_origin !== 'Website') {
-        message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
+      
+      // Check User-Agent header
+      const request_user_agent = getRequestHeader('User-Agent').toLowerCase();
+      const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright"];
+
+      // Empty UA
+      if (request_user_agent === '') {
+        message = '🔴 Missing User-Agent header.';
         status_code = 403;
+
+        if(data.enable_logs){log(message);}
         claim_request({event_name: event_name}, status_code, message);
       }
-      
-      // If some required parameter is missing 
-      if (missing_fields.length > 0 && event_name != 'get_user_data') {
-        if(data.enable_logs){log('🔴 Missing required parameters: '.concat(missing_fields.join(', ')));}
-        
-        message = '🔴 Request refused';
+            
+      // Loop through array and check if UA contains any of these
+      for (var i = 0; i < bad_agents.length; i++) {
+        if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
+          message = '🔴 Invalid User-Agent header value. Request not from website.';
+          status_code = 403;
+          if(data.enable_logs){log(message);}
+
+          claim_request({event_name: event_name}, status_code, message);
+          return;
+        }
+      }
+
+      // Check event origin 
+      if (event_origin !== 'Website') {
+        message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
         status_code = 403;
+
+        if(data.enable_logs){log(message);}
+        claim_request({event_name: event_name}, status_code, message);
+      // If some required parameter is missing 
+      } else if (missing_fields.length > 0 && event_name != 'get_user_data') {
+        message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));
+        if(data.enable_logs){log(message);}
+        status_code = 403;
+        
         claim_request({event_name: event_name}, status_code, message);
       
       // If user cookie is missing
       } else if(event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
-        if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session');}
-          
-          message = '🔴 Request refused';
-          status_code = 403;
-          claim_request({event_name: event_name}, status_code, message);
+        message = '🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session';
+        status_code = 403;
+        
+        if(data.enable_logs){log(message);}
+        claim_request({event_name: event_name}, status_code, message);
         
       // If session cookie is missing
       } else if (event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
-        if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new session');}
-      
-        message = '🔴 Request refused';
+        message = '🔴 Website orphan event. Trigger a page_view event first to create a new session';
         status_code = 403;
+
+        if(data.enable_logs){log(message);}
         claim_request({event_name: event_name}, status_code, message);
       
       // If user or session cookie is missing for get_user_data requests
@@ -136,16 +150,16 @@ if(getRequestPath() === endpoint){
         if(data.enable_logs){log('CHECK COOKIES...');}
           
         if (user_cookie_value === undefined) {
-          if(data.enable_logs){log('🔴 User cookie not found. No cross-domain link decoration will be applied');}
-            
-          message = '🔴 Request refused';
+          message = '🔴 User cookie not found. No cross-domain link decoration will be applied';
           status_code = 403;
+
+          if(data.enable_logs){log(message);}
           claim_request(set_ids_get_user_data(), status_code, message);  
         } else if (session_cookie_value === undefined) {
-          if(data.enable_logs){log('🔴 Session cookie not found. No cross-domain link decoration will be applied');}
-            
-          message = '🔴 Request refused';
+          message = '🔴 Session cookie not found. No cross-domain link decoration will be applied';
           status_code = 403;
+
+          if(data.enable_logs){log(message);}
           claim_request(set_ids_get_user_data(), status_code, message);      
         } 
       
@@ -171,18 +185,18 @@ if(getRequestPath() === endpoint){
       }
     } else {
       // RETURN RESPONSE ERRORS
-      if(data.enable_logs){log('🔴 Request method not correct');}
-        
-      message = '🔴 Request refused';
+      message = '🔴 Request method not correct';
       status_code = 403;
+
+      if(data.enable_logs){log(message);}
       claim_request({event_name: event_name}, status_code, message);  
     }
   } else {
     // RETURN RESPONSE ERRORS
-    if(data.enable_logs){log('🔴 Request origin not authorized');}
-
-    message = '🔴 Request refused';
+    message = '🔴 Request origin not authorized';
     status_code = 403;
+
+    if(data.enable_logs){log(message);}
     claim_request({event_name: event_name}, status_code, message);  
   }
 }
@@ -241,7 +255,6 @@ function set_ids_get_user_data() {
 
 // Handle ids for standard requests
 function set_ids(event_data){
-  // Streaming protocol
   if (event_data.event_origin == 'Website') {
     // if(data.enable_logs){log('👉 Request from website');}
     if(data.enable_logs){log('👉 Event name: ', event_data.event_name);}
@@ -487,11 +500,11 @@ function claim_request(event_data, status_code, message) {
   claimRequest();
   
   // For error requests and get_user_data requests
-  if ((status_code === 403) || event_data.event_name == 'get_user_data') {
-    if(data.enable_logs){log('TAG EXECUTION STATUS');}
+  if ((status_code === 403 || event_data.event_name == 'get_user_data')) {
+    if(data.enable_logs){log('TAG EXECUTION STATUS:');}
     return_response(event_data, status_code, message);
-    
-    // For standard requests
+
+  // For standard requests
   } else {
     // Send data to Firestore
     send_to_firestore(event_data)
@@ -505,6 +518,7 @@ function claim_request(event_data, status_code, message) {
       if (res.status == true) {
         if (data.enable_logs) {log('SEND EVENT DATA TO GOOGLE BIGQUERY...');}
         send_to_bq(event_data);
+
         if(data.enable_logs && !data.send_data_to_custom_endpoint){log('TAG EXECUTION STATUS:');}
       }
       return res;
@@ -515,6 +529,7 @@ function claim_request(event_data, status_code, message) {
         if(data.send_data_to_custom_endpoint) {
           if(data.enable_logs){log('SEND EVENT DATA TO CUSTOM ENDPOINT...');}
           send_to_custom_endpoint(data.custom_request_endpoint_path, event_data);
+
           if(data.enable_logs){log('TAG EXECUTION STATUS:');}
         }
       }
@@ -539,7 +554,11 @@ function return_response(event_data, status_code, message) {
     
     returnResponse();
 
-    if(data.enable_logs){log(message);}
+    if (status_code === 403) {
+      if(data.enable_logs){log('🔴 Request refused.');}
+    } else {
+      if(data.enable_logs){log(message);}
+    }
   });
 }
 
@@ -648,8 +667,11 @@ function send_to_firestore(event_data) {
         .then(
           (id) => {if(data.enable_logs){log('🟢 User successfully created in Firestore, session successfully added into Firestore');}}, 
           () => {
-            if(data.enable_logs){log('🔴 User or session data not created in Firestore.');}
-            return {status: false, status_code: 403, message: '🔴 Request refused'};
+            message = '🔴 User or session data not created in Firestore.';
+            status_code = 403; 
+
+            if(data.enable_logs){log(message);}
+            return {status: false, status_code: status_code, message: message};
           }
         );
       
@@ -777,8 +799,11 @@ function send_to_firestore(event_data) {
           .then(
             (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully added into Firestore');}}, 
             () => {
-              if(data.enable_logs){log('🔴 User or session data not added in Firestore.');}
-              return {status: false, status_code: 403, message: '🔴 Request refused'};
+              message = '🔴 User or session data not added in Firestore.';
+              status_code = 403;
+
+              if(data.enable_logs){log(message);}
+              return {status: false, status_code: status_code, message: message};
             }
           );
 
@@ -846,8 +871,11 @@ function send_to_firestore(event_data) {
           .then(
             (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully updated into Firestore');}}, 
             () => {
-              if(data.enable_logs){log('🔴 User or session data not created in Firestore.');}
-              return {status: false, status_code: 403, message: '🔴 Request refused'};
+              message = '🔴 User or session data not updated in Firestore.';
+              status_code = 403;
+
+              if(data.enable_logs){log(message);}
+              return {status: false, status_code: status_code, message: message};
             }
           );
         
