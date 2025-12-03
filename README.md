@@ -15,15 +15,15 @@ Table of contents:
   * [Allowed domains](#allowed-domains)
   * [Endpoint path](#endpoint-path)
 * User data
-  * [User level parameters](#user-parameters)
+  * [User parameters](#user-parameters)
     * [Add/override user level parameters](#addoverride-user-level-parameters)
     * [Remove user level parameters](#remove-user-level-parameters)
 * Session data
-  * [Session level parameters](#session-parameters)
+  * [Session parameters](#session-parameters)
     * [Add/override session level parameters](#addoverride-session-level-parameters)
     * [Remove session level parameters](#remove-session-level-parameters)
 * Event data
-  * [Event level parameters](#event-parameters)
+  * [Event parameters](#event-parameters)
     * [Add/override event level parameters](#addoverride-event-level-parameters)
     * [Remove event level parameters](#remove-event-level-parameters)
 * Google BigQuery settings
