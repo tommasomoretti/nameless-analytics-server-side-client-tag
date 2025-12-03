@@ -37,6 +37,8 @@ Table of contents:
    * [Enable logs in debug view](#enable-logs-in-debug-view)
 * [Cookies](#cookies)
 
+</br>
+
 
 
 ## Tag UI
@@ -44,6 +46,8 @@ Table of contents:
 This is the UI of the Server-side client tag.
 
 <img src="https://github.com/user-attachments/assets/08424656-e4ab-4f9d-a0c1-c4d8dd263f8a" alt="Nameless Analytics - Server-side client tag UI" />
+
+</br>
 
 
 
@@ -69,6 +73,8 @@ To select a domain for the preview mode, click the icon near the preview button 
 ### Endpoint path
 
 Endpoint path to which requests have to be sent.
+
+</br>
 
 
 
@@ -103,6 +109,8 @@ These parameter can override [user parameters](https://github.com/tommasomoretti
 
 Remove user level parameters in user_data object in the payload. 
 
+</br>
+
 
 
 ## Session data
@@ -128,6 +136,8 @@ These parameter can override [session parameters]([url](https://github.com/tomma
 #### Remove session level parameters
 
 Remove session level parameters in session_data object in the payload. 
+
+</br>
 
 
 
@@ -156,6 +166,8 @@ These parameters can override:
 
 Remove event level parameters in event_data object in the payload. 
 
+</br>
+
 
 
 ## Google BigQuery settings
@@ -172,6 +184,8 @@ Google BigQuery's Nameless Analytics dataset name.
 ### Table name
 
 Google BigQuery's Nameless Analytics table name.
+
+</br>
 
 
 
@@ -201,6 +215,8 @@ Change the session duration in minutes. Default value: 30 min.
 Enable logs for all events in preview mode. 
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the Cross-domain section.
+
+</br>
 
 
 
