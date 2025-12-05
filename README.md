@@ -9,13 +9,13 @@ The Nameless Analytics Server-side client tag is a highly customizable GTM custo
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/).
 
-Table of contents:
+Tag:
 * [Client tag UI](#tag-ui)
-* Basic settings
-  * [Allowed domains](#allowed-domains)
-  * [Endpoint path](#endpoint-path)
+
+Data:
 * User data
   * [User parameters](#user-parameters)
+    * [Add User ID](#add-user-id)
     * [Add/override user level parameters](#addoverride-user-level-parameters)
     * [Remove user level parameters](#remove-user-level-parameters)
 * Session data
@@ -26,15 +26,23 @@ Table of contents:
   * [Event parameters](#event-parameters)
     * [Add/override event level parameters](#addoverride-event-level-parameters)
     * [Remove event level parameters](#remove-event-level-parameters)
+
+Settings: 
+* Client settings
+  * [Endpoint path](#endpoint-path)
+  * [Accept requests from authorized domains only](#allowed-domains)
+  * [Reject requests by IP]()
 * Google BigQuery settings
-  * [Project name](#project-name)
-  * [Dataset name](#dataset-name)
-  * [Table name](#table-name)
+  * [Google BigQuery project ID](#project-name)
+  * [Google BigQuery dataset ID](#dataset-name)
+  * [Google BigQuery table ID](#table-name)
+* Session settings
+  * [Change user and session cookie prefix]() 
+  * [Change default session duration](#change-default-session-duration)
 *  Advanced settings
-   * [Change user cookie name](#change-user-cookie-name)
-   * [Change session cookie name](#change-session-cookie-name)
-   * [Change default session duration](#change-default-session-duration)
+   * [Send data to custom endpoint]()
    * [Enable logs in debug view](#enable-logs-in-debug-view)
+   
 * [Cookies](#cookies)
 
 </br>
