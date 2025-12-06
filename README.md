@@ -42,7 +42,8 @@ Settings:
 *  Advanced settings
    * [Send data to custom endpoint]()
    * [Enable logs in debug view](#enable-logs-in-debug-view)
-   
+
+Cookies:
 * [Cookies](#cookies)
 
 </br>
