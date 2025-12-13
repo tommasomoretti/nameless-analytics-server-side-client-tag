@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 
 full_endpoint = 'https://gtm.tommasomoretti.com/tm/nameless'
 origin = 'https://tommasomoretti.com'
-gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5YWE3MzU1M2ExODYwMzNmNzU1ZA=='
+gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5YjE3YjUwOTVjZDlmNWNhMDEzMw=='
 
 
 event_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
@@ -161,7 +161,7 @@ print('👉 Send request to ' + full_endpoint)
 
 headers = {
     'Content-Type': 'application/json',
-    'Origin': origin,
+    # 'Origin': origin,
     'X-Gtm-Server-Preview': gtm_preview_header,
     'User-Agent': user_agent
 }
