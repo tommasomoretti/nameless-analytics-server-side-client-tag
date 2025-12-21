@@ -27,24 +27,21 @@ Data:
     * [Add/override event level parameters](#addoverride-event-level-parameters)
     * [Remove event level parameters](#remove-event-level-parameters)
 
-Settings: 
+Settings:
 * Client settings
-  * [Allowed domains](#allowed-domains)
   * [Endpoint path](#endpoint-path)
-  * Reject requests by IP
+  * [Accept requests from authorized domains only](#allowed-domains)
+  * [Reject requests by IP](#reject-requests-by-ip)
 * Google BigQuery settings
-  * [Project name](#project-name)
-  * [Dataset name](#dataset-name)
-  * [Table name](#table-name)
+  * [Google BigQuery project ID](#project-name)
+  * [Google BigQuery dataset ID](#dataset-name)
+  * [Google BigQuery table ID](#table-name)
 * Session settings
-  * Change user and session cookie prefix
+  * [Change user and session cookie prefix](#change-user-and-session-cookie-prefix) 
   * [Change default session duration](#change-default-session-duration)
 * Advanced settings
-  * Send data to custom endpoint
-  * [Enable logs in preview mode](#enable-logs-in-preview-mode)
-
-Cookies:
-* [Cookies](#cookies)
+   * [Send data to custom endpoint](#send-data-to-custom-endpoint)
+   * [Enable logs in debug view](#enable-logs-in-debug-view)
 
 </br>
 
