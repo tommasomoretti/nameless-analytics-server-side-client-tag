@@ -29,19 +29,19 @@ Data:
 
 Settings: 
 * Client settings
+  * [Allowed domains](#allowed-domains)
   * [Endpoint path](#endpoint-path)
-  * [Accept requests from authorized domains only](#allowed-domains)
-  * [Reject requests by IP]()
+  * Reject requests by IP
 * Google BigQuery settings
-  * [Google BigQuery project ID](#project-name)
-  * [Google BigQuery dataset ID](#dataset-name)
-  * [Google BigQuery table ID](#table-name)
+  * [Project name](#project-name)
+  * [Dataset name](#dataset-name)
+  * [Table name](#table-name)
 * Session settings
-  * [Change user and session cookie prefix]() 
+  * Change user and session cookie prefix
   * [Change default session duration](#change-default-session-duration)
-*  Advanced settings
-   * [Send data to custom endpoint]()
-   * [Enable logs in debug view](#enable-logs-in-debug-view)
+* Advanced settings
+  * Send data to custom endpoint
+  * [Enable logs in preview mode](#enable-logs-in-preview-mode)
 
 Cookies:
 * [Cookies](#cookies)
@@ -64,18 +64,18 @@ This is the UI of the Server-side client tag.
 ## Basic settings
 ### Allowed domains
 
-Set the allowed domains from which requests can be claimed.
+Set the specific domains from which requests can be claimed.
 
-If Server-Side Google Tag Manager has to claim requests from different domains, all the domains must be allowed, in Allowed domains field. Add a domain, one per row.
+If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the "Allowed domains" field. Add one domain per row.
 
-To guarantee DNS resolution, the IP addresses of Google App Engine or Cloud Run instances need to be appropriately associated with each relevant domain name.
+To ensure proper DNS resolution, the IP addresses of the Google App Engine or Cloud Run instances must be correctly associated with each respective domain name.
 
-Here's how for:
+Follow these guides for:
 - [Google App Engine standard environment](https://cloud.google.com/appengine/docs/standard/mapping-custom-domains)
 - [Google App Engine flexible environment](https://cloud.google.com/appengine/docs/flexible/mapping-custom-domains)
 - [Google Cloud Run](https://cloud.google.com/run/docs/mapping-custom-domains)
 
-Container must be configured as well. Add the domains in the Container settings of the Server-side Google Tag Manager.
+The container must be configured as well. Add the domains in the "Container settings" of the Server-side Google Tag Manager.
 
 To select a domain for the preview mode, click the icon near the preview button and select a domain.
 
@@ -105,15 +105,15 @@ This is the hierarchy of event parameter importance:
 
 #### Override user ID parameter
 
-Override User ID parameters in user_id field. 
+Override the user ID parameter in the `user_id` field. 
 
-This parameter can override [users ID](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-id) added in Nameless Analytics Client-Side configuration variable.
+This parameter can override the [user ID](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-id) provided by the Nameless Analytics Client-side configuration variable.
 
 #### Add/override user level parameters
 
-Add user level parameters in user_data object in the payload. Values accepted: strings, integers, float and json.
+Add user level parameters to the `user_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
 
-These parameter can override [user parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-level-parameters) added in Nameless Analytics Server-side client tag.
+These parameters can override [user parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-level-parameters) added in the Nameless Analytics Server-side client tag.
 
 #### Remove user level parameters
 
@@ -139,9 +139,9 @@ This is the hierarchy of event parameter importance:
 
 #### Add/override session level parameters
 
-Add session level parameters in session_data object in the payload. Values accepted: strings, integers, float and json.
+Add session level parameters to the `session_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
 
-These parameter can override [session parameters]([url](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-session-level-parameters)) added in Nameless Analytics Server-side client tag.
+These parameters can override [session parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-session-level-parameters) added in the Nameless Analytics Server-side client tag.
 
 #### Remove session level parameters
 
@@ -164,13 +164,13 @@ This is the hierarchy of event parameter importance:
 
 #### Add/override event level parameters
 
-Add event level parameters in event_data object in the payload. Values accepted: strings, integers, float and json.
+Add event level parameters to the `event_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
-- default event parameters
-- dataLayer event parameters added in Nameless Analytics Client-side tracker tag
-- shared event parameters added in Nameless Analytics Client-side Configuration variable
-- event parameters added in Nameless Analytics Client-side tracker tag
+- Default event parameters.
+- dataLayer event parameters added in the Nameless Analytics Client-side tracker tag.
+- Shared event parameters added in the Nameless Analytics Client-side configuration variable.
+- Event parameters added in the Nameless Analytics Client-side tracker tag.
 
 #### Remove event level parameters
 
@@ -228,4 +228,4 @@ Please note:  If cross-domain is enabled, all domains will send events in relati
 
 ---
 
-Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [Linkedin](https://www.linkedin.com/in/tommasomoretti/)
+Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [LinkedIn](https://www.linkedin.com/in/tommasomoretti/)
