@@ -15,7 +15,7 @@ Tag:
 Data:
 * User data
   * [User parameters](#user-parameters)
-    * [Add User ID](#add-user-id)
+    * [Add/override User ID](#addoverride-user-id)
     * [Add/override user level parameters](#addoverride-user-level-parameters)
     * [Remove user level parameters](#remove-user-level-parameters)
 * Session data
@@ -98,19 +98,19 @@ Please note: if a parameter has the same name as another, it can override or be 
 
 This is the hierarchy of event parameter importance: 
 
-[Server side parameters](https://github.com/tommasomoretti/nameless-analytics-server-client-tracker-tag/#user-parameters) overrides [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#user-parameters)
+[Server-side user parameters](#user-parameters) override [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
 
 #### Override user ID parameter
 
 Override the user ID parameter in the `user_id` field. 
 
-This parameter can override the [user ID](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-id) provided by the Nameless Analytics Client-side configuration variable.
+This parameter can override the [user ID](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side configuration variable.
 
 #### Add/override user level parameters
 
 Add user level parameters to the `user_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
 
-These parameters can override [user parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-user-level-parameters) added in the Nameless Analytics Server-side client tag.
+These parameters can override [user parameters](#addoverride-user-level-parameters) added in the Nameless Analytics Server-side client tag.
 
 #### Remove user level parameters
 
@@ -132,13 +132,14 @@ They are:
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
 
 This is the hierarchy of event parameter importance: 
-[Server side parameters](https://github.com/tommasomoretti/nameless-analytics-server-client-tracker-tag/#session-parameters) overrides [Session parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#session-parameters)
+
+[Server-side session parameters](#session-parameters) override [Session parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
 
 #### Add/override session level parameters
 
 Add session level parameters to the `session_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
 
-These parameters can override [session parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#add-session-level-parameters) added in the Nameless Analytics Server-side client tag.
+These parameters can override [session parameters](#addoverride-session-level-parameters) added in the Nameless Analytics Server-side client tag.
 
 #### Remove session level parameters
 
@@ -157,7 +158,7 @@ Please note: if a parameter has the same name as another, it can override or be 
 
 This is the hierarchy of event parameter importance: 
 
-[Server-side event parameters](https://github.com/tommasomoretti/nameless-analytics-server-side-client-tag/#event-parameters) overrides [Specific event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#event-parameters) overrides [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-config-variable/#add-shared-event-parameters) overrides [dataLayer parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#add-event-parameters-from-datalayer) overrides [Standard parameters](#standard-request-payload)
+[Server-side event parameters](#event-parameters) override [Specific event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#addoverride-event-level-parameters) override [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) override [dataLayer parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#add-event-parameters-from-datalayer) override [Standard parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#request-payload-data)
 
 #### Add/override event level parameters
 
