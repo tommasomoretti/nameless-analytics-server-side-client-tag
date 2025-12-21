@@ -54,7 +54,7 @@ Cookies:
 
 This is the UI of the Server-side client tag.
 
-<img src="https://github.com/user-attachments/assets/08424656-e4ab-4f9d-a0c1-c4d8dd263f8a" alt="Nameless Analytics - Server-side client tag UI" />
+<img src="https://github.com/user-attachments/assets/152f1171-1810-462e-bd39-6990b40509c0" alt="Nameless Analytics - Server-side client tag UI" />
 
 </br>
 </br>
