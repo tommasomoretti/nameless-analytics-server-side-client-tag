@@ -19,7 +19,7 @@ Data:
     * [Remove user level parameters](#remove-user-level-parameters)
 * Session data
   * [Session parameters](#session-parameters)
-    * [Add/override user ID](#addoverride-user-id)
+    * [Add/override user ID](#addoverride-user-id-parameter)
     * [Add/override session level parameters](#addoverride-session-level-parameters)
     * [Remove session level parameters](#remove-session-level-parameters)
 * Event data
@@ -30,15 +30,14 @@ Data:
 Settings:
 * Client settings
   * [Endpoint path](#endpoint-path)
-  * [Accept requests from authorized domains only](#allowed-domains)
+  * [Accept requests from authorized domains only](#accept-requests-from-authorized-domains-only)
   * [Reject requests by IP](#reject-requests-by-ip)
 * Google BigQuery settings
   * [Google BigQuery project ID](#project-name)
   * [Google BigQuery dataset ID](#dataset-name)
   * [Google BigQuery table ID](#table-name)
 * Session settings
-  * [Change user cookie name](#change-user-cookie-name)
-  * [Change session cookie name](#change-session-cookie-name)
+  * [Change user and session cookie prefix](#change-user-and-session-cookie-prefix)
   * [Change default session duration](#change-default-session-duration)
 * Advanced settings
    * [Send data to custom endpoint](#send-data-to-custom-endpoint)
@@ -204,14 +203,9 @@ The name of the main raw events table. By default, this is set to `events_raw`.
 Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
 
 
-### Change user cookie name
+### Change user and session cookie prefix
 
-Change the user cookie name. Default name: nameless_analytics_user.
-
-
-### Change session cookie name
-
-Change the session cookie name. Default name: nameless_analytics_session.
+Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/tommasomoretti/nameless-analytics/#cookie-values) for more information.
 
 
 ### Change default session duration
@@ -223,7 +217,7 @@ Change the session duration in minutes. Default value: 30 min.
 
 Enable logs for all events in preview mode. 
 
-Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the Cross-domain section.
+Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
 
 ---
 
