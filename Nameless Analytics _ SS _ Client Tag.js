@@ -866,6 +866,7 @@ function send_to_firestore(event_data) {
           // Update session values in Firestore from current session data if not already exists or has a not null value 
           const protected_keys = [
             "session_date",
+            "session_id",
             "session_number",
             "cross_domain_session",
             "session_channel_grouping",
@@ -889,7 +890,9 @@ function send_to_firestore(event_data) {
             "session_exit_page_title",
             "session_start_timestamp",
             "session_end_timestamp",
-            "user_id"
+            "user_id",
+            "total_events",
+            "total_page_views"
           ];
 
           Object.keys(event_data.session_data).forEach(function (key) {

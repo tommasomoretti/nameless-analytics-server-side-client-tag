@@ -43,6 +43,10 @@ Settings:
    * [Send data to custom endpoint](#send-data-to-custom-endpoint)
    * [Enable logs in preview mode](#enable-logs-in-preview-mode)
 
+Execution messages:
+* [Success messages](#success-messages) 
+* [Error messages](#error-messages) 
+
 </br>
 
 
@@ -218,6 +222,49 @@ Change the session duration in minutes. Default value: 30 min.
 Enable logs for all events in preview mode. 
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
+
+</br>
+
+
+
+## Execution messages
+### Success messages
+The following success messages can be found in the GTM Server Preview mode logs or returned in the response JSON:
+
+| **Message** | **Description** |
+|:---|:---|
+| `🟢 Request correct` | The incoming request passed all validation checks (Origin, IP, Bot protection). |
+| `🟢 Request claimed successfully` | Default success message for a fully processed event. |
+| `🟢 User successfully created in Firestore / session added` | Confirmation that user data or session data was successfully persisted in Firestore. |
+| `🟢 User already in Firestore, session successfully updated` | Confirmation that an existing user session was refreshed with the latest data. |
+| `🟢 Payload data inserted successfully into BigQuery` | Confirmation that the event was pushed to the BigQuery streaming buffer. |
+| `🟢 Request send succesfully to: [URL]` | Only when a "Custom Request Endpoint" is configured and the data was successfully forwarded. |
+
+### Error messages
+These messages are returned with a **403 Forbidden** status code when a request is rejected:
+
+#### Validation & Security Errors
+| **Message** | **Context / Cause** |
+|:---|:---|
+| `🔴 Request method not correct` | The request is not a `POST`. |
+| `🔴 Request origin not authorized` | The calling domain is not in the "Allowed domains" list. |
+| `🔴 Request IP not authorized` | The visitor's IP address is in the "Banned IPs" list. |
+| `🔴 Missing User-Agent header.` | Request rejected because the UA header is empty (Bot protection). |
+| `🔴 Invalid User-Agent header value.` | UA contains prohibited strings (e.g. *selenium, puppeteer, bot*). |
+| `🔴 Missing required parameters: [...]` | JSON payload is missing mandatory fields (e.g. `event_name`, `page_id`). |
+
+#### Session Logic Errors (Orphan Events)
+| **Message** | **Context / Cause** |
+|:---|:---|
+| `🔴 Website orphan event.` | Sent an event (e.g. click) before a `page_view`. A `page_view` is required to initialize the session. |
+| `🔴 User/Session cookie not found.` | Failed `get_user_data` request because the required system cookies are missing. |
+
+#### Storage & Cloud Errors
+| **Message** | **Context / Cause** |
+|:---|:---|
+| `🔴 User or session data not created/updated in Firestore.` | Data could not be written to Firestore (check GTM permissions). |
+| `🔴 Payload data not inserted into BigQuery` | Data could not be streamed to BigQuery (check table schema or permissions). |
+| `🔴 Request do not send succesfully. Error: [...]` | Failed to forward data to the configured custom endpoint. |
 
 ---
 
