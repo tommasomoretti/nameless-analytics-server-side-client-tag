@@ -51,7 +51,7 @@ Settings:
 
 This is the UI of the Server-side client tag.
 
-<img src="https://github.com/user-attachments/assets/152f1171-1810-462e-bd39-6990b40509c0" alt="Nameless Analytics - Server-side client tag UI" />
+<img src="https://github.com/user-attachments/assets/107f068c-6e92-4c97-8011-d5f0a39eb7a3" alt="Nameless Analytics - Server-side client tag UI" />
 
 </br>
 </br>
