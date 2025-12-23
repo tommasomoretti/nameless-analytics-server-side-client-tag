@@ -52,7 +52,7 @@ Settings:
 
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
-<img src="https://github.com/user-attachments/assets/107f068c-6e92-4c97-8011-d5f0a39eb7a3" alt="Nameless Analytics Server-side Client Tag UI" />
+<img src="https://github.com/user-attachments/assets/b3978803-69d9-42f6-bf05-ac0ea05eac2a" alt="Nameless Analytics Server-side Client Tag UI" />
 
 </br>
 </br>
