@@ -32,7 +32,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "LABEL",
     "name": "event_data_title",
-    "displayName": "\u003cb\u003eEvent data\u003c/br\u003e"
+    "displayName": "\u003cb\u003eData\u003c/br\u003e"
   },
   {
     "type": "GROUP",
@@ -40,38 +40,6 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "User data",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
-      {
-        "type": "CHECKBOX",
-        "name": "override_user_id",
-        "checkboxText": "Add/override User ID",
-        "simpleValueType": true,
-        "displayName": "User parameters",
-        "help": "Add or override User ID to the request in user_data.user_id.",
-        "defaultValue": false,
-        "alwaysInSummary": true,
-        "subParams": [
-          {
-            "type": "TEXT",
-            "name": "user_id",
-            "displayName": "User ID",
-            "simpleValueType": true,
-            "valueValidators": [
-              {
-                "type": "NON_EMPTY"
-              }
-            ],
-            "alwaysInSummary": true,
-            "valueHint": "(not set)",
-            "enablingConditions": [
-              {
-                "paramName": "override_user_id",
-                "paramValue": true,
-                "type": "EQUALS"
-              }
-            ]
-          }
-        ]
-      },
       {
         "type": "CHECKBOX",
         "name": "add_user_parameters",
@@ -192,7 +160,7 @@ ___TEMPLATE_PARAMETERS___
                     "args": [
                       "^(?!user_id$).*"
                     ],
-                    "errorMessage": "Can\u0027t add user_id parameter. Add the user ID in the field above."
+                    "errorMessage": "Can\u0027t add user_id parameter. Add the user ID in the field below."
                   }
                 ]
               },
@@ -227,7 +195,7 @@ ___TEMPLATE_PARAMETERS___
         "alwaysInSummary": true,
         "help": "Add or override user parameters to the request in user_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved user parameters: \u003c/br\u003e \n• user_date \u003c/br\u003e \n• user_id \u003c/br\u003e \n• user_channel_grouping \u003c/br\u003e \n• user_source \u003c/br\u003e \n• user_tld_source \u003c/br\u003e \n• user_campaign \u003c/br\u003e \n• user_campaign_id \u003c/br\u003e \n• user_campaign_content \u003c/br\u003e \n• user_campaign_term \u003c/br\u003e \n• user_device_type \u003c/br\u003e \n• user_country \u003c/br\u003e \n• user_language \u003c/br\u003e \n• user_first_session_timestamp \u003c/br\u003e\n• user_last_session_timestamp \u003c/br\u003e",
         "defaultValue": false,
-        "displayName": ""
+        "displayName": "User parameters"
       },
       {
         "type": "CHECKBOX",
@@ -380,6 +348,38 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Session data",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "override_user_id",
+        "checkboxText": "Add/override User ID",
+        "simpleValueType": true,
+        "displayName": "Session parameters",
+        "help": "Add or override User ID to the request in session_data.user_id.",
+        "defaultValue": false,
+        "alwaysInSummary": true,
+        "subParams": [
+          {
+            "type": "TEXT",
+            "name": "user_id",
+            "displayName": "User ID",
+            "simpleValueType": true,
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ],
+            "alwaysInSummary": true,
+            "valueHint": "(not set)",
+            "enablingConditions": [
+              {
+                "paramName": "override_user_id",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ]
+          }
+        ]
+      },
       {
         "type": "CHECKBOX",
         "name": "add_session_parameters",
@@ -569,6 +569,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!session_id$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override session_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add user_id parameter. Add the user ID in the field above."
                   }
                 ]
               },
@@ -603,7 +610,7 @@ ___TEMPLATE_PARAMETERS___
         "alwaysInSummary": true,
         "help": "Add or override session parameters to the request in session_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved session parameters: \u003c/br\u003e\n• session_date \u003c/br\u003e \n• session_id \u003c/br\u003e\n• session_number \u003c/br\u003e \n• cross_domain_session \u003c/br\u003e \n• session_channel_grouping \u003c/br\u003e \n• session_source \u003c/br\u003e \n• session_tld_source \u003c/br\u003e \n• session_campaign \u003c/br\u003e \n• session_campaign_id \u003c/br\u003e \n• session_campaign_content \u003c/br\u003e \n• session_campaign_term \u003c/br\u003e \n• session_device_type \u003c/br\u003e \n• session_country \u003c/br\u003e \n• session_language \u003c/br\u003e \n• session_hostname \u003c/br\u003e \n• session_browser_name \u003c/br\u003e \n• session_landing_page_category \u003c/br\u003e \n• session_landing_page_location \u003c/br\u003e \n• session_landing_page_title \u003c/br\u003e \n• session_exit_page_category \u003c/br\u003e \n• session_exit_page_location \u003c/br\u003e \n• session_exit_page_title \u003c/br\u003e \n• session_start_timestamp \u003c/br\u003e \n• session_end_timestamp \u003c/br\u003e",
         "defaultValue": false,
-        "displayName": "Session parameters"
+        "displayName": ""
       },
       {
         "type": "CHECKBOX",
@@ -1453,7 +1460,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "CHECKBOX",
         "name": "add_authorized_domains",
-        "checkboxText": "Restrict requests to authorized domains",
+        "checkboxText": "Accept requests from authorized domains only",
         "simpleValueType": true,
         "subParams": [
           {
@@ -1499,6 +1506,56 @@ ___TEMPLATE_PARAMETERS___
         ],
         "alwaysInSummary": true,
         "help": "Authorized domains from which to accept requests.  \u003c/br\u003e\u003c/br\u003e The URL must start with https:/, must not end with /, and contain a valid domain."
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "add_banned_ips",
+        "checkboxText": "Reject requests by IP",
+        "simpleValueType": true,
+        "alwaysInSummary": true,
+        "help": "Reject requests by IP.",
+        "subParams": [
+          {
+            "type": "SIMPLE_TABLE",
+            "name": "banned_ips_list",
+            "simpleTableColumns": [
+              {
+                "defaultValue": "",
+                "displayName": "Internet Protocol address",
+                "name": "banned_ip",
+                "type": "TEXT",
+                "isUnique": true,
+                "valueValidators": [
+                  {
+                    "type": "NON_EMPTY"
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!192\\.168\\.0\\.1$)(?!2001:db8::1$)(?:(?:\\d{1,3}\\.){3}\\d{1,3}|(?:[A-Fa-f0-9]{1,4}:){1,7}[A-Fa-f0-9]{1,4}|::1)$"
+                    ],
+                    "errorMessage": "The IP address you entered is not valid. Please make sure it is in the correct format (IPv4 or IPv6)."
+                  }
+                ],
+                "valueHint": "(not set)"
+              }
+            ],
+            "alwaysInSummary": true,
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ],
+            "displayName": "Banned IPs",
+            "enablingConditions": [
+              {
+                "paramName": "add_banned_ips",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1776,6 +1833,7 @@ const log = require('logToConsole');
 const getTimestampMillis = require('getTimestampMillis');
 const claimRequest = require('claimRequest');
 const getRequestHeader = require('getRequestHeader');
+const getRemoteAddress = require('getRemoteAddress');
 const getRequestBody = require('getRequestBody');
 const getRequestMethod = require('getRequestMethod');
 const getRequestPath = require('getRequestPath');
@@ -1805,6 +1863,7 @@ const sendHttpRequest = require('sendHttpRequest');
 // Request data
 const endpoint = data.endpoint;
 const request_origin = getRequestHeader('Origin');
+const request_ip = getRemoteAddress();
 const request_method = getRequestMethod();
 
 // Cookie data
@@ -1831,12 +1890,6 @@ if(getRequestPath() === endpoint){
   const event_name = event_data.event_name;
   const event_timestamp = event_data.event_timestamp;
   
-  // const client_id = event_data.client_id;
-  // const user_data_obj = event_data.user_data;
-  
-  // const session_id = event_data.session_id;
-  // const session_data_obj = event_data.session_data;
-  
   const page_id = event_data.page_id;
   const page_data_obj = event_data.page_data;
   
@@ -1845,118 +1898,156 @@ if(getRequestPath() === endpoint){
 
   // Check request origin, required fields and claim requests
   if (check_origin()){
-    if(data.enable_logs){log('CHECK REQUEST...');}  
-
-    if(request_method === 'POST'){      
-      // Check required fields
-      const missing_fields = [];
+    if(!check_ip()){
       
-      if(!event_origin) missing_fields.push('event_origin');
-      if(!event_date) missing_fields.push('event_date');
-      if(!event_name) missing_fields.push('event_name');
-      if(!event_timestamp) missing_fields.push('event_timestamp');
+      if(data.enable_logs){log('CHECK REQUEST...');} 
       
-      // if(!client_id && event_origin == 'Streaming protocol') missing_fields.push('client_id');
-      // if(!user_data_obj || Object.keys(user_data_obj).length === 0) missing_fields.push('user_data');
-      
-      // if(!session_id && event_origin == 'Streaming protocol') missing_fields.push('session_id');
-      // if(!session_data_obj || Object.keys(session_data_obj).length === 0) missing_fields.push('session_data');
-      
-      if(!page_id) missing_fields.push('page_id');
-      if(!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');        
-      
-      if(!event_id) missing_fields.push('event_id');
-      if(!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');        
-      
-      let message; 
-      let status_code;
-      
-      // REFUSE REQUESTS
-      // Check event origin 
-      if (event_origin !== 'Website') {
-        message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
-        status_code = 403;
-        claim_request({event_name: event_name}, status_code, message);
-      }
-      
-      // If some required parameter is missing 
-      if (missing_fields.length > 0 && event_name != 'get_user_data') {
-        if(data.enable_logs){log('🔴 Missing required parameters: '.concat(missing_fields.join(', ')));}
+      if(request_method === 'POST'){
         
-        message = '🔴 Request refused';
-        status_code = 403;
-        claim_request({event_name: event_name}, status_code, message);
-      
-      // If user cookie is missing
-      } else if(event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
-        if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session');}
-          
-          message = '🔴 Request refused';
+        // Check required fields
+        const missing_fields = [];
+        
+        if(!event_origin) missing_fields.push('event_origin');
+        if(!event_date) missing_fields.push('event_date');
+        if(!event_name) missing_fields.push('event_name');
+        if(!event_timestamp) missing_fields.push('event_timestamp');
+        
+        if(!page_id) missing_fields.push('page_id');
+        if(!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');        
+        
+        if(!event_id) missing_fields.push('event_id');
+        if(!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');        
+        
+        let message; 
+        let status_code;
+        
+        // REFUSE REQUESTS
+        // Check User-Agent header
+        const user_agent = getRequestHeader('User-Agent') || '';
+        const request_user_agent = user_agent.toLowerCase();
+        const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright"];
+
+        // Empty UA
+        if (request_user_agent === '') {
+          message = '🔴 Missing User-Agent header.';
           status_code = 403;
+
+          if(data.enable_logs){log(message);}
+          claim_request({event_name: event_name}, status_code, message);
+          return;
+        }
+              
+        // UA Bots
+        for (var i = 0; i < bad_agents.length; i++) {
+          if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
+            message = '🔴 Invalid User-Agent header value. Request from bot.';
+            status_code = 403;
+            if(data.enable_logs){log(message);}
+
+            claim_request({event_name: event_name}, status_code, message);
+            return;
+          }
+        }
+
+        // Check event origin 
+        if (event_origin !== 'Website') {
+          message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
+          status_code = 403;
+
+          if(data.enable_logs){log(message);}
+          claim_request({event_name: event_name}, status_code, message);
+        // If some required parameter is missing 
+        } else if (missing_fields.length > 0 && event_name != 'get_user_data') {
+          message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));
+          if(data.enable_logs){log(message);}
+          status_code = 403;
+          
           claim_request({event_name: event_name}, status_code, message);
         
-      // If session cookie is missing
-      } else if (event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
-        if(data.enable_logs){log('🔴 Website orphan event. Trigger a page_view event first to create a new session');}
-      
-        message = '🔴 Request refused';
-        status_code = 403;
-        claim_request({event_name: event_name}, status_code, message);
-      
-      // If user or session cookie is missing for get_user_data requests
-      } else if(event_name == 'get_user_data' && user_cookie_value === undefined && session_cookie_value === undefined) {
-        if(data.enable_logs){log('👉 Request from get_user_data event');}
-          
-        if(data.enable_logs){log('CHECK COOKIES...');}
-          
-        if (user_cookie_value === undefined) {
-          if(data.enable_logs){log('🔴 User cookie not found. No cross-domain link decoration will be applied');}
-            
-          message = '🔴 Request refused';
+        // If user cookie is missing
+        } else if(event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
+          message = '🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session';
           status_code = 403;
-          claim_request(set_ids_get_user_data(), status_code, message);  
-        } else if (session_cookie_value === undefined) {
-          if(data.enable_logs){log('🔴 Session cookie not found. No cross-domain link decoration will be applied');}
-            
-          message = '🔴 Request refused';
+          
+          if(data.enable_logs){log(message);}
+          claim_request({event_name: event_name}, status_code, message);
+          
+        // If session cookie is missing
+        } else if (event_data.event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
+          message = '🔴 Website orphan event. Trigger a page_view event first to create a new session';
           status_code = 403;
-          claim_request(set_ids_get_user_data(), status_code, message);      
-        } 
-      
-      // CLAIM REQUESTS 
-      } else {
-        // Claim get user data requests
-        if(event_name == 'get_user_data'){
-          if(data.enable_logs){log('🟢 Correct request, user and session cookie found. Cross-domain link decoration will be applied');}
+
+          if(data.enable_logs){log(message);}
+          claim_request({event_name: event_name}, status_code, message);
+        
+        // If user or session cookie is missing for get_user_data requests
+        } else if(event_name == 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
+          if(data.enable_logs){log('👉 Request from get_user_data event');}
             
-          message = '🟢 Request claimed successfully';
-          status_code = 200;
-      
-          if(data.enable_logs){log('CLAIM REQUEST...');}
-          claim_request(set_ids_get_user_data(), status_code, message); 
-      
+          if(data.enable_logs){log('CHECK COOKIES...');}
+            
+          if (user_cookie_value === undefined) {
+            message = '🔴 User cookie not found. No cross-domain link decoration will be applied';
+            status_code = 403;
+
+            if(data.enable_logs){log(message);}
+            claim_request(set_ids_get_user_data(), status_code, message);  
+          } else if (session_cookie_value === undefined) {
+            message = '🔴 Session cookie not found. No cross-domain link decoration will be applied';
+            status_code = 403;
+
+            if(data.enable_logs){log(message);}
+            claim_request(set_ids_get_user_data(), status_code, message);      
+          } 
+        
+        // CLAIM REQUESTS 
         } else {
-          // Claim standard requests
-          if(data.enable_logs){log('🟢 Correct request, all required parameters found');}
-                
-          if(data.enable_logs){log('CLAIM REQUEST...');}
-          claim_request(build_payload(set_ids(event_data)), null, '');
+          // Claim get user data requests
+          if(event_name == 'get_user_data'){
+            if(data.enable_logs){log('🟢 Request correct, user and session cookie found. Cross-domain link decoration will be applied');}
+              
+            message = '🟢 Request claimed successfully';
+            status_code = 200;
+        
+            if(data.enable_logs){log('CLAIM REQUEST...');}
+            claim_request(set_ids_get_user_data(), status_code, message); 
+        
+          } else {
+            // Claim standard requests
+            if(data.enable_logs){log('🟢 Request correct');}
+                  
+            if(data.enable_logs){log('CLAIM REQUEST...');}
+            claim_request(build_payload(set_ids(event_data)), null, '');
+          }
         }
+      } else {
+        if(data.enable_logs){log('CHECK REQUEST...');}
+
+        // RETURN RESPONSE ERRORS
+        message = '🔴 Request method not correct';
+        status_code = 403;
+
+        if(data.enable_logs){log(message);}
+        claim_request({event_name: event_name}, status_code, message);  
       }
     } else {
+      if(data.enable_logs){log('CHECK REQUEST...');}
+      
       // RETURN RESPONSE ERRORS
-      if(data.enable_logs){log('🔴 Request method not correct');}
-        
-      message = '🔴 Request refused';
+      message = '🔴 Request IP not authorized';
       status_code = 403;
+      
+      if(data.enable_logs){log(message);}
       claim_request({event_name: event_name}, status_code, message);  
     }
   } else {
+    if(data.enable_logs){log('CHECK REQUEST...');}
+    
     // RETURN RESPONSE ERRORS
-    if(data.enable_logs){log('🔴 Request origin not authorized');}
-
-    message = '🔴 Request refused';
+    message = '🔴 Request origin not authorized';
     status_code = 403;
+    
+    if(data.enable_logs){log(message);}
     claim_request({event_name: event_name}, status_code, message);  
   }
 }
@@ -1966,20 +2057,39 @@ if(getRequestPath() === endpoint){
 function check_origin(){
   const authorized_domains_list = (data.add_authorized_domains) ? data.authorized_domains_list : [{authorized_domain: request_origin}];
   var authorized_domains = '';
-  
+    
   for(let i = 0; i < authorized_domains_list.length; i++){
     const authorized_domains_tld = computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain);
     authorized_domains = authorized_domains.concat(', ', authorized_domains_tld);
   } 
   
-  if(data.enable_logs){log('👉 Authorized origins:', (data.add_authorized_domains) ? authorized_domains.slice(2) : ' All');}
   if(data.enable_logs){log('👉 Endpoint:', endpoint);}
-
+  if(data.enable_logs){log('👉 Authorized origins:', (data.add_authorized_domains) ? authorized_domains.slice(2) : ' All');}
+  
   for(let i = 0; i < authorized_domains_list.length; i++){    
     if(computeEffectiveTldPlusOne(request_origin) == computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain)){
       return true;
-    } 
+    }
   }
+}
+
+
+// Check request ip
+function check_ip(){
+  const banned_ip_list = (data.add_banned_ips) ? data.banned_ips_list : [{banned_ip: null}];
+  var banned_ips = '';
+    
+  for(let i = 0; i < banned_ip_list.length; i++){
+    banned_ips = banned_ips.concat(', ', banned_ip_list[i].banned_ip);
+  } 
+  
+  if(data.enable_logs){log('👉 Unauthorized IPs:', (data.add_banned_ips) ? banned_ips.slice(2) : 'None');}
+  
+  for(let i = 0; i < banned_ip_list.length; i++){    
+    if(request_ip == banned_ip_list[i].banned_ip){
+      return true;
+    }
+  } 
 }
 
 
@@ -2001,8 +2111,8 @@ function set_ids_get_user_data() {
     page_id: page_id
   };
   
-  if(data.enable_logs){log('👉 Client ID: ' + event_data.client_id);} 
-  if(data.enable_logs){log('👉 Session ID: ' + event_data.session_id);} 
+  // if(data.enable_logs){log('👉 Client ID: ' + event_data.client_id);} 
+  // if(data.enable_logs){log('👉 Session ID: ' + event_data.session_id);} 
     
   return event_data;
 }
@@ -2015,7 +2125,6 @@ function set_ids_get_user_data() {
 
 // Handle ids for standard requests
 function set_ids(event_data){
-  // Streaming protocol
   if (event_data.event_origin == 'Website') {
     // if(data.enable_logs){log('👉 Request from website');}
     if(data.enable_logs){log('👉 Event name: ', event_data.event_name);}
@@ -2155,7 +2264,7 @@ function build_payload(event_data){
   // User data
   // Add or override user ID
   if (data.override_user_id) {
-    event_data.user_id = (data.user_id == "null")? null : data.user_id;
+    event_data.session_data.user_id = (data.user_id == "null")? null : data.user_id;
   }
   
   // Add user data from tag fields
@@ -2261,11 +2370,11 @@ function claim_request(event_data, status_code, message) {
   claimRequest();
   
   // For error requests and get_user_data requests
-  if ((status_code === 403) || event_data.event_name == 'get_user_data') {
-    if(data.enable_logs){log('TAG EXECUTION STATUS');}
+  if ((status_code === 403 || event_data.event_name == 'get_user_data')) {
+    if(data.enable_logs){log('TAG EXECUTION STATUS:');}
     return_response(event_data, status_code, message);
-    
-    // For standard requests
+
+  // For standard requests
   } else {
     // Send data to Firestore
     send_to_firestore(event_data)
@@ -2279,6 +2388,7 @@ function claim_request(event_data, status_code, message) {
       if (res.status == true) {
         if (data.enable_logs) {log('SEND EVENT DATA TO GOOGLE BIGQUERY...');}
         send_to_bq(event_data);
+
         if(data.enable_logs && !data.send_data_to_custom_endpoint){log('TAG EXECUTION STATUS:');}
       }
       return res;
@@ -2289,6 +2399,7 @@ function claim_request(event_data, status_code, message) {
         if(data.send_data_to_custom_endpoint) {
           if(data.enable_logs){log('SEND EVENT DATA TO CUSTOM ENDPOINT...');}
           send_to_custom_endpoint(data.custom_request_endpoint_path, event_data);
+
           if(data.enable_logs){log('TAG EXECUTION STATUS:');}
         }
       }
@@ -2313,7 +2424,11 @@ function return_response(event_data, status_code, message) {
     
     returnResponse();
 
-    if(data.enable_logs){log(message);}
+    if (status_code === 403) {
+      if(data.enable_logs){log('🔴 Request refused.');}
+    } else {
+      if(data.enable_logs){log(message);}
+    }
   });
 }
 
@@ -2336,10 +2451,10 @@ function send_to_firestore(event_data) {
     // REJECT REQUESTS (orphan events) 
     if (event_data.event_name != 'page_view' && documents.length === 0) {
       message = '🔴 Orphan event. Trigger a page_view event first to create a new user and a new session.';
-      return {status: false, staus_code: 403, message: message};
+      return {status: false, status_code: 403, message: message};
     } if (event_data.event_name != 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
       message = '🔴 Orphan event. Trigger a page_view event first to create a new session.';
-      return {status: false, staus_code: 403, message: message };
+      return {status: false, status_code: 403, message: message };
     }
     
     // Set cookies
@@ -2398,6 +2513,9 @@ function send_to_firestore(event_data) {
           session_exit_page_title: event_data.page_data.page_title,
           session_start_timestamp: (event_data.event_name == 'page_view') ? event_data.event_timestamp : 'null',
           session_end_timestamp: event_data.event_timestamp,
+          user_id: event_data.session_data.user_id || null,
+          total_events: 1,
+          total_page_views: 1 
         }]
       };
         
@@ -2422,8 +2540,11 @@ function send_to_firestore(event_data) {
         .then(
           (id) => {if(data.enable_logs){log('🟢 User successfully created in Firestore, session successfully added into Firestore');}}, 
           () => {
-            if(data.enable_logs){log('🔴 User or session data not created in Firestore.');}
-            return {status: false, status_code: 403, message: '🔴 Request refused'};
+            message = '🔴 User or session data not created in Firestore.';
+            status_code = 403; 
+
+            if(data.enable_logs){log(message);}
+            return {status: false, status_code: status_code, message: message};
           }
         );
       
@@ -2531,7 +2652,10 @@ function send_to_firestore(event_data) {
           session_exit_page_location: event_data.page_data.page_location,
           session_exit_page_title: event_data.page_data.page_title,
           session_start_timestamp: (event_data.event_name == 'page_view') ? event_data.event_timestamp : null,
-          session_end_timestamp: event_data.event_timestamp
+          session_end_timestamp: event_data.event_timestamp,
+          user_id: event_data.session_data.user_id || null,
+          total_events: 1,
+          total_page_views: 1
         };
           
         // Add session parameters for Firestore
@@ -2551,8 +2675,11 @@ function send_to_firestore(event_data) {
           .then(
             (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully added into Firestore');}}, 
             () => {
-              if(data.enable_logs){log('🔴 User or session data not added in Firestore.');}
-              return {status: false, status_code: 403, message: '🔴 Request refused'};
+              message = '🔴 User or session data not added in Firestore.';
+              status_code = 403;
+
+              if(data.enable_logs){log(message);}
+              return {status: false, status_code: status_code, message: message};
             }
           );
 
@@ -2592,7 +2719,8 @@ function send_to_firestore(event_data) {
           "session_exit_page_location", 
           "session_exit_page_title", 
           "session_start_timestamp", 
-          "session_end_timestamp"
+          "session_end_timestamp",
+          "user_id"
         ];
         
         Object.keys(event_data.session_data).forEach(function(key) {
@@ -2601,8 +2729,8 @@ function send_to_firestore(event_data) {
           if (value == null) {return;}
           if (protected_keys.indexOf(key) !== -1 && last_session[key] != null) {return;}
         
-          if (firestore_data[key] !== value) {
-            last_session[key] = value;
+          if (last_session[key] !== value) {
+              last_session[key] = value;
           }
         });
             
@@ -2611,7 +2739,14 @@ function send_to_firestore(event_data) {
         last_session.session_exit_page_location = event_data.page_data.page_location;
         last_session.session_exit_page_title = event_data.page_data.page_title;
         last_session.session_end_timestamp = event_data.event_timestamp;
-        if(last_session.cross_domain_session == 'No'){last_session.cross_domain_session = (event_data.event_data.cross_domain_id) ? 'Yes' : 'No';}
+        if(last_session.cross_domain_session == 'No'){
+          last_session.cross_domain_session = (event_data.event_data.cross_domain_id) ? 'Yes' : 'No';
+        }
+        
+        if(event_data.event_name == 'login') {last_session.user_id = last_session.user_id;}
+        if(event_data.event_name == 'logout') {last_session.user_id = null;}
+        last_session.total_events = last_session.total_events + 1;
+        if(event_data.event_name == 'page_view') {last_session.total_page_views = last_session.total_page_views + 1;}
                 
         // Send data to firestore                    
         if(data.enable_logs){log('👉 Payload to send: ', firestore_data);}
@@ -2620,8 +2755,11 @@ function send_to_firestore(event_data) {
           .then(
             (id) => {if(data.enable_logs){log('🟢 User already in Firestore, session successfully updated into Firestore');}}, 
             () => {
-              if(data.enable_logs){log('🔴 User or session data not created in Firestore.');}
-              return {status: false, status_code: 403, message: '🔴 Request refused'};
+              message = '🔴 User or session data not updated in Firestore.';
+              status_code = 403;
+
+              if(data.enable_logs){log(message);}
+              return {status: false, status_code: status_code, message: message};
             }
           );
         
@@ -3142,6 +3280,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 16/11/2025, 19:47:21
+Created on 23/12/2025, 15:40:36
 
 

@@ -205,7 +205,7 @@ Send POST requests to custom endpoint with the same data loaded into Google BigQ
 
 ### Change user and session cookie prefix
 
-Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/tommasomoretti/nameless-analytics/#cookie-values) for more information.
+Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/tommasomoretti/nameless-analytics/#cookies) for more information.
 
 
 ### Change default session duration
