@@ -120,7 +120,7 @@ if (getRequestPath() === endpoint) {
 
         // Check event origin 
         if (event_origin !== 'Website') {
-          message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
+          message = '🔴 Invalid event_origin parameter value. Accepted values: Website.';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }

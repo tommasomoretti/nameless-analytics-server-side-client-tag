@@ -243,27 +243,37 @@ The following success messages can be found in the GTM Server Preview mode logs 
 ### Error messages
 These messages are returned with a **403 Forbidden** status code when a request is rejected:
 
+| **Message** | **Context / Cause** |
+|:---|:---|
+| `🔴 Request refused` | Generic closure message indicating the event was refused. |
+
 #### Validation & Security Errors
 | **Message** | **Context / Cause** |
 |:---|:---|
 | `🔴 Request method not correct` | The request is not a `POST`. |
-| `🔴 Request origin not authorized` | The calling domain is not in the "Allowed domains" list. |
 | `🔴 Request IP not authorized` | The visitor's IP address is in the "Banned IPs" list. |
-| `🔴 Missing User-Agent header.` | Request rejected because the UA header is empty (Bot protection). |
-| `🔴 Invalid User-Agent header value.` | UA contains prohibited strings (e.g. *selenium, puppeteer, bot*). |
-| `🔴 Missing required parameters: [...]` | JSON payload is missing mandatory fields (e.g. `event_name`, `page_id`). |
+| `🔴 Request origin not authorized` | The calling domain is not in the "Allowed domains" list. |
+| `🔴 Missing User-Agent header.` | Request rejected because the UA header is empty. |
+| `🔴 Invalid User-Agent header value. Request from bot.` | UA contains prohibited strings (e.g. *selenium, puppeteer, bot*). |
+| `🔴 Invalid event_origin parameter value. Accepted values: Website.` | The event_origin parameter is not valid. |
+| `🔴 Missing required parameters: [parameters]` | JSON payload is missing mandatory fields (e.g. `event_name`, `page_id`). |
 
 #### Session Logic Errors (Orphan Events)
 | **Message** | **Context / Cause** |
 |:---|:---|
-| `🔴 Website orphan event.` | Sent an event (e.g. click) before a `page_view`. A `page_view` is required to initialize the session. |
-| `🔴 User/Session cookie not found.` | Failed `get_user_data` request because the required system cookies are missing. |
+| `🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session.` | Sent an event (e.g. click) before a `page_view`. A `page_view` is required to initialize the session. |
+| `🔴 Website orphan event. Trigger a page_view event first to create a new session.` | Sent an event (e.g. click) before a `page_view`. A `page_view` is required to initialize the session. |
+| `🔴 User cookie not found. No cross-domain link decoration will be applied.` | Failed `get_user_data` request because the required cookies are missing. |
+| `🔴 Session cookie not found. No cross-domain link decoration will be applied.` | Failed `get_user_data` request because the required cookies are missing. |
 
 #### Storage & Cloud Errors
 | **Message** | **Context / Cause** |
 |:---|:---|
-| `🔴 User or session data not created/updated in Firestore.` | Data could not be written to Firestore (check GTM permissions). |
-| `🔴 Payload data not inserted into BigQuery` | Data could not be streamed to BigQuery (check table schema or permissions). |
+| `🔴 User or session data not created/updated in Firestore.` | Data is not written to Firestore. |
+| `🔴 User or session data not added in Firestore.` | Data is not written to Firestore. |
+| `🔴 User or session data not updated in Firestore.` | Data is not written to Firestore. |
+| `🔴 User or session data not found in Firestore.` | Data is not written to Firestore. |
+| `🔴 Payload data not inserted into BigQuery` | Data is not streamed to BigQuery. |
 | `🔴 Request do not send succesfully. Error: [...]` | Failed to forward data to the configured custom endpoint. |
 
 ---
