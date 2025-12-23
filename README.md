@@ -180,18 +180,13 @@ Remove event level parameters in event_data object in the payload.
 
 ## Google BigQuery settings
 ### Project name
-
-Google BigQuery's project name.
-
+The unique ID of the Google Cloud Project.
 
 ### Dataset name
-
-Google BigQuery's Nameless Analytics dataset name.
-
+The ID of the BigQuery dataset where Nameless Analytics will store its tables. This dataset must be created before the tag can write data.
 
 ### Table name
-
-Google BigQuery's Nameless Analytics table name.
+The name of the main raw events table. By default, this is set to `events_raw`.
 
 </br>
 
