@@ -3,23 +3,23 @@
 
 ---
 
-# Server-side client tag
+# Nameless Analytics Server-side Client Tag
 
-The Nameless Analytics Server-side client tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side tracker tag](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/) and other sources.
+The Nameless Analytics Server-side Client Tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side Tracker Tag](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/) and other sources.
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/).
 
 Tag:
-* [Client tag UI](#tag-ui)
+* [Nameless Analytics Server-side Client Tag UI](#tag-ui)
 
 Data:
 * User data
   * [User parameters](#user-parameters)
-    * [Add/override User ID](#addoverride-user-id)
     * [Add/override user level parameters](#addoverride-user-level-parameters)
     * [Remove user level parameters](#remove-user-level-parameters)
 * Session data
   * [Session parameters](#session-parameters)
+    * [Add/override user ID](#addoverride-user-id)
     * [Add/override session level parameters](#addoverride-session-level-parameters)
     * [Remove session level parameters](#remove-session-level-parameters)
 * Event data
@@ -37,11 +37,12 @@ Settings:
   * [Google BigQuery dataset ID](#dataset-name)
   * [Google BigQuery table ID](#table-name)
 * Session settings
-  * [Change user and session cookie prefix](#change-user-and-session-cookie-prefix) 
+  * [Change user cookie name](#change-user-cookie-name)
+  * [Change session cookie name](#change-session-cookie-name)
   * [Change default session duration](#change-default-session-duration)
 * Advanced settings
    * [Send data to custom endpoint](#send-data-to-custom-endpoint)
-   * [Enable logs in debug view](#enable-logs-in-debug-view)
+   * [Enable logs in preview mode](#enable-logs-in-preview-mode)
 
 </br>
 
@@ -49,38 +50,11 @@ Settings:
 
 ## Tag UI
 
-This is the UI of the Server-side client tag.
+This is the UI of the Nameless Analytics Server-side Client Tag.
 
-<img src="https://github.com/user-attachments/assets/107f068c-6e92-4c97-8011-d5f0a39eb7a3" alt="Nameless Analytics - Server-side client tag UI" />
+<img src="https://github.com/user-attachments/assets/107f068c-6e92-4c97-8011-d5f0a39eb7a3" alt="Nameless Analytics Server-side Client Tag UI" />
 
 </br>
-</br>
-
-
-
-## Basic settings
-### Allowed domains
-
-Set the specific domains from which requests can be claimed.
-
-If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the "Allowed domains" field. Add one domain per row.
-
-To ensure proper DNS resolution, the IP addresses of the Google App Engine or Cloud Run instances must be correctly associated with each respective domain name.
-
-Follow these guides for:
-- [Google App Engine standard environment](https://cloud.google.com/appengine/docs/standard/mapping-custom-domains)
-- [Google App Engine flexible environment](https://cloud.google.com/appengine/docs/flexible/mapping-custom-domains)
-- [Google Cloud Run](https://cloud.google.com/run/docs/mapping-custom-domains)
-
-The container must be configured as well. Add the domains in the "Container settings" of the Server-side Google Tag Manager.
-
-To select a domain for the preview mode, click the icon near the preview button and select a domain.
-
-
-### Endpoint path
-
-Endpoint path to which requests have to be sent.
-
 </br>
 
 
@@ -100,17 +74,11 @@ This is the hierarchy of event parameter importance:
 
 [Server-side user parameters](#user-parameters) override [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
 
-#### Override user ID parameter
-
-Override the user ID parameter in the `user_id` field. 
-
-This parameter can override the [user ID](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side configuration variable.
-
 #### Add/override user level parameters
 
 Add user level parameters to the `user_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
 
-These parameters can override [user parameters](#addoverride-user-level-parameters) added in the Nameless Analytics Server-side client tag.
+These parameters can override [user parameters](#addoverride-user-level-parameters) added in the Nameless Analytics Server-side Client Tag.
 
 #### Remove user level parameters
 
@@ -135,11 +103,17 @@ This is the hierarchy of event parameter importance:
 
 [Server-side session parameters](#session-parameters) override [Session parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
 
+#### Add/override user ID parameter
+
+Add or override the user ID parameter in the `user_id` field. 
+
+This parameter can override the [user ID](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side Tracker Configuration Variable.
+
 #### Add/override session level parameters
 
 Add session level parameters to the `session_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
 
-These parameters can override [session parameters](#addoverride-session-level-parameters) added in the Nameless Analytics Server-side client tag.
+These parameters can override [session parameters](#addoverride-session-level-parameters) added in the Nameless Analytics Server-side Client Tag.
 
 #### Remove session level parameters
 
@@ -166,13 +140,45 @@ Add event level parameters to the `event_data` object in the payload. Accepted v
 
 These parameters can override:
 - Default event parameters.
-- dataLayer event parameters added in the Nameless Analytics Client-side tracker tag.
-- Shared event parameters added in the Nameless Analytics Client-side configuration variable.
-- Event parameters added in the Nameless Analytics Client-side tracker tag.
+- dataLayer event parameters added in the Nameless Analytics Client-side Tracker Tag.
+- Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable.
+- Event parameters added in the Nameless Analytics Client-side Tracker Tag.
 
 #### Remove event level parameters
 
 Remove event level parameters in event_data object in the payload. 
+
+</br>
+
+
+
+## Client settings
+### Endpoint path
+
+Endpoint path to which requests have to be sent.
+
+
+### Accept requests from authorized domains only
+
+Set the specific domains from which requests can be claimed.
+
+If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the "Allowed domains" field. Add one domain per row.
+
+To ensure proper DNS resolution, the IP addresses of the Google App Engine or Cloud Run instances must be correctly associated with each respective domain name.
+
+Follow these guides for:
+- [Google App Engine standard environment](https://cloud.google.com/appengine/docs/standard/mapping-custom-domains)
+- [Google App Engine flexible environment](https://cloud.google.com/appengine/docs/flexible/mapping-custom-domains)
+- [Google Cloud Run](https://cloud.google.com/run/docs/mapping-custom-domains)
+
+The container must be configured as well. Add the domains in the "Container settings" of the Server-side Google Tag Manager.
+
+To select a domain for the preview mode, click the icon near the preview button and select a domain.
+
+
+### Reject requests by IP
+
+Reject requests from unauthorized IP addresses.
 
 </br>
 
