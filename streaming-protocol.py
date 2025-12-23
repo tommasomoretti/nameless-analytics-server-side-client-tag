@@ -22,7 +22,7 @@ gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5YjE3YjUwOTVjZD
 event_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 event_timestamp = int(datetime.now(timezone.utc).timestamp() * 1000)
 event_origin = 'Website'
-client_id = "AaArUTLQFByAz3" # Modify this according to the current user's client_id
+client_id = "AaArUTLQFByAz2" # Modify this according to the current user's client_id
 user_id = None # Add it if exists
 session_id = "AaArUTLQFByAz3_1PNSySPUv4Qspz" # Modify this according to the current user's session_id
 event_name = 'page_view' # Modify this according to the event to be sent
@@ -161,7 +161,7 @@ print('👉 Send request to ' + full_endpoint)
 
 headers = {
     'Content-Type': 'application/json',
-    # 'Origin': origin,
+    'Origin': origin,
     'X-Gtm-Server-Preview': gtm_preview_header,
     'User-Agent': user_agent
 }
