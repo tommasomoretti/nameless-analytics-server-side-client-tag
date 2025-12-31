@@ -2250,9 +2250,12 @@ function generate_alphanumeric() {
 // Build payload data for standard requests
 function build_payload(event_data) {
   // Add additional info    
-  event_data.event_data.country = getRequestHeader('X-Appengine-Country');
-  event_data.event_data.city = getRequestHeader('X-Appengine-City');
-
+  
+  // When hosting GTM Server-side on Cloud Run, follow this guide to correctly configure geolocation headers: https://www.simoahava.com/analytics/cloud-run-server-side-tagging-google-tag-manager/#add-geolocation-headers-to-the-traffic
+  
+  event_data.event_data.country = getRequestHeader('X-Appengine-Country') || getRequestHeader('X-Gclb-Country');
+  event_data.event_data.city = getRequestHeader('X-Appengine-City') || getRequestHeader('X-Gclb-Region');
+  
   event_data.gtm_data.ss_hostname = getRequestHeader('Host');
   event_data.gtm_data.ss_container_id = getContainerVersion().containerId;
   event_data.gtm_data.ss_tag_name = getClientName();
@@ -3283,6 +3286,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 23/12/2025, 18:08:38
+Created on 31/12/2025, 13:51:44
 
 
