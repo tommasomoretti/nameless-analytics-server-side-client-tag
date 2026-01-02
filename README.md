@@ -1,13 +1,8 @@
-<img src="https://github.com/user-attachments/assets/93640f49-d8fb-45cf-925e-6b7075f83927#gh-light-mode-only" alt="Light Mode" />
-<img src="https://github.com/user-attachments/assets/71380a65-3419-41f4-ba29-2b74c7e6a66b#gh-dark-mode-only" alt="Dark Mode" />
-
----
-
 # Nameless Analytics Server-side Client Tag
 
-The Nameless Analytics Server-side Client Tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side Tracker Tag](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/) and other sources.
+The Nameless Analytics Server-side Client Tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side Tracker Tag](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/) and other sources.
 
-For an overview of how Nameless Analytics works [start from here](https://github.com/tommasomoretti/nameless-analytics/).
+For an overview of how Nameless Analytics works [start from here](https://github.com/nameless-analytics/nameless-analytics/).
 
 Tag:
 * [Nameless Analytics Server-side Client Tag UI](#tag-ui)
@@ -75,7 +70,7 @@ Please note: if a parameter has the same name as another, it can override or be 
 
 This is the hierarchy of event parameter importance: 
 
-[Server-side user parameters](#user-parameters) override [User parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
+[Server-side user parameters](#user-parameters) override [User parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
 
 #### Add/override user level parameters
 
@@ -104,13 +99,13 @@ Please note: if a parameter has the same name as another, it can override or be 
 
 This is the hierarchy of event parameter importance: 
 
-[Server-side session parameters](#session-parameters) override [Session parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
+[Server-side session parameters](#session-parameters) override [Session parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
 
 #### Add/override user ID parameter
 
 Add or override the user ID parameter in the `user_id` field. 
 
-This parameter can override the [user ID](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side Tracker Configuration Variable.
+This parameter can override the [user ID](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side Tracker Configuration Variable.
 
 #### Add/override session level parameters
 
@@ -135,7 +130,7 @@ Please note: if a parameter has the same name as another, it can override or be 
 
 This is the hierarchy of event parameter importance: 
 
-[Server-side event parameters](#event-parameters) override [Specific event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#addoverride-event-level-parameters) override [Shared event parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) override [dataLayer parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#add-event-parameters-from-datalayer) override [Standard parameters](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-tag/#request-payload-data)
+[Server-side event parameters](#event-parameters) override [Specific event parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/#addoverride-event-level-parameters) override [Shared event parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) override [dataLayer parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/#add-event-parameters-from-datalayer) override [Standard parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/#request-payload-data)
 
 #### Add/override event level parameters
 
@@ -209,7 +204,7 @@ Send POST requests to custom endpoint with the same data loaded into Google BigQ
 
 ### Change user and session cookie prefix
 
-Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/tommasomoretti/nameless-analytics/#cookies) for more information.
+Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/nameless-analytics/nameless-analytics/#cookies) for more information.
 
 
 ### Change default session duration
@@ -221,7 +216,7 @@ Change the session duration in minutes. Default value: 30 min.
 
 Enable logs for all events in preview mode. 
 
-Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/tommasomoretti/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
+Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
 
 </br>
 
