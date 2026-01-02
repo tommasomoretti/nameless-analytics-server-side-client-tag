@@ -1,4 +1,4 @@
-# Nameless Analytics Server-side Client Tag
+# Nameless Analytics | Server-side Client Tag
 
 The Nameless Analytics Server-side Client Tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side Tracker Tag](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/) and other sources.
 
