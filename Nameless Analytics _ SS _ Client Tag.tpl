@@ -1,4 +1,4 @@
-﻿___TERMS_OF_SERVICE___
+___TERMS_OF_SERVICE___
 
 By creating or modifying this file you agree to Google Tag Manager's Community
 Template Gallery Developer Terms of Service available at
@@ -1900,7 +1900,7 @@ if (getRequestPath() === endpoint) {
   if (check_origin()) {
     if (!check_ip()) {
 
-      if (data.enable_logs) { log('CHECK REQUEST...'); }
+      if (data.enable_logs) { log('CHECK REQUEST'); }
 
       if (request_method === 'POST') {
 
@@ -1929,7 +1929,7 @@ if (getRequestPath() === endpoint) {
 
         // Empty UA
         if (request_user_agent === '') {
-          message = '🔴 Missing User-Agent header.';
+          message = '🔴 Missing User-Agent header';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
@@ -1940,7 +1940,7 @@ if (getRequestPath() === endpoint) {
         // UA Bots
         for (var i = 0; i < bad_agents.length; i++) {
           if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
-            message = '🔴 Invalid User-Agent header value. Request from bot.';
+            message = '🔴 Invalid User-Agent header value. Request from bot';
             status_code = 403;
             if (data.enable_logs) { log(message); }
 
@@ -1951,7 +1951,7 @@ if (getRequestPath() === endpoint) {
 
         // Check event origin 
         if (event_origin !== 'Website') {
-          message = '🔴 Invalid event_origin parameter value. Accepted values: Website.';
+          message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
@@ -1984,7 +1984,7 @@ if (getRequestPath() === endpoint) {
         } else if (event_name == 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
           if (data.enable_logs) { log('👉 Request from get_user_data event'); }
 
-          if (data.enable_logs) { log('CHECK COOKIES...'); }
+          if (data.enable_logs) { log('CHECK COOKIES'); }
 
           if (user_cookie_value === undefined) {
             message = '🔴 User cookie not found. No cross-domain link decoration will be applied';
@@ -2009,19 +2009,19 @@ if (getRequestPath() === endpoint) {
             message = '🟢 Request claimed successfully';
             status_code = 200;
 
-            if (data.enable_logs) { log('CLAIM REQUEST...'); }
+            if (data.enable_logs) { log('CLAIM REQUEST'); }
             claim_request(set_ids_get_user_data(), status_code, message);
 
           } else {
             // Claim standard requests
             if (data.enable_logs) { log('🟢 Request correct'); }
 
-            if (data.enable_logs) { log('CLAIM REQUEST...'); }
+            if (data.enable_logs) { log('CLAIM REQUEST'); }
             claim_request(build_payload(set_ids(event_data)), null, '');
           }
         }
       } else {
-        if (data.enable_logs) { log('CHECK REQUEST...'); }
+        if (data.enable_logs) { log('CHECK REQUEST'); }
 
         // RETURN RESPONSE ERRORS
         message = '🔴 Request method not correct';
@@ -2031,7 +2031,7 @@ if (getRequestPath() === endpoint) {
         claim_request({ event_name: event_name }, status_code, message);
       }
     } else {
-      if (data.enable_logs) { log('CHECK REQUEST...'); }
+      if (data.enable_logs) { log('CHECK REQUEST'); }
 
       // RETURN RESPONSE ERRORS
       message = '🔴 Request IP not authorized';
@@ -2041,7 +2041,7 @@ if (getRequestPath() === endpoint) {
       claim_request({ event_name: event_name }, status_code, message);
     }
   } else {
-    if (data.enable_logs) { log('CHECK REQUEST...'); }
+    if (data.enable_logs) { log('CHECK REQUEST'); }
 
     // RETURN RESPONSE ERRORS
     message = '🔴 Request origin not authorized';
@@ -2389,7 +2389,7 @@ function claim_request(event_data, status_code, message) {
       // Send data to BigQuery
       .then((res) => {
         if (res.status == true) {
-          if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE BIGQUERY...'); }
+          if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE BIGQUERY'); }
           send_to_bq(event_data);
 
           if (data.enable_logs && !data.send_data_to_custom_endpoint) { log('TAG EXECUTION STATUS:'); }
@@ -2400,7 +2400,7 @@ function claim_request(event_data, status_code, message) {
       .then((res) => {
         if (res.status == true) {
           if (data.send_data_to_custom_endpoint) {
-            if (data.enable_logs) { log('SEND EVENT DATA TO CUSTOM ENDPOINT...'); }
+            if (data.enable_logs) { log('SEND EVENT DATA TO CUSTOM ENDPOINT'); }
             send_to_custom_endpoint(data.custom_request_endpoint_path, event_data);
 
             if (data.enable_logs) { log('TAG EXECUTION STATUS:'); }
@@ -2428,7 +2428,7 @@ function return_response(event_data, status_code, message) {
     returnResponse();
 
     if (status_code === 403) {
-      if (data.enable_logs) { log('🔴 Request refused.'); }
+      if (data.enable_logs) { log('🔴 Request refused'); }
     } else {
       if (data.enable_logs) { log(message); }
     }
@@ -2453,10 +2453,10 @@ function send_to_firestore(event_data) {
 
       // REJECT REQUESTS (orphan events) 
       if (event_data.event_name != 'page_view' && documents.length === 0) {
-        message = '🔴 Orphan event. Trigger a page_view event first to create a new user and a new session.';
+        message = '🔴 Orphan event. Trigger a page_view event first to create a new user and a new session';
         return { status: false, status_code: 403, message: message };
       } if (event_data.event_name != 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
-        message = '🔴 Orphan event. Trigger a page_view event first to create a new session.';
+        message = '🔴 Orphan event. Trigger a page_view event first to create a new session';
         return { status: false, status_code: 403, message: message };
       }
 
@@ -2469,7 +2469,7 @@ function send_to_firestore(event_data) {
 
       // If user does not exist in Firestore
       if (documents && documents.length === 0) {
-        if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE...'); }
+        if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE'); }
         if (data.enable_logs) { log('👉 User does not exist'); }
         if (data.enable_logs) { log('👉 Session does not exist'); }
 
@@ -2543,7 +2543,7 @@ function send_to_firestore(event_data) {
           .then(
             (id) => { if (data.enable_logs) { log('🟢 User successfully created in Firestore, session successfully added into Firestore'); } },
             () => {
-              message = '🔴 User or session data not created in Firestore.';
+              message = '🔴 User or session data not created in Firestore';
               status_code = 403;
 
               if (data.enable_logs) { log(message); }
@@ -2572,7 +2572,7 @@ function send_to_firestore(event_data) {
 
         // If user exists in Firestore  
       } else {
-        if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE...'); }
+        if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE'); }
         if (data.enable_logs) { log('👉 User exist'); }
 
         const firestore_data = documents[0].data;
@@ -2678,7 +2678,7 @@ function send_to_firestore(event_data) {
             .then(
               (id) => { if (data.enable_logs) { log('🟢 User already in Firestore, session successfully added into Firestore'); } },
               () => {
-                message = '🔴 User or session data not added in Firestore.';
+                message = '🔴 User or session data not added in Firestore';
                 status_code = 403;
 
                 if (data.enable_logs) { log(message); }
@@ -2761,7 +2761,7 @@ function send_to_firestore(event_data) {
             .then(
               (id) => { if (data.enable_logs) { log('🟢 User already in Firestore, session successfully updated into Firestore'); } },
               () => {
-                message = '🔴 User or session data not updated in Firestore.';
+                message = '🔴 User or session data not updated in Firestore';
                 status_code = 403;
 
                 if (data.enable_logs) { log(message); }

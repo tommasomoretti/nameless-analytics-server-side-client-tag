@@ -246,21 +246,21 @@ These messages are returned with a **403 Forbidden** status code or logged when 
 
 | **Scope** | **Message** | **What it means** | **How to fix it** |
 |:---|:---|:---|:---|
-| Data validation | `🔴 Request refused.` | The request was blocked by the Client Tag logic. | Check the server logs for specific validation errors (IP, Origin, etc.). |
+| Data validation | `🔴 Request refused` | The request was blocked by the Client Tag logic. | Check the server logs for specific validation errors (IP, Origin, etc.). |
 | | `🔴 Request method not correct` | The request was not a `POST` request. | Ensure your tracker is sending data via POST. |
 | | `🔴 Request IP not authorized` | The request came from a banned IP address. | Check the "Banned IPs" list in the Client Tag settings. |
 | | `🔴 Request origin not authorized` | The request came from an unauthorized domain. | Add the calling domain to the "Authorized domains" list in settings. |
-| | `🔴 Missing User-Agent header.` | The request is missing the standard User-Agent header. | Use a standard browser or ensure your client sends a valid UA string. |
-| | `🔴 Invalid User-Agent header value. Request from bot.` | The request was identified as an automated bot or scraper. | This is expected behavior for bot protection. No action needed for real users. |
-| | `🔴 Invalid event_origin parameter value. Accepted values: Website.` | The `event_origin` parameter in the payload is incorrect. | Ensure the client-side tracker is correctly setting the origin to "Website". |
+| | `🔴 Missing User-Agent header` | The request is missing the standard User-Agent header. | Use a standard browser or ensure your client sends a valid UA string. |
+| | `🔴 Invalid User-Agent header value. Request from bot` | The request was identified as an automated bot or scraper. | This is expected behavior for bot protection. No action needed for real users. |
+| | `🔴 Invalid event_origin parameter value. Accepted values: Website` | The `event_origin` parameter in the payload is incorrect. | Ensure the client-side tracker is correctly setting the origin to "Website". |
 | | `🔴 Missing required parameters: [parameters]` | The incoming JSON payload is missing mandatory fields. | Check that your tracker is sending all required fields (e.g., `event_name`, `page_id`). |
 | | `🔴 Website orphan event. Trigger a page_view event first to create a new user and a new session` | Event received for a new visitor without a preceding `page_view`. | Adjust the client-side trigger sequence to ensure `page_view` fires first. |
 | | `🔴 Website orphan event. Trigger a page_view event first to create a new session` | Event received for a returning visitor with an expired session without `page_view`. | Adjust the client-side trigger sequence. |
-| | `🔴 Orphan event. Trigger a page_view event first to create a new user and a new session.` | Firestore check: session creation attempt without `page_view` context. | Reorder triggers to initialize the session with a `page_view`. |
-| | `🔴 Orphan event. Trigger a page_view event first to create a new session.` | Firestore check: session refresh attempt without `page_view` context. | Reorder triggers to initialize the session with a `page_view`. |
-| Data storage | `🔴 User or session data not created in Firestore.` | The initial Firestore write operation failed. | Check GCP project permissions, Firestore status, and quotas. |
-| | `🔴 User or session data not added in Firestore.` | Failed to append a new session to an existing user document. | Verify Firestore permissions and document size limits. |
-| | `🔴 User or session data not updated in Firestore.` | Failed to update current session data in Firestore. | Verify Firestore permissions and connectivity. |
+| | `🔴 Orphan event. Trigger a page_view event first to create a new user and a new session` | Firestore check: session creation attempt without `page_view` context. | Reorder triggers to initialize the session with a `page_view`. |
+| | `🔴 Orphan event. Trigger a page_view event first to create a new session` | Firestore check: session refresh attempt without `page_view` context. | Reorder triggers to initialize the session with a `page_view`. |
+| Data storage | `🔴 User or session data not created in Firestore` | The initial Firestore write operation failed. | Check GCP project permissions, Firestore status, and quotas. |
+| | `🔴 User or session data not added in Firestore` | Failed to append a new session to an existing user document. | Verify Firestore permissions and document size limits. |
+| | `🔴 User or session data not updated in Firestore` | Failed to update current session data in Firestore. | Verify Firestore permissions and connectivity. |
 | | `🔴 Payload data not inserted into BigQuery` | The streaming insert to BigQuery failed. | Check BigQuery dataset/table permissions and streaming quotas. |
 | | `🔴 Request do not send succesfully. Error: [...]` | Forwarding to the custom endpoint failed. | Verify the custom endpoint URL and the target server's status. |
 | Cross-domain | `🔴 User cookie not found. No cross-domain link decoration will be applied` | Required user cookie is missing on the server for ID retrieval. | Ensure the visitor has a valid `na_u` cookie. |
