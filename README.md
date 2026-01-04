@@ -14,7 +14,7 @@ Data:
     * [Remove user level parameters](#remove-user-level-parameters)
 * Session data
   * [Session parameters](#session-parameters)
-    * [Add/override user ID](#addoverride-user-id-parameter)
+    * [Add/override User ID](#addoverride-user-id-parameter)
     * [Add/override session level parameters](#addoverride-session-level-parameters)
     * [Remove session level parameters](#remove-session-level-parameters)
 * Event data
@@ -42,7 +42,7 @@ Execution messages:
 * [Success messages](#success-messages) 
 * [Error messages](#error-messages) 
 
-</br>
+</br></br>
 
 
 
@@ -82,7 +82,7 @@ These parameters can override [user parameters](#addoverride-user-level-paramete
 
 Remove user level parameters in user_data object in the payload. 
 
-</br>
+</br></br>
 
 
 
@@ -101,11 +101,11 @@ This is the hierarchy of parameter importance:
 
 See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
-#### Add/override user ID parameter
+#### Add/override User ID parameter
 
-Add or override the user ID parameter in the `user_id` field. 
+Add or override the User ID parameter in the `user_id` field. 
 
-This parameter can override the [user ID](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side Tracker Configuration Variable.
+This parameter can override the [User ID](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side Tracker Configuration Variable.
 
 #### Add/override session level parameters
 
@@ -117,7 +117,7 @@ These parameters can override [session parameters](#addoverride-session-level-pa
 
 Remove session level parameters in session_data object in the payload. 
 
-</br>
+</br></br>
 
 
 
@@ -146,7 +146,7 @@ These parameters can override:
 
 Remove event level parameters in event_data object in the payload. 
 
-</br>
+</br></br>
 
 
 
@@ -178,7 +178,7 @@ To select a domain for the preview mode, click the icon near the preview button 
 
 Reject requests from unauthorized IP addresses.
 
-</br>
+</br></br>
 
 
 
@@ -196,7 +196,7 @@ The name of the main raw events table. By default, this is set to `events_raw`.
 
 See the [Request Payload Example](https://github.com/nameless-analytics/nameless-analytics/#request-payload-data) for the exact structure.
 
-</br>
+</br></br>
 
 
 
@@ -222,7 +222,7 @@ Enable logs for all events in preview mode.
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
 
-</br>
+</br></br>
 
 
 
