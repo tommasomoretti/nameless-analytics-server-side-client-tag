@@ -97,9 +97,9 @@ They are:
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
 
-This is the hierarchy of event parameter importance: 
+This is the hierarchy of parameter importance: 
 
-[Server-side session parameters](#session-parameters) override [Session parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#session-parameters)
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
 #### Add/override user ID parameter
 
@@ -128,9 +128,9 @@ Add event parameters for all events. The parameters will be added in the event_d
 
 Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
 
-This is the hierarchy of event parameter importance: 
+This is the hierarchy of parameter importance: 
 
-[Server-side event parameters](#event-parameters) override [Specific event parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/#addoverride-event-level-parameters) override [Shared event parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-shared-event-parameters) override [dataLayer parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/#add-event-parameters-from-datalayer) override [Standard parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/#request-payload-data)
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
 #### Add/override event level parameters
 
@@ -191,6 +191,10 @@ The ID of the BigQuery dataset where Nameless Analytics will store its tables. T
 
 ### Table name
 The name of the main raw events table. By default, this is set to `events_raw`.
+
+**Mandatory Schema**: The BigQuery table must have a schema that matches the Nameless Analytics payload. Create it using the Create tables DML query in the [Create tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/reporting-tables/README.md#create-tables) section.
+
+See the [Request Payload Example](https://github.com/nameless-analytics/nameless-analytics/#request-payload-data) for the exact structure.
 
 </br>
 
