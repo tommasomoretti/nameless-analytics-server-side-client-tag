@@ -50,7 +50,7 @@ Execution messages:
 
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
-<img src="https://github.com/user-attachments/assets/b3978803-69d9-42f6-bf05-ac0ea05eac2a" alt="Nameless Analytics Server-side Client Tag UI" />
+![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/b3978803-69d9-42f6-bf05-ac0ea05eac2a)
 
 </br>
 </br>
