@@ -1548,6 +1548,15 @@ ___TEMPLATE_PARAMETERS___
             ]
           }
         ]
+      },
+      {
+        "type": "TEXT",
+        "name": "streaming_protocol_api_key",
+        "displayName": "Streaming protocol API key",
+        "simpleValueType": true,
+        "help": "Enter a secret API key for Streaming protocol requests",
+        "alwaysInSummary": true,
+        "valueHint": "(not set)"
       }
     ]
   },
