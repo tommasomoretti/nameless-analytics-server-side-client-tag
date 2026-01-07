@@ -1558,13 +1558,35 @@ ___TEMPLATE_PARAMETERS___
         ]
       },
       {
-        "type": "TEXT",
-        "name": "api_key",
-        "displayName": "API key for Streaming protocol requests",
+        "type": "CHECKBOX",
+        "name": "add_api_key",
+        "checkboxText": "Add API key for Streaming protocol",
         "simpleValueType": true,
-        "help": "Enter a secret API key for authorize Streaming protocol requests.",
         "alwaysInSummary": true,
-        "valueHint": "(not set)"
+        "help": "Add API key for Streaming protocol.",
+        "subParams": [
+          {
+            "type": "TEXT",
+            "name": "api_key",
+            "displayName": "API key for Streaming protocol requests",
+            "simpleValueType": true,
+            "help": "Enter a secret API key for authorize Streaming protocol requests.",
+            "alwaysInSummary": true,
+            "valueHint": "(not set)",
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ],
+            "enablingConditions": [
+              {
+                "paramName": "add_api_key",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1967,15 +1989,15 @@ if (getRequestPath() === endpoint) {
 
           if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
-        
-        // Check Streaming protocol requests API key
-        } else if (event_origin == 'Streaming protocol' && event_api_key != api_key) {
+
+          // Check Streaming protocol requests API key
+        } else if (event_origin == 'Streaming protocol' && data.add_api_key && event_api_key != api_key) {
           message = '🔴 Invalid API key';
           if (data.enable_logs) { log(message); }
           status_code = 403;
 
           claim_request({ event_name: event_name }, status_code, message);
-          
+
           // If some required parameter is missing 
         } else if (event_name != 'get_user_data' && missing_fields.length > 0) {
           message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));
@@ -2940,9 +2962,9 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
   sendHttpRequest(custom_request_endpoint_path, request_options, JSON.stringify(event_data))
     .then((result) => {
       if (result.statusCode >= 200 && result.statusCode < 300) {
-        if (data.enable_logs) { log('🟢 Request send succesfully to:', custom_request_endpoint_path); }
+        if (data.enable_logs) { log('🟢 Request sent successfully to:', custom_request_endpoint_path); }
       } else {
-        if (data.enable_logs) { log('🔴 Request do not send succesfully. Error:', result); }
+        if (data.enable_logs) { log('🔴 Request not sent successfully. Error:', result); }
       }
     });
 }

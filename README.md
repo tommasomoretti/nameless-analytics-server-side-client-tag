@@ -254,6 +254,7 @@ These messages are returned with a **403 Forbidden** status code or logged when 
 | | `🔴 Invalid User-Agent header value. Request from bot` | The request was identified as an automated bot or scraper. | This is expected behavior for bot protection. No action needed for real users. |
 | | `🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol` | The `event_origin` parameter in the payload is incorrect. | Ensure the client-side tracker is correctly setting the origin to "Website" or "Streaming protocol". |
 | | `🔴 Missing required parameters: [parameters]` | The incoming JSON payload is missing mandatory fields. | Check that your tracker is sending all required fields (e.g., `event_name`, `page_id`). |
+| | `🔴 Invalid API key` | The `x-api-key` header for Streaming protocol is missing or incorrect. | Provide the correct API key in the request headers. |
 | | `🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session` | Event received for a new visitor without a preceding `page_view`. | Adjust the client-side trigger sequence to ensure `page_view` fires first. |
 | | `🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session` | Event received for a returning visitor with an expired session without `page_view`. | Adjust the client-side trigger sequence. |
 | | `🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session` | Firestore check: session creation attempt without `page_view` context. | Reorder triggers to initialize the session with a `page_view`. |
@@ -262,7 +263,7 @@ These messages are returned with a **403 Forbidden** status code or logged when 
 | | `🔴 User or session data not added in Firestore` | Failed to append a new session to an existing user document. | Verify Firestore permissions and document size limits. |
 | | `🔴 User or session data not updated in Firestore` | Failed to update current session data in Firestore. | Verify Firestore permissions and connectivity. |
 | | `🔴 Payload data not inserted into BigQuery` | The streaming insert to BigQuery failed. | Check BigQuery dataset/table permissions and streaming quotas. |
-| | `🔴 Request do not send succesfully. Error: [...]` | Forwarding to the custom endpoint failed. | Verify the custom endpoint URL and the target server's status. |
+| | `🔴 Request not sent successfully. Error: [...]` | Forwarding to the custom endpoint failed. | Verify the custom endpoint URL and the target server's status. |
 | Cross-domain | `🔴 User cookie not found. No cross-domain link decoration will be applied` | Required user cookie is missing on the server for ID retrieval. | Ensure the visitor has a valid `na_u` cookie. |
 | | `🔴 Session cookie not found. No cross-domain link decoration will be applied` | Required session cookie is missing on the server for ID retrieval. | Ensure the visitor has a valid `na_s` cookie. |
 

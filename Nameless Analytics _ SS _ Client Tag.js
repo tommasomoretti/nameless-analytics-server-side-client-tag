@@ -129,7 +129,7 @@ if (getRequestPath() === endpoint) {
           claim_request({ event_name: event_name }, status_code, message);
 
           // Check Streaming protocol requests API key
-        } else if (event_origin == 'Streaming protocol' && event_api_key != api_key) {
+        } else if (event_origin == 'Streaming protocol' && data.add_api_key && event_api_key != api_key) {
           message = '🔴 Invalid API key';
           if (data.enable_logs) { log(message); }
           status_code = 403;
@@ -1100,9 +1100,9 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
   sendHttpRequest(custom_request_endpoint_path, request_options, JSON.stringify(event_data))
     .then((result) => {
       if (result.statusCode >= 200 && result.statusCode < 300) {
-        if (data.enable_logs) { log('🟢 Request send succesfully to:', custom_request_endpoint_path); }
+        if (data.enable_logs) { log('🟢 Request sent successfully to:', custom_request_endpoint_path); }
       } else {
-        if (data.enable_logs) { log('🔴 Request do not send succesfully. Error:', result); }
+        if (data.enable_logs) { log('🔴 Request not sent successfully. Error:', result); }
       }
     });
 }

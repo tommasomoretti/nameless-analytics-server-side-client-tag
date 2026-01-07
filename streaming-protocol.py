@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 
 full_endpoint = 'https://gtm.tommasomoretti.com/tm/nameless'
 origin = 'https://tommasomoretti.com'
-gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5Yjk5YTg4YWZhMzU1ZDkxMzU5ZA=='
+gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5Yjk5ZjYyMjJiNTVlOTRhMWQ4Nw=='
 api_key = '1234' # Modify this according to the api_key in the Nameless Analytics Server-side Client Tag
 
 user_id = '1234' # Add it if exists
