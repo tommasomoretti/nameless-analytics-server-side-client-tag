@@ -47,6 +47,9 @@ const event_name = event_data.event_name;
 const event_id = event_data.event_id;
 const event_data_obj = event_data.event_data;
 
+const event_api_key = getRequestHeader('x-api-key'); // For Streaming protocol 
+const api_key = data.api_key; // For Streaming protocol
+
 // Cookie data
 const user_cookie_name = (data.change_cookie_prefix) ? data.cookie_prefix + '_na_u' : 'na_u';
 const user_cookie_value = getCookieValues(user_cookie_name)[0];
@@ -123,6 +126,14 @@ if (getRequestPath() === endpoint) {
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
+          claim_request({ event_name: event_name }, status_code, message);
+
+          // Check Streaming protocol requests API key
+        } else if (event_origin == 'Streaming protocol' && event_api_key != api_key) {
+          message = '🔴 Invalid API key';
+          if (data.enable_logs) { log(message); }
+          status_code = 403;
+
           claim_request({ event_name: event_name }, status_code, message);
 
           // If some required parameter is missing 
@@ -1089,9 +1100,9 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
   sendHttpRequest(custom_request_endpoint_path, request_options, JSON.stringify(event_data))
     .then((result) => {
       if (result.statusCode >= 200 && result.statusCode < 300) {
-        if (data.enable_logs) { log('🟢 Request sent successfully to:', custom_request_endpoint_path); }
+        if (data.enable_logs) { log('🟢 Request send succesfully to:', custom_request_endpoint_path); }
       } else {
-        if (data.enable_logs) { log('🔴 Request not sent successfully. Error:', result); }
+        if (data.enable_logs) { log('🔴 Request do not send succesfully. Error:', result); }
       }
     });
 }

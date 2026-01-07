@@ -1,4 +1,12 @@
-﻿___INFO___
+﻿___TERMS_OF_SERVICE___
+
+By creating or modifying this file you agree to Google Tag Manager's Community
+Template Gallery Developer Terms of Service available at
+https://developers.google.com/tag-manager/gallery-tos (or such other URL as
+Google may provide), as modified from time to time.
+
+
+___INFO___
 
 {
   "type": "CLIENT",
@@ -1551,10 +1559,10 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "TEXT",
-        "name": "streaming_protocol_api_key",
-        "displayName": "Streaming protocol API key",
+        "name": "api_key",
+        "displayName": "API key for Streaming protocol requests",
         "simpleValueType": true,
-        "help": "Enter a secret API key for Streaming protocol requests",
+        "help": "Enter a secret API key for authorize Streaming protocol requests.",
         "alwaysInSummary": true,
         "valueHint": "(not set)"
       }
@@ -1879,6 +1887,9 @@ const event_name = event_data.event_name;
 const event_id = event_data.event_id;
 const event_data_obj = event_data.event_data;
 
+const event_api_key = getRequestHeader('x-api-key'); // For Streaming protocol 
+const api_key = data.api_key; // For Streaming protocol
+
 // Cookie data
 const user_cookie_name = (data.change_cookie_prefix) ? data.cookie_prefix + '_na_u' : 'na_u';
 const user_cookie_value = getCookieValues(user_cookie_name)[0];
@@ -1956,7 +1967,15 @@ if (getRequestPath() === endpoint) {
 
           if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
+        
+        // Check Streaming protocol requests API key
+        } else if (event_origin == 'Streaming protocol' && event_api_key != api_key) {
+          message = '🔴 Invalid API key';
+          if (data.enable_logs) { log(message); }
+          status_code = 403;
 
+          claim_request({ event_name: event_name }, status_code, message);
+          
           // If some required parameter is missing 
         } else if (event_name != 'get_user_data' && missing_fields.length > 0) {
           message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));

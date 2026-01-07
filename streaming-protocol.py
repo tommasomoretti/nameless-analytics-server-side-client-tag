@@ -15,7 +15,8 @@ from datetime import datetime, timezone
 
 full_endpoint = 'https://gtm.tommasomoretti.com/tm/nameless'
 origin = 'https://tommasomoretti.com'
-gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5YjkwMTQ2NTQzMjZkYTU1ZGY5OA=='
+gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5Yjk5YTg4YWZhMzU1ZDkxMzU5ZA=='
+api_key = '1234' # Modify this according to the api_key in the Nameless Analytics Server-side Client Tag
 
 user_id = '1234' # Add it if exists
 client_id = "ji7j16FMycg8GjL" # Modify this according to the current user's client_id
@@ -107,7 +108,8 @@ headers = {
     'Origin': origin,
     'X-Gtm-Server-Preview': gtm_preview_header,
     'User-Agent': user_agent,
-    'Cookie': f'na_u={client_id}; na_s={client_id}_{session_id}-{page_id}'
+    'Cookie': f'na_u={client_id}; na_s={client_id}_{session_id}-{page_id}',
+    'x-api-key': api_key
 }
 
 try:
