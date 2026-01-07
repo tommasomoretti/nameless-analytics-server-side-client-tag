@@ -267,9 +267,6 @@ These messages are returned with a **403 Forbidden** status code or logged when 
 | Cross-domain | `🔴 User cookie not found. No cross-domain link decoration will be applied` | Required user cookie is missing on the server for ID retrieval. | Ensure the visitor has a valid `na_u` cookie. |
 | | `🔴 Session cookie not found. No cross-domain link decoration will be applied` | Required session cookie is missing on the server for ID retrieval. | Ensure the visitor has a valid `na_s` cookie. |
 
-- 🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session
-- 🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session
-
 ---
 
 Reach me at: [Email](mailto:hello@tommasomoretti.com) | [Website](https://tommasomoretti.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics) | [Twitter](https://twitter.com/tommoretti88) | [LinkedIn](https://www.linkedin.com/in/tommasomoretti/)
