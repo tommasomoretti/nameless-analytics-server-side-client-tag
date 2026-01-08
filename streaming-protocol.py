@@ -43,8 +43,8 @@ payload = {
     "page_id": page_id,
     "page_data": {
         # "page_title": None,
-        # "page_hostname_protocol": "https",
-        # "page_hostname": "tommasomoretti.com",
+        "page_hostname_protocol": "https",
+        "page_hostname": "tommasomoretti.com",
         # "page_location": "/",
         # "page_fragment": None,
         # "page_query": None,
