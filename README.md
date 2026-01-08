@@ -178,6 +178,36 @@ To select a domain for the preview mode, click the icon near the preview button 
 
 Reject requests from unauthorized IP addresses.
 
+
+### API key for Streaming protocol requests
+
+Secure the Streaming protocol (Measurement Protocol) endpoint by requiring a secret API key.
+
+When the **"Add API key for Streaming protocol"** checkbox is enabled, the Client Tag will reject any request where the `event_origin` is set to `Streaming protocol` unless it includes a valid `x-api-key` header matching the configured value.
+
+Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
+
+
+#### Streaming protocol request example
+
+To send an event via the Streaming protocol using cURL:
+
+```bash
+curl -X POST "https://gtm.yourdomain.com/tm/nameless" \
+     -H "Content-Type: application/json" \
+     -H "x-api-key: YOUR_SECRET_API_KEY" \
+     -d '{
+           "event_name": "backend_event",
+           "event_origin": "Streaming protocol",
+           "client_id": "user_123",
+           "session_id": "session_456",
+           "event_data": {
+             "status": "success",
+             "value": 100
+           }
+         }'
+```
+
 </br></br>
 
 
@@ -239,7 +269,7 @@ The following success messages can be found in the GTM Server Preview mode logs 
 | | `🟢 User already in Firestore, session successfully added into Firestore` | Confirmation that a new session was added to an existing user. |
 | | `🟢 User already in Firestore, session successfully updated into Firestore` | Confirmation that an existing session was refreshed. |
 | | `🟢 Payload data inserted successfully into BigQuery` | Confirmation that the event was pushed to BigQuery. |
-| | `🟢 Request send succesfully to: [URL]` | Forwarded successfully to a custom endpoint. |
+| | `🟢 Request sent successfully to: [URL]` | Forwarded successfully to a custom endpoint. |
 
 ### Error messages
 These messages are returned with a **403 Forbidden** status code or logged when a request is rejected:

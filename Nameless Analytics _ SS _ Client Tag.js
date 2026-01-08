@@ -73,6 +73,14 @@ if (getRequestPath() === endpoint) {
 
       if (data.enable_logs) { log('CHECK REQUEST'); }
 
+      if (event_name == 'get_user_data') {
+        if (data.enable_logs) { log('👉 Request type: Get user data'); }
+      } else {
+        if (data.enable_logs) { log('👉 Request type:', event_origin); }
+      }
+
+      if (data.enable_logs) { log('👉 Event name: ', event_data.event_name); }
+
       if (request_method === 'POST') {
 
         // Check required fields
@@ -189,16 +197,13 @@ if (getRequestPath() === endpoint) {
             message = '🟢 Request claimed successfully';
             status_code = 200;
 
-            if (data.enable_logs) { log('CLAIM REQUEST'); }
-            if (data.enable_logs) { log('👉 Request type: Get user data'); }
+            if (data.enable_logs) { log('REQUEST STATUS'); }
             claim_request(set_ids_get_user_data(), status_code, message);
 
           } else {
             // Claim standard requests
             if (data.enable_logs) { log('🟢 Request correct'); }
 
-            if (data.enable_logs) { log('CLAIM REQUEST'); }
-            if (data.enable_logs) { log('👉 Request type:', event_origin); }
             claim_request(build_payload(set_ids(event_data)), null, '');
           }
         }
@@ -304,8 +309,6 @@ function set_ids_get_user_data() {
 
 // Handle ids for standard requests
 function set_ids(event_data) {
-  if (data.enable_logs) { log('👉 Event name: ', event_data.event_name); }
-
   const page_id = event_data.page_id;
   const event_id = event_data.event_id;
   const cross_domain_id = event_data.event_data.cross_domain_id;
@@ -338,6 +341,7 @@ function set_ids(event_data) {
         event_data.page_id = old_session_id + '-' + page_id;
         event_data.event_id = old_session_id + '-' + event_id;
 
+        if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
         if (data.enable_logs) { log('👉 Same client_id, same session_id'); }
         if (data.enable_logs) { log('👉 Extend cookies max-age'); }
       }
@@ -349,6 +353,7 @@ function set_ids(event_data) {
       event_data.page_id = cross_domain_session_id + '-' + page_id;
       event_data.event_id = cross_domain_session_id + '-' + event_id;
 
+      if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
       if (data.enable_logs) { log('👉 Returning user, no active session'); }
       if (data.enable_logs) { log('👉 Same client_id: ', cross_domain_client_id + ', create new session_id: ', cross_domain_session_id); }
     }
@@ -365,6 +370,7 @@ function set_ids(event_data) {
       event_data.page_id = new_session_id + '-' + page_id;
       event_data.event_id = new_session_id + '-' + event_id;
 
+      if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
       if (data.enable_logs) { log('👉 New user, no active session'); }
       if (data.enable_logs) { log('👉 Create new client_id: ', new_client_id + ' and new session_id: ', new_session_id); }
 
@@ -380,6 +386,7 @@ function set_ids(event_data) {
         event_data.page_id = new_session_id + '-' + page_id;
         event_data.event_id = new_session_id + '-' + event_id;
 
+        if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
         if (data.enable_logs) { log('👉 Returning user, no active session'); }
         if (data.enable_logs) { log('👉 Same client_id: ', old_client_id + ', create new session_id: ', new_session_id); }
 
@@ -393,6 +400,7 @@ function set_ids(event_data) {
         event_data.page_id = old_session_id + '-' + page_id;
         event_data.event_id = old_session_id + '-' + event_id;
 
+        if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
         if (data.enable_logs) { log('👉 Same client_id, same session_id'); }
         if (data.enable_logs) { log('👉 Extend cookies max-age'); }
       }
@@ -548,15 +556,19 @@ function claim_request(event_data, status_code, message) {
 
   // For error requests and get_user_data requests
   if ((status_code === 403 || event_data.event_name == 'get_user_data')) {
-    if (data.enable_logs) { log('TAG EXECUTION STATUS:'); }
+    if (data.enable_logs) { log('REQUEST STATUS'); }
     return_response(event_data, status_code, message);
 
     // For standard requests
   } else {
     // Send data to Firestore
+    if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE'); }
     send_to_firestore(event_data)
-      // Return response
+      // Return response to browser
       .then((res) => {
+        if (data.enable_logs) { log('REQUEST STATUS'); }
+
+        if (data.enable_logs) { log(res.message); }
         return_response(event_data, res.status_code, res.message);
         return res;
       })
@@ -565,8 +577,6 @@ function claim_request(event_data, status_code, message) {
         if (res.status == true) {
           if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE BIGQUERY'); }
           send_to_bq(event_data);
-
-          if (data.enable_logs && !data.send_data_to_custom_endpoint) { log('TAG EXECUTION STATUS:'); }
         }
         return res;
       })
@@ -576,8 +586,6 @@ function claim_request(event_data, status_code, message) {
           if (data.send_data_to_custom_endpoint) {
             if (data.enable_logs) { log('SEND EVENT DATA TO CUSTOM ENDPOINT'); }
             send_to_custom_endpoint(data.custom_request_endpoint_path, event_data);
-
-            if (data.enable_logs) { log('TAG EXECUTION STATUS:'); }
           }
         }
       });
@@ -602,9 +610,7 @@ function return_response(event_data, status_code, message) {
     returnResponse();
 
     if (status_code === 403) {
-      if (data.enable_logs) { log('🔴 Tag execution failed'); }
-    } else {
-      if (data.enable_logs) { log(message); }
+      if (data.enable_logs) { log('🔴 Request refused'); }
     }
   });
 }
@@ -625,18 +631,16 @@ function send_to_firestore(event_data) {
   return Firestore.query(collection_path, queries, { projectId: projectId, limit: 1 })
     .then((documents) => {
 
-      if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE'); }
-
       // REJECT REQUESTS (orphan events) 
       if (event_data.event_name != 'page_view' && documents.length === 0) {
         message = "🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session";
         if (data.enable_logs) { log(message); }
-        if (data.enable_logs) { log('TAG EXECUTION STATUS:'); }
+        if (data.enable_logs) { log('REQUEST STATUS'); }
         return { status: false, status_code: 403, message: message };
       } if (event_data.event_name != 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
         message = "🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session";
         if (data.enable_logs) { log(message); }
-        if (data.enable_logs) { log('TAG EXECUTION STATUS:'); }
+        if (data.enable_logs) { log('REQUEST STATUS'); }
         return { status: false, status_code: 403, message: message };
       }
 
@@ -757,13 +761,11 @@ function send_to_firestore(event_data) {
 
         // If user exists in Firestore  
       } else {
-        if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE'); }
         if (data.enable_logs) { log('👉 User exist'); }
 
         const firestore_data = documents[0].data;
         const sessions_data = firestore_data.sessions;
         const last_session = sessions_data.slice(-1)[0];
-        log(last_session);
         // const last_session = sessions_data.filter(s => s.session_id === event_data.session_id)[0] || null;
 
         // Update user values in Firestore from current user data if not already exists or has a not null value        
