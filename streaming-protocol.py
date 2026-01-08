@@ -9,14 +9,10 @@ from datetime import datetime, timezone
 # --------------------------------------------------------------------------------------------------------------
 
 
-# full_endpoint = 'https://gtm.domain.com/nameless_analytics' # Modify this according to your GTM Server-side endpoint 
-# origin = 'https://domain.com' # Modify this according to request origin
-# gtm_preview_header = '[X-Gtm-Server-Preview]' # Modify this according with GTM Server-side preview header 
-
-full_endpoint = 'https://gtm.tommasomoretti.com/tm/nameless'
-origin = 'https://tommasomoretti.com'
-gtm_preview_header = 'ZW52LTEwMnxUWk9Pd1l1SW5YWFU0eFpzQlMtZHN3fDE5YjlkNjE4ZjFmMTFjOTNlYmViMw=='
-api_key = '1234' # Modify this according to the api_key in the Nameless Analytics Server-side Client Tag
+full_endpoint = 'https://gtm.domain.com/nameless' # Modify this according to your GTM Server-side endpoint 
+origin = 'https://domain.com' # Modify this according to request origin
+gtm_preview_header = '[X-Gtm-Server-Preview]' # Modify this according with GTM Server-side preview header 
+api_key = '[API-KEY]' # Modify this according to the api_key in the Nameless Analytics Server-side Client Tag
 
 user_id = '1234' # Add it if exists
 client_id = "ji7j16FMycg8GjL" # Modify this according to the current user's client_id
