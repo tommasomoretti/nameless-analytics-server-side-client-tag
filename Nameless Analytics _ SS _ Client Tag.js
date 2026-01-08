@@ -720,9 +720,32 @@ function send_to_firestore(event_data) {
         // Send data to Firestore 
         if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
 
-        Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
+        return Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
           .then(
-            (id) => { if (data.enable_logs) { log('🟢 User successfully created in Firestore, session successfully added into Firestore'); } },
+            (id) => {
+              if (data.enable_logs) { log('🟢 User successfully created in Firestore, session successfully added into Firestore'); }
+
+              // Add user parameters to Big Query        
+              for (let key in firestore_data) {
+                if (firestore_data.hasOwnProperty(key) && key !== 'sessions') {
+                  event_data.user_data[key] = firestore_data[key];
+                }
+              }
+
+              event_data.user_date = event_data.user_data.user_date;
+
+              Object.delete(event_data.user_data, 'user_date');
+              Object.delete(event_data.user_data, 'client_id');
+
+              // Add session parameters to Big Query 
+              event_data.session_data = firestore_data.sessions[0];
+              event_data.session_date = event_data.session_data.session_date;
+
+              Object.delete(event_data.session_data, 'session_date');
+              Object.delete(event_data.session_data, 'session_id');
+
+              return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
+            },
             () => {
               message = '🔴 User or session data not created in Firestore';
               status_code = 403;
@@ -731,25 +754,6 @@ function send_to_firestore(event_data) {
               return { status: false, status_code: status_code, message: message };
             }
           );
-
-        // Add user parameters to Big Query        
-        for (let key in firestore_data) {
-          if (firestore_data.hasOwnProperty(key) && key !== 'sessions') {
-            event_data.user_data[key] = firestore_data[key];
-          }
-        }
-
-        event_data.user_date = event_data.user_data.user_date;
-
-        Object.delete(event_data.user_data, 'user_date');
-        Object.delete(event_data.user_data, 'client_id');
-
-        // Add session parameters to Big Query 
-        event_data.session_data = firestore_data.sessions[0];
-        event_data.session_date = event_data.session_data.session_date;
-
-        Object.delete(event_data.session_data, 'session_date');
-        Object.delete(event_data.session_data, 'session_id');
 
         // If user exists in Firestore  
       } else {
@@ -857,9 +861,20 @@ function send_to_firestore(event_data) {
           // Send data to Firestore                    
           if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
 
-          Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
+          return Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
             .then(
-              (id) => { if (data.enable_logs) { log('🟢 User already in Firestore, session successfully added into Firestore'); } },
+              (id) => {
+                if (data.enable_logs) { log('🟢 User already in Firestore, session successfully added into Firestore'); }
+
+                // Add data to BigQuery
+                event_data.session_data = firestore_data.sessions.slice(-1)[0];
+                event_data.session_date = event_data.session_data.session_date;
+
+                Object.delete(event_data.session_data, 'session_date');
+                Object.delete(event_data.session_data, 'session_id');
+
+                return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
+              },
               () => {
                 message = '🔴 User or session data not added in Firestore';
                 status_code = 403;
@@ -868,13 +883,6 @@ function send_to_firestore(event_data) {
                 return { status: false, status_code: status_code, message: message };
               }
             );
-
-          // Add data to BigQuery
-          event_data.session_data = firestore_data.sessions.slice(-1)[0];
-          event_data.session_date = event_data.session_data.session_date;
-
-          Object.delete(event_data.session_data, 'session_date');
-          Object.delete(event_data.session_data, 'session_id');
 
           // If session exists in Firestore        
         } else {
@@ -940,9 +948,20 @@ function send_to_firestore(event_data) {
           // Send data to firestore                    
           if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
 
-          Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
+          return Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
             .then(
-              (id) => { if (data.enable_logs) { log('🟢 User already in Firestore, session successfully updated into Firestore'); } },
+              (id) => {
+                if (data.enable_logs) { log('🟢 User already in Firestore, session successfully updated into Firestore'); }
+
+                // Add data for BigQuery
+                event_data.session_data = last_session;
+                event_data.session_date = last_session.session_date;
+
+                Object.delete(event_data.session_data, 'session_date');
+                Object.delete(event_data.session_data, 'session_id');
+
+                return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
+              },
               () => {
                 message = '🔴 User or session data not updated in Firestore';
                 status_code = 403;
@@ -951,17 +970,10 @@ function send_to_firestore(event_data) {
                 return { status: false, status_code: status_code, message: message };
               }
             );
-
-          // Add data for BigQuery
-          event_data.session_data = last_session;
-          event_data.session_date = last_session.session_date;
-
-          Object.delete(event_data.session_data, 'session_date');
-          Object.delete(event_data.session_data, 'session_id');
         }
       }
 
-      return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
+
     });
 }
 
