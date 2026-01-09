@@ -187,6 +187,11 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
+
+#### Streaming protocol request example
+
+For a **Python implementation** that integrates with BigQuery, see the [Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md).
+
 </br></br>
 
 
