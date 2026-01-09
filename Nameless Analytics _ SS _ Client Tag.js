@@ -82,6 +82,8 @@ if (getRequestPath() === endpoint) {
       if (data.enable_logs) { log('👉 Event name: ', event_data.event_name); }
 
       if (request_method === 'POST') {
+        let message;
+        let status_code;
 
         // Check required fields
         const missing_fields = [];
@@ -97,18 +99,14 @@ if (getRequestPath() === endpoint) {
         if (!event_id) missing_fields.push('event_id');
         if (!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');
 
-        let message;
-        let status_code;
-
         // REFUSE REQUESTS
         // Check User-Agent header
         const user_agent = getRequestHeader('User-Agent') || '';
         const request_user_agent = user_agent.toLowerCase();
         const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright"];
 
-        // Empty UA
-        if (request_user_agent === '') {
-          message = '🔴 Missing User-Agent header';
+        if (request_user_agent === '' || request_user_agent === null) {
+          message = '🔴 Missing User-Agent header. Request from bot';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
@@ -116,7 +114,15 @@ if (getRequestPath() === endpoint) {
           return;
         }
 
-        // UA Bots
+        if (event_origin == 'Streaming protocol' && request_user_agent != 'nameless analytics - streaming protocol') {
+          message = '🔴 Invalid User-Agent header value. Request from bot';
+          if (data.enable_logs) { log(message); }
+          status_code = 403;
+
+          claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
+
         for (var i = 0; i < bad_agents.length; i++) {
           if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
             message = '🔴 Invalid User-Agent header value. Request from bot';
@@ -135,41 +141,61 @@ if (getRequestPath() === endpoint) {
 
           if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
 
-          // Check Streaming protocol requests API key
-        } else if (event_origin == 'Streaming protocol' && data.add_api_key && event_api_key != api_key) {
+        // Check Streaming protocol requests API key
+        if (event_origin == 'Streaming protocol' && data.add_api_key && event_api_key != api_key) {
           message = '🔴 Invalid API key';
           if (data.enable_logs) { log(message); }
           status_code = 403;
 
           claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
 
-          // If some required parameter is missing 
-        } else if (event_name != 'get_user_data' && missing_fields.length > 0) {
+        // Check if page_view is from Streaming protocol
+        if (event_name == 'page_view' && event_origin == 'Streaming protocol') {
+          message = '🔴 Invalid event_name. Can\'t send page_view from Streaming protocol';
+          status_code = 403;
+
+          if (data.enable_logs) { log(message); }
+          claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
+
+        // Check if some required parameter is missing 
+        if (event_name != 'get_user_data' && missing_fields.length > 0) {
           message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));
           if (data.enable_logs) { log(message); }
           status_code = 403;
 
           claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
 
-          // If user cookie is missing
-        } else if (event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
+        // Check if user cookie is missing
+        if (event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && user_cookie_value === undefined) {
           message = '🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
 
-          // If session cookie is missing
-        } else if (event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
+        // Check if session cookie is missing
+        if (event_origin == 'Website' && event_data.event_name != 'page_view' && event_data.event_name != 'get_user_data' && session_cookie_value === undefined) {
           message = '🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
 
-          // If user or session cookie is missing for get_user_data requests
-        } else if (event_name == 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
+        // Check if user or session cookie is missing for get_user_data requests
+        if (event_name == 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
           if (data.enable_logs) { log('👉 Request from get_user_data event'); }
 
           if (data.enable_logs) { log('CHECK COOKIES'); }
@@ -180,33 +206,36 @@ if (getRequestPath() === endpoint) {
 
             if (data.enable_logs) { log(message); }
             claim_request(set_ids_get_user_data(), status_code, message);
+            return;
           } else if (session_cookie_value === undefined) {
             message = '🔴 Session cookie not found. No cross-domain link decoration will be applied';
             status_code = 403;
 
             if (data.enable_logs) { log(message); }
             claim_request(set_ids_get_user_data(), status_code, message);
-          }
-
-          // CLAIM REQUESTS 
-        } else {
-          // Claim get user data requests
-          if (event_name == 'get_user_data') {
-            if (data.enable_logs) { log('🟢 Request correct, user and session cookie found. Cross-domain link decoration will be applied'); }
-
-            message = '🟢 Request claimed successfully';
-            status_code = 200;
-
-            if (data.enable_logs) { log('REQUEST STATUS'); }
-            claim_request(set_ids_get_user_data(), status_code, message);
-
-          } else {
-            // Claim standard requests
-            if (data.enable_logs) { log('🟢 Request correct'); }
-
-            claim_request(build_payload(set_ids(event_data)), null, '');
+            return;
           }
         }
+
+        // CLAIM REQUESTS 
+        // Claim get user data requests
+        if (event_name == 'get_user_data') {
+          if (data.enable_logs) { log('🟢 Request correct, user and session cookie found. Cross-domain link decoration will be applied'); }
+
+          message = '🟢 Request claimed successfully';
+          status_code = 200;
+
+          if (data.enable_logs) { log('REQUEST STATUS'); }
+          claim_request(set_ids_get_user_data(), status_code, message);
+          return;
+        } else {
+          // Claim standard requests
+          if (data.enable_logs) { log('🟢 Request correct'); }
+
+          claim_request(build_payload(set_ids(event_data)), null, '');
+          return;
+        }
+
       } else {
         if (data.enable_logs) { log('CHECK REQUEST'); }
 
@@ -216,6 +245,7 @@ if (getRequestPath() === endpoint) {
 
         if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
+        return;
       }
     } else {
       if (data.enable_logs) { log('CHECK REQUEST'); }
@@ -226,6 +256,7 @@ if (getRequestPath() === endpoint) {
 
       if (data.enable_logs) { log(message); }
       claim_request({ event_name: event_name }, status_code, message);
+      return;
     }
   } else {
     if (data.enable_logs) { log('CHECK REQUEST'); }
@@ -236,6 +267,7 @@ if (getRequestPath() === endpoint) {
 
     if (data.enable_logs) { log(message); }
     claim_request({ event_name: event_name }, status_code, message);
+    return;
   }
 }
 

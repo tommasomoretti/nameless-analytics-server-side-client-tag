@@ -187,27 +187,6 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
-
-#### Streaming protocol request example
-
-To send an event via the Streaming protocol using cURL:
-
-```bash
-curl -X POST "https://gtm.yourdomain.com/tm/nameless" \
-     -H "Content-Type: application/json" \
-     -H "x-api-key: YOUR_SECRET_API_KEY" \
-     -d '{
-           "event_name": "backend_event",
-           "event_origin": "Streaming protocol",
-           "client_id": "user_123",
-           "session_id": "session_456",
-           "event_data": {
-             "status": "success",
-             "value": 100
-           }
-         }'
-```
-
 </br></br>
 
 
