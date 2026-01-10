@@ -42,8 +42,6 @@ Execution messages:
 * [Success messages](#success-messages) 
 * [Error messages](#error-messages) 
 
-</br></br>
-
 
 
 ## Tag UI
@@ -51,9 +49,6 @@ Execution messages:
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/f8525c4f-cd3e-471b-894d-dab219a6a58f)
-
-</br>
-</br>
 
 
 
@@ -81,8 +76,6 @@ These parameters can override [user parameters](#addoverride-user-level-paramete
 #### Remove user level parameters
 
 Remove user level parameters in user_data object in the payload. 
-
-</br></br>
 
 
 
@@ -117,8 +110,6 @@ These parameters can override [session parameters](#addoverride-session-level-pa
 
 Remove session level parameters in session_data object in the payload. 
 
-</br></br>
-
 
 
 ## Event data
@@ -145,8 +136,6 @@ These parameters can override:
 #### Remove event level parameters
 
 Remove event level parameters in event_data object in the payload. 
-
-</br></br>
 
 
 
@@ -187,12 +176,9 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
-
 #### Streaming protocol request example
 
 For a **Python implementation** that integrates with BigQuery, see the [Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md).
-
-</br></br>
 
 
 
@@ -200,8 +186,10 @@ For a **Python implementation** that integrates with BigQuery, see the [Streamin
 ### Project name
 The unique ID of the Google Cloud Project.
 
+
 ### Dataset name
 The ID of the BigQuery dataset where Nameless Analytics will store its tables. This dataset must be created before the tag can write data.
+
 
 ### Table name
 The name of the main raw events table. By default, this is set to `events_raw`.
@@ -209,8 +197,6 @@ The name of the main raw events table. By default, this is set to `events_raw`.
 **Mandatory Schema**: The BigQuery table must have a schema that matches the Nameless Analytics payload. Create it using the Create tables DML query in the [Create tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/reporting-tables/README.md#create-tables) section.
 
 See the [Request Payload Example](https://github.com/nameless-analytics/nameless-analytics/#request-payload-data) for the exact structure.
-
-</br></br>
 
 
 
@@ -236,8 +222,6 @@ Enable logs for all events in preview mode.
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
 
-</br></br>
-
 
 
 ## Execution messages
@@ -254,6 +238,7 @@ The following success messages can be found in the GTM Server Preview mode logs 
 | | `🟢 User already in Firestore, session successfully updated into Firestore` | Confirmation that an existing session was refreshed |
 | | `🟢 Payload data inserted successfully into BigQuery` | Confirmation that the event was pushed to BigQuery |
 | | `🟢 Request sent successfully to: [URL]` | Forwarded successfully to a custom endpoint |
+
 
 ### Error messages
 These messages are returned with a **403 Forbidden** status code or logged when a request is rejected:
