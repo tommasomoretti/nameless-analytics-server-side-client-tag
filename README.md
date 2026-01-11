@@ -45,7 +45,6 @@ Execution messages:
 
 
 ## Tag UI
-
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/f8525c4f-cd3e-471b-894d-dab219a6a58f)
@@ -54,99 +53,72 @@ This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ## User data
 ### User parameters
-
 Add user parameters for all events. The parameters will be added in the user_data object in the payload.
 
 They are:
-* written in Google Cloud Firestore every time they change --> latest values 
-* read and sent to BigQuery with the current parameter status --> current values 
-
-Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
-
-This is the hierarchy of event parameter importance: 
-
-[Server-side user parameters](#user-parameters) override [User parameters](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#user-parameters)
+- written in Google Cloud Firestore every time they change --> latest values 
+- read and sent to BigQuery with the current parameter status --> current values 
 
 #### Add/override user level parameters
+Accepted values: strings, integers, floats, and JSON.
 
-Add user level parameters to the `user_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
-
-These parameters can override [user parameters](#addoverride-user-level-parameters) added in the Nameless Analytics Server-side Client Tag.
+These parameters can override:
+- User parameters added in Nameless Analytics Tracker Configuration Variable
 
 #### Remove user level parameters
-
 Remove user level parameters in user_data object in the payload. 
 
 
 
 ## Session data
 ### Session parameters
-
 Add session parameters for all events. The parameters will be added in the session_data object in the payload.
 
 They are:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
-Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
-
-This is the hierarchy of parameter importance: 
-
-See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
-
 #### Add/override User ID parameter
+Accepted values: strings. 
 
-Add or override the User ID parameter in the `user_id` field. 
-
-This parameter can override the [User ID](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#add-user-id) provided by the Nameless Analytics Client-side Tracker Configuration Variable.
+These parameters can override:
+- User ID parameter added in Nameless Analytics Tracker Configuration Variable
 
 #### Add/override session level parameters
+Accepted values: strings, integers, floats, and JSON.
 
-Add session level parameters to the `session_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
-
-These parameters can override [session parameters](#addoverride-session-level-parameters) added in the Nameless Analytics Server-side Client Tag.
+These parameters can override:
+- Session parameters added in Nameless Analytics Tracker Configuration Variable
 
 #### Remove session level parameters
-
 Remove session level parameters in session_data object in the payload. 
 
 
 
 ## Event data
 ### Event parameters
-
 Add event parameters for all events. The parameters will be added in the event_data object in the payload.
 
-Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set. 
-
-This is the hierarchy of parameter importance: 
-
-See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
-
 #### Add/override event level parameters
-
-Add event level parameters to the `event_data` object in the payload. Accepted values: strings, integers, floats, and JSON.
+Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
-- Default event parameters.
-- dataLayer event parameters added in the Nameless Analytics Client-side Tracker Tag.
-- Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable.
-- Event parameters added in the Nameless Analytics Client-side Tracker Tag.
+- Event parameters added in the Nameless Analytics Client-side Tracker Tag
+- Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable
+- dataLayer event parameters added in the Nameless Analytics Client-side Tracker Tag
+- Default event parameters
 
 #### Remove event level parameters
-
 Remove event level parameters in event_data object in the payload. 
 
 
 
 ## Client settings
 ### Endpoint path
-
 Endpoint path to which requests have to be sent.
 
 
 ### Accept requests from authorized domains only
-
 Set the specific domains from which requests can be claimed.
 
 If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the "Allowed domains" field. Add one domain per row.
@@ -164,12 +136,10 @@ To select a domain for the preview mode, click the icon near the preview button 
 
 
 ### Reject requests by IP
-
 Reject requests from unauthorized IP addresses.
 
 
 ### API key for Streaming protocol requests
-
 Secure the Streaming protocol (Measurement Protocol) endpoint by requiring a secret API key.
 
 When the **"Add API key for Streaming protocol"** checkbox is enabled, the Client Tag will reject any request where the `event_origin` is set to `Streaming protocol` unless it includes a valid `x-api-key` header matching the configured value.
@@ -177,7 +147,6 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
 #### Streaming protocol request example
-
 For a **Python implementation** that integrates with BigQuery, see the [Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md).
 
 
@@ -202,22 +171,18 @@ See the [Request Payload Example](https://github.com/nameless-analytics/nameless
 
 ## Advanced settings
 ### Send data to custom endpoint
-
 Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
 
 
 ### Change user and session cookie prefix
-
 Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/nameless-analytics/nameless-analytics/#cookies) for more information.
 
 
 ### Change default session duration
-
 Change the session duration in minutes. Default value: 30 min.
 
 
 ### Enable logs in preview mode
-
 Enable logs for all events in preview mode. 
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
