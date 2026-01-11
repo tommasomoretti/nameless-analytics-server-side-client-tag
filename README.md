@@ -63,7 +63,7 @@ They are:
 Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
-- User parameters added in Nameless Analytics Tracker Configuration Variable
+- User parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
 #### Remove user level parameters
 Remove user level parameters in user_data object in the payload. 
@@ -82,13 +82,13 @@ They are:
 Accepted values: strings. 
 
 These parameters can override:
-- User ID parameter added in Nameless Analytics Tracker Configuration Variable
+- User ID parameter added in Nameless Analytics Client-side Tracker Configuration Variable
 
 #### Add/override session level parameters
 Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
-- Session parameters added in Nameless Analytics Tracker Configuration Variable
+- Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
 #### Remove session level parameters
 Remove session level parameters in session_data object in the payload. 
