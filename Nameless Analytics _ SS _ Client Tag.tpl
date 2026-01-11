@@ -354,7 +354,7 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Add/override User ID",
         "simpleValueType": true,
         "displayName": "Session parameters",
-        "help": "Add or override User ID to the request in session_data.user_id.",
+        "help": "Add or override User ID to the request in session_data.",
         "defaultValue": false,
         "alwaysInSummary": true,
         "subParams": [
