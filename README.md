@@ -4,47 +4,44 @@ The Nameless Analytics Server-side Client Tag is a highly customizable GTM custo
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/nameless-analytics/nameless-analytics/#high-level-data-flow).
 
-Tag:
-* [Nameless Analytics Server-side Client Tag UI](#tag-ui)
 
-Data:
-* User data
+
+## TOC
+* [Nameless Analytics Server-side Client Tag UI](#nameless-analytics-server-side-client-tag-ui)
+* [User data](#user-data)
   * [User parameters](#user-parameters)
     * [Add/override user level parameters](#addoverride-user-level-parameters)
     * [Remove user level parameters](#remove-user-level-parameters)
-* Session data
+* [Session data](#session-data)
   * [Session parameters](#session-parameters)
     * [Add/override User ID](#addoverride-user-id-parameter)
     * [Add/override session level parameters](#addoverride-session-level-parameters)
     * [Remove session level parameters](#remove-session-level-parameters)
-* Event data
+* [Event data](#event-data)
   * [Event parameters](#event-parameters)
     * [Add/override event level parameters](#addoverride-event-level-parameters)
     * [Remove event level parameters](#remove-event-level-parameters)
-
-Settings:
-* Client settings
+* [Client settings](#client-settings)
   * [Endpoint path](#endpoint-path)
   * [Accept requests from authorized domains only](#accept-requests-from-authorized-domains-only)
   * [Reject requests by IP](#reject-requests-by-ip)
-* Google BigQuery settings
+* [Google BigQuery settings](#google-bigquery-settings)
   * [Google BigQuery project ID](#project-name)
   * [Google BigQuery dataset ID](#dataset-name)
   * [Google BigQuery table ID](#table-name)
-* Session settings
+* [Session settings](#session-settings)
   * [Change user and session cookie prefix](#change-user-and-session-cookie-prefix)
   * [Change default session duration](#change-default-session-duration)
-* Advanced settings
+* [Advanced settings](#advanced-settings)
    * [Send data to custom endpoint](#send-data-to-custom-endpoint)
    * [Enable logs in preview mode](#enable-logs-in-preview-mode)
-
-Execution messages:
-* [Success messages](#success-messages) 
-* [Error messages](#error-messages) 
-
+* [Execution messages](#execution-messages)
+  * [Success messages](#success-messages) 
+  * [Error messages](#error-messages) 
 
 
-## Tag UI
+
+## Nameless Analytics Server-side Client Tag UI
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/f8525c4f-cd3e-471b-894d-dab219a6a58f)
@@ -163,7 +160,7 @@ The ID of the BigQuery dataset where Nameless Analytics will store its tables. T
 ### Table name
 The name of the main raw events table. By default, this is set to `events_raw`.
 
-**Mandatory Schema**: The BigQuery table must have a schema that matches the Nameless Analytics payload. Create it using the Create tables DML query in the [Create tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/reporting-tables/README.md#create-tables) section.
+**Mandatory Schema**: The BigQuery table must have a schema that matches the Nameless Analytics payload. Create it using the Create tables DML query in the [Create tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/README.md#create-tables) section.
 
 See the [Request Payload Example](https://github.com/nameless-analytics/nameless-analytics/#request-payload-data) for the exact structure.
 
