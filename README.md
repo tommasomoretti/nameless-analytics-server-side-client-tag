@@ -6,7 +6,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 
-## TOC
+## Table of Contents
 * [Nameless Analytics Server-side Client Tag UI](#nameless-analytics-server-side-client-tag-ui)
 * [User data](#user-data)
   * [User parameters](#user-parameters)
