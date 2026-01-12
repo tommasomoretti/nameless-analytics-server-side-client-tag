@@ -214,22 +214,25 @@ These messages are returned with a **403 Forbidden** status code or logged when 
 | | `🔴 Request method not correct` | The request was not a `POST` request | Ensure your tracker is sending data via POST |
 | | `🔴 Request IP not authorized` | The request came from a banned IP address | Check the "Banned IPs" list in the Client Tag settings |
 | | `🔴 Request origin not authorized` | The request came from an unauthorized domain | Add the calling domain to the "Authorized domains" list in settings |
-| | `🔴 Missing User-Agent header` | The request is missing the standard User-Agent header | Use a standard browser or ensure your client sends a valid UA string |
-| | `🔴 Invalid User-Agent header value. Request from bot` | The request was identified as an automated bot or scraper | This is expected behavior for bot protection. No action needed for real users |
-| | `🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol` | The `event_origin` parameter in the payload is incorrect | Ensure the client-side tracker is correctly setting the origin to "Website" or "Streaming protocol" |
-| | `🔴 Missing required parameters: [parameters]` | The incoming JSON payload is missing mandatory fields | Check that your tracker is sending all required fields (e.g., `event_name`, `page_id`) |
+| | `🔴 Missing User-Agent header. Request from bot` | The request is missing the standard User-Agent header | Use a standard browser or ensure your client sends a valid UA string |
+| | `🔴 Invalid User-Agent header value. Request from bot` | The request was identified as an automated bot or scraper | No action needed for real users |
+| | `🔴 Invalid event_origin parameter value. Accepted values: Website` | The `event_origin` parameter for get_user_data event is missing or incorrect | Ensure the client-side tracker is correctly setting the origin to "Website" |
+| | `🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol` | The `event_origin` parameter for standard events is missing or incorrect | Ensure the client-side tracker is correctly setting the origin to "Website" or "Streaming protocol" |
+| | `🔴 Invalid event_name. Can't send page_view from Streaming protocol` | Sequence error: `page_view` cannot be sent via Streaming protocol | Use the website tracker for `page_view` events |
+| | `🔴 Missing required parameters: [parameters]` | The incoming JSON payload is missing mandatory fields | Check that your tracker is sending all required fields |
 | | `🔴 Invalid API key` | The `x-api-key` header for Streaming protocol is missing or incorrect | Provide the correct API key in the request headers |
-| | `🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session` | Event received for a new visitor without a preceding `page_view` | Adjust the client-side trigger sequence to ensure `page_view` fires first |
-| | `🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session` | Event received for a returning visitor with an expired session without `page_view` | Adjust the client-side trigger sequence |
-| | `🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session` | Firestore check: session creation attempt without `page_view` context | Reorder triggers to initialize the session with a `page_view` |
-| | `🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session` | Firestore check: session refresh attempt without `page_view` context | Reorder triggers to initialize the session with a `page_view` |
-| Data storage | `🔴 User or session data not created in Firestore` | The initial Firestore write operation failed | Check GCP project permissions, Firestore status, and quotas |
-| | `🔴 User or session data not added in Firestore` | Failed to append a new session to an existing user document | Verify Firestore permissions and document size limits |
-| | `🔴 User or session data not updated in Firestore` | Failed to update current session data in Firestore | Verify Firestore permissions and connectivity |
-| | `🔴 Payload data not inserted into BigQuery` | The streaming insert to BigQuery failed | Check BigQuery dataset/table permissions and streaming quotas |
-| | `🔴 Request not sent successfully. Error: [...]` | Forwarding to the custom endpoint failed | Verify the custom endpoint URL and the target server's status |
+| | `🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session` | Event received for a new visitor without a preceding `page_view` | Ensure `page_view` fires first |
+| | `🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session` | Event received for a returning visitor with an expired session without `page_view` | Ensure `page_view` fires first |
+| | `🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session` | Firestore check: session creation attempt without `page_view` context | Ensure `page_view` fires first |
+| | `🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session` | Firestore check: session refresh attempt without `page_view` context | Ensure `page_view` fires first |
+| Data storage | `🔴 User or session data not created in Firestore` | The initial Firestore write operation failed | Check GCP project permissions and quotas |
+| | `🔴 User or session data not added in Firestore` | Failed to append a new session to an existing user document | Verify Firestore permissions |
+| | `🔴 User or session data not updated in Firestore` | Failed to update current session data in Firestore | Verify Firestore permissions |
+| | `🔴 Payload data not inserted into BigQuery` | The streaming insert to BigQuery failed | Check BigQuery dataset/table permissions |
+| | `🔴 Request not sent successfully. Error: [result]` | Forwarding to the custom endpoint failed | Verify the custom endpoint URL |
 | Cross-domain | `🔴 User cookie not found. No cross-domain link decoration will be applied` | Required user cookie is missing on the server for ID retrieval | Ensure the visitor has a valid `na_u` cookie |
 | | `🔴 Session cookie not found. No cross-domain link decoration will be applied` | Required session cookie is missing on the server for ID retrieval | Ensure the visitor has a valid `na_s` cookie |
+
 
 ---
 
