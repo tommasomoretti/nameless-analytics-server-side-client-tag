@@ -100,6 +100,49 @@ if (getRequestPath() === endpoint) {
         if (!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');
 
         // REFUSE REQUESTS
+        // Check request for get_user_data
+        if (event_name == 'get_user_data' && event_origin != 'Website' && event_name != 'Streaming protocol') {
+          message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
+          status_code = 403;
+
+          if (data.enable_logs) { log(message); }
+          claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
+
+        // Check if user or session cookie is missing for get_user_data requests
+        if (event_name == 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
+          if (data.enable_logs) { log('👉 Request from get_user_data event'); }
+
+          if (data.enable_logs) { log('CHECK COOKIES'); }
+
+          if (user_cookie_value === undefined) {
+            message = '🔴 User cookie not found. No cross-domain link decoration will be applied';
+            status_code = 403;
+
+            if (data.enable_logs) { log(message); }
+            claim_request(set_ids_get_user_data(), status_code, message);
+            return;
+          } else if (session_cookie_value === undefined) {
+            message = '🔴 Session cookie not found. No cross-domain link decoration will be applied';
+            status_code = 403;
+
+            if (data.enable_logs) { log(message); }
+            claim_request(set_ids_get_user_data(), status_code, message);
+            return;
+          }
+        }
+
+        // Check event origin 
+        if (event_origin !== 'Website' && event_origin !== 'Streaming protocol' && event_name != 'get_user_data') {
+          message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
+          status_code = 403;
+
+          if (data.enable_logs) { log(message); }
+          claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
+
         // Check User-Agent header
         const user_agent = getRequestHeader('User-Agent') || '';
         const request_user_agent = user_agent.toLowerCase();
@@ -132,16 +175,6 @@ if (getRequestPath() === endpoint) {
             claim_request({ event_name: event_name }, status_code, message);
             return;
           }
-        }
-
-        // Check event origin 
-        if (event_origin !== 'Website' && event_origin !== 'Streaming protocol' && event_name != 'get_user_data') {
-          message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
         }
 
         // Check Streaming protocol requests API key
@@ -192,29 +225,6 @@ if (getRequestPath() === endpoint) {
           if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
           return;
-        }
-
-        // Check if user or session cookie is missing for get_user_data requests
-        if (event_name == 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
-          if (data.enable_logs) { log('👉 Request from get_user_data event'); }
-
-          if (data.enable_logs) { log('CHECK COOKIES'); }
-
-          if (user_cookie_value === undefined) {
-            message = '🔴 User cookie not found. No cross-domain link decoration will be applied';
-            status_code = 403;
-
-            if (data.enable_logs) { log(message); }
-            claim_request(set_ids_get_user_data(), status_code, message);
-            return;
-          } else if (session_cookie_value === undefined) {
-            message = '🔴 Session cookie not found. No cross-domain link decoration will be applied';
-            status_code = 403;
-
-            if (data.enable_logs) { log(message); }
-            claim_request(set_ids_get_user_data(), status_code, message);
-            return;
-          }
         }
 
         // CLAIM REQUESTS 
