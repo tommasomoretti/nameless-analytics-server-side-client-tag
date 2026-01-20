@@ -44,7 +44,6 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 
-
 ## Nameless Analytics Server-side Client Tag UI
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
