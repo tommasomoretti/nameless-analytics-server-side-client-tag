@@ -8,7 +8,6 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 
-
 ## Table of Contents
 - [Nameless Analytics Server-side Client Tag UI](#nameless-analytics-server-side-client-tag-ui)
 - [User data](#user-data)
@@ -45,12 +44,10 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 
-
 ## Nameless Analytics Server-side Client Tag UI
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/f8525c4f-cd3e-471b-894d-dab219a6a58f)
-
 
 
 
@@ -62,21 +59,14 @@ They are:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
-
-</br>
-
 #### Add/override user level parameters
 Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
 - User parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
-
-</br>
-
 #### Remove user level parameters
 Remove user level parameters in user_data object in the payload. 
-
 
 
 
@@ -88,17 +78,11 @@ They are:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
-
-</br>
-
 #### Add/override User ID parameter
 Accepted values: strings. 
 
 These parameters can override:
 - User ID parameter added in Nameless Analytics Client-side Tracker Configuration Variable
-
-
-</br>
 
 #### Add/override session level parameters
 Accepted values: strings, integers, floats, and JSON.
@@ -106,21 +90,14 @@ Accepted values: strings, integers, floats, and JSON.
 These parameters can override:
 - Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
-
-</br>
-
 #### Remove session level parameters
 Remove session level parameters in session_data object in the payload. 
-
 
 
 
 ## Event data
 ### Event parameters
 Add event parameters for all events. The parameters will be added in the event_data object in the payload.
-
-
-</br>
 
 #### Add/override event level parameters
 Accepted values: strings, integers, floats, and JSON.
@@ -131,12 +108,8 @@ These parameters can override:
 - dataLayer event parameters added in the Nameless Analytics Client-side Tracker Tag
 - Default event parameters
 
-
-</br>
-
 #### Remove event level parameters
 Remove event level parameters in event_data object in the payload. 
-
 
 
 
@@ -144,8 +117,6 @@ Remove event level parameters in event_data object in the payload.
 ### Endpoint path
 Endpoint path to which requests have to be sent.
 
-
-#
 
 ### Accept requests from authorized domains only
 Set the specific domains from which requests can be claimed.
@@ -164,13 +135,9 @@ The container must be configured as well. Add the domains in the "Container sett
 To select a domain for the preview mode, click the icon near the preview button and select a domain.
 
 
-#
-
 ### Reject requests by IP
 Reject requests from unauthorized IP addresses.
 
-
-#
 
 ### API key for Streaming protocol requests
 Secure the Streaming protocol (Measurement Protocol) endpoint by requiring a secret API key.
@@ -179,12 +146,8 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
-
-</br>
-
 #### Streaming protocol request example
 For a **Python implementation** that integrates with BigQuery, see the [Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md).
-
 
 
 
@@ -193,13 +156,9 @@ For a **Python implementation** that integrates with BigQuery, see the [Streamin
 The unique ID of the Google Cloud Project.
 
 
-#
-
 ### Dataset name
 The ID of the BigQuery dataset where Nameless Analytics will store its tables. This dataset must be created before the tag can write data.
 
-
-#
 
 ### Table name
 The name of the main raw events table. By default, this is set to `events_raw`.
@@ -210,31 +169,23 @@ See the [Request Payload Example](https://github.com/nameless-analytics/nameless
 
 
 
-
 ## Advanced settings
 ### Send data to custom endpoint
 Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
 
 
-#
-
 ### Change user and session cookie prefix
 Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/nameless-analytics/nameless-analytics/#cookies) for more information.
 
-
-#
 
 ### Change default session duration
 Change the session duration in minutes. Default value: 30 min.
 
 
-#
-
 ### Enable logs in preview mode
 Enable logs for all events in preview mode. 
 
 Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
-
 
 
 
@@ -253,8 +204,6 @@ The following success messages can be found in the GTM Server Preview mode logs 
 | | `🟢 Payload data inserted successfully into BigQuery` | Confirmation that the event was pushed to BigQuery |
 | | `🟢 Request sent successfully to: [URL]` | Forwarded successfully to a custom endpoint |
 
-
-#
 
 ### Error messages
 These messages are returned with a **403 Forbidden** status code or logged when a request is rejected:
@@ -283,8 +232,6 @@ These messages are returned with a **403 Forbidden** status code or logged when 
 | | `🔴 Request not sent successfully. Error: [result]` | Forwarding to the custom endpoint failed | Verify the custom endpoint URL |
 | Cross-domain | `🔴 User cookie not found. No cross-domain link decoration will be applied` | Required user cookie is missing on the server for ID retrieval | Ensure the visitor has a valid `na_u` cookie |
 | | `🔴 Session cookie not found. No cross-domain link decoration will be applied` | Required session cookie is missing on the server for ID retrieval | Ensure the visitor has a valid `na_s` cookie |
-
-
 
 </br>
 
