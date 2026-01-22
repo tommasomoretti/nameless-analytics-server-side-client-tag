@@ -8,7 +8,6 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 
-</br>
 
 ## Table of Contents
 - [Nameless Analytics Server-side Client Tag UI](#nameless-analytics-server-side-client-tag-ui)
@@ -46,7 +45,6 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 
-</br>
 
 ## Nameless Analytics Server-side Client Tag UI
 This is the UI of the Nameless Analytics Server-side Client Tag.
@@ -55,7 +53,6 @@ This is the UI of the Nameless Analytics Server-side Client Tag.
 
 
 
-</br>
 
 ## User data
 ### User parameters
@@ -82,7 +79,6 @@ Remove user level parameters in user_data object in the payload.
 
 
 
-</br>
 
 ## Session data
 ### Session parameters
@@ -118,7 +114,6 @@ Remove session level parameters in session_data object in the payload.
 
 
 
-</br>
 
 ## Event data
 ### Event parameters
@@ -144,7 +139,6 @@ Remove event level parameters in event_data object in the payload.
 
 
 
-</br>
 
 ## Client settings
 ### Endpoint path
@@ -193,7 +187,6 @@ For a **Python implementation** that integrates with BigQuery, see the [Streamin
 
 
 
-</br>
 
 ## Google BigQuery settings
 ### Project name
@@ -217,7 +210,6 @@ See the [Request Payload Example](https://github.com/nameless-analytics/nameless
 
 
 
-</br>
 
 ## Advanced settings
 ### Send data to custom endpoint
@@ -245,7 +237,6 @@ Please note:  If cross-domain is enabled, all domains will send events in relati
 
 
 
-</br>
 
 ## Execution messages
 ### Success messages
