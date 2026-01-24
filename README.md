@@ -131,6 +131,8 @@ Follow these guides for:
 
 The container must be configured as well. Add the domains in the "Container settings" of the Server-side Google Tag Manager.
 
+![Add multiple domains to server-side GTM](https://github.com/user-attachments/assets/53eb03cd-8fdf-437b-b0e2-aa92d7bcef4e)
+
 To select a domain for the preview mode, click the icon near the preview button and select a domain.
 
 
