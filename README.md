@@ -206,7 +206,7 @@ The following success messages indicate a correct implementation and data delive
 
 
 ## Troubleshooting
-If you encounter any issues or see 🔴 error messages in the server logs, please refer to the central [Troubleshooting Guide](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING.md).
+If you encounter any issues or see 🔴 error messages in the console, please refer to the [Troubleshooting Guide](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING.md).
 
 ---
 
