@@ -129,7 +129,7 @@ Follow these guides for:
 - [Google App Engine flexible environment](https://cloud.google.com/appengine/docs/flexible/mapping-custom-domains)
 - [Google Cloud Run](https://cloud.google.com/run/docs/mapping-custom-domains)
 
-The container must be configured as well. Add the domains in the "Container settings" of the Server-side Google Tag Manager.
+The container must be configured as well. Add the domains in the Admin > Container settings of the Server-side Google Tag Manager.
 
 ![Add multiple domains to server-side GTM](https://github.com/user-attachments/assets/53eb03cd-8fdf-437b-b0e2-aa92d7bcef4e)
 
@@ -137,7 +137,7 @@ To select a domain for the preview mode, click the icon near the preview button 
 
 
 ### Reject requests by IP
-Reject requests from unauthorized IP addresses.
+Reject requests from unauthorized IP addresses. Value accepted IPv4 and IPv6 addresses.
 
 
 ### API key for Streaming protocol requests
@@ -147,8 +147,7 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
-#### Streaming protocol request example
-For a **Python implementation** that integrates with BigQuery, see the [Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md).
+The [Nameless Analytics Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md) retreive page data from BigQuery and send a request to the Nameless Analytics Server-side Client Tag endpoint. 
 
 
 
@@ -162,11 +161,7 @@ The ID of the BigQuery dataset where Nameless Analytics will store its tables. T
 
 
 ### Table name
-The name of the main raw events table. By default, this is set to `events_raw`.
-
-**Mandatory Schema**: The BigQuery table must have a schema that matches the Nameless Analytics payload. Create it using the Create tables DML query in the [Create tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/README.md#create-tables) section.
-
-See the [Request Payload Example](https://github.com/nameless-analytics/nameless-analytics/#request-payload-data) for the exact structure.
+The name of the main raw events table. By default, this is set to `events_raw`. Create it using the Create tables DML query in the [Create tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/TABLES.md#create-tables) section before start sending events.
 
 
 
@@ -184,9 +179,7 @@ Change the session duration in minutes. Default value: 30 min.
 
 
 ### Enable logs in preview mode
-Enable logs for all events in preview mode. 
-
-Please note:  If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
+Enable logs for all events in preview mode. If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
 
 
 
