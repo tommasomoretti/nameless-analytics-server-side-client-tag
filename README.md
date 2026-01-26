@@ -44,6 +44,10 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 ## Nameless Analytics Server-side Client Tag UI
+The Nameless Analytics Server-side Client Tag serves as the secure, high-performance gateway for your data infrastructure. 
+
+It is responsible for validating incoming requests, enriching payloads with Firestore data, and routing verified events to BigQuery and external endpoints.
+
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/f8525c4f-cd3e-471b-894d-dab219a6a58f)
