@@ -71,7 +71,7 @@ if (getRequestPath() === endpoint) {
   if (check_origin()) {
     if (!check_ip()) {
 
-      if (data.enable_logs) { log('CHECK REQUEST'); }
+      if (data.enable_logs) { log('CHECKING REQUEST'); }
 
       if (event_name == 'get_user_data') {
         if (data.enable_logs) { log('👉 Request type: Get user data'); }
@@ -114,7 +114,7 @@ if (getRequestPath() === endpoint) {
         if (event_name == 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
           if (data.enable_logs) { log('👉 Request from get_user_data event'); }
 
-          if (data.enable_logs) { log('CHECK COOKIES'); }
+          if (data.enable_logs) { log('CHECKING COOKIES'); }
 
           if (user_cookie_value === undefined) {
             message = '🔴 User cookie not found. No cross-domain link decoration will be applied';
@@ -247,7 +247,7 @@ if (getRequestPath() === endpoint) {
         }
 
       } else {
-        if (data.enable_logs) { log('CHECK REQUEST'); }
+        if (data.enable_logs) { log('CHECKING REQUEST'); }
 
         // RETURN RESPONSE ERRORS
         message = '🔴 Request method not correct';
@@ -258,7 +258,7 @@ if (getRequestPath() === endpoint) {
         return;
       }
     } else {
-      if (data.enable_logs) { log('CHECK REQUEST'); }
+      if (data.enable_logs) { log('CHECKING REQUEST'); }
 
       // RETURN RESPONSE ERRORS
       message = '🔴 Request IP not authorized';
@@ -269,7 +269,7 @@ if (getRequestPath() === endpoint) {
       return;
     }
   } else {
-    if (data.enable_logs) { log('CHECK REQUEST'); }
+    if (data.enable_logs) { log('CHECKING REQUEST'); }
 
     // RETURN RESPONSE ERRORS
     message = '🔴 Request origin not authorized';
@@ -379,7 +379,7 @@ function set_ids(event_data) {
         event_data.page_id = old_session_id + '-' + page_id;
         event_data.event_id = old_session_id + '-' + event_id;
 
-        if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
+        if (data.enable_logs) { log('CHECKING USER AND SESSION COOKIES'); }
         if (data.enable_logs) { log('👉 Same client_id, same session_id'); }
         if (data.enable_logs) { log('👉 Extend cookies max-age'); }
       }
@@ -391,7 +391,7 @@ function set_ids(event_data) {
       event_data.page_id = cross_domain_session_id + '-' + page_id;
       event_data.event_id = cross_domain_session_id + '-' + event_id;
 
-      if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
+      if (data.enable_logs) { log('CHECKING USER AND SESSION COOKIES'); }
       if (data.enable_logs) { log('👉 Returning user, no active session'); }
       if (data.enable_logs) { log('👉 Same client_id: ', cross_domain_client_id + ', create new session_id: ', cross_domain_session_id); }
     }
@@ -408,7 +408,7 @@ function set_ids(event_data) {
       event_data.page_id = new_session_id + '-' + page_id;
       event_data.event_id = new_session_id + '-' + event_id;
 
-      if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
+      if (data.enable_logs) { log('CHECKING USER AND SESSION COOKIES'); }
       if (data.enable_logs) { log('👉 New user, no active session'); }
       if (data.enable_logs) { log('👉 Create new client_id: ', new_client_id + ' and new session_id: ', new_session_id); }
 
@@ -424,7 +424,7 @@ function set_ids(event_data) {
         event_data.page_id = new_session_id + '-' + page_id;
         event_data.event_id = new_session_id + '-' + event_id;
 
-        if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
+        if (data.enable_logs) { log('CHECKING USER AND SESSION COOKIES'); }
         if (data.enable_logs) { log('👉 Returning user, no active session'); }
         if (data.enable_logs) { log('👉 Same client_id: ', old_client_id + ', create new session_id: ', new_session_id); }
 
@@ -438,7 +438,7 @@ function set_ids(event_data) {
         event_data.page_id = old_session_id + '-' + page_id;
         event_data.event_id = old_session_id + '-' + event_id;
 
-        if (data.enable_logs) { log('CHECK USER AND SESSION COOKIES'); }
+        if (data.enable_logs) { log('CHECKING USER AND SESSION COOKIES'); }
         if (data.enable_logs) { log('👉 Same client_id, same session_id'); }
         if (data.enable_logs) { log('👉 Extend cookies max-age'); }
       }
@@ -596,7 +596,7 @@ function claim_request(event_data, status_code, message) {
     // For standard requests
   } else {
     // Send data to Firestore
-    if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE FIRESTORE'); }
+    if (data.enable_logs) { log('SENDING EVENT DATA TO GOOGLE FIRESTORE'); }
     send_to_firestore(event_data)
       // Return response to browser
       .then((res) => {
@@ -609,7 +609,7 @@ function claim_request(event_data, status_code, message) {
       // Send data to BigQuery
       .then((res) => {
         if (res.status == true) {
-          if (data.enable_logs) { log('SEND EVENT DATA TO GOOGLE BIGQUERY'); }
+          if (data.enable_logs) { log('SENDING EVENT DATA TO GOOGLE BIGQUERY'); }
           send_to_bq(event_data);
         }
         return res;
@@ -618,7 +618,7 @@ function claim_request(event_data, status_code, message) {
       .then((res) => {
         if (res.status == true) {
           if (data.send_data_to_custom_endpoint) {
-            if (data.enable_logs) { log('SEND EVENT DATA TO CUSTOM ENDPOINT'); }
+            if (data.enable_logs) { log('SENDING EVENT DATA TO CUSTOM ENDPOINT'); }
             send_to_custom_endpoint(data.custom_request_endpoint_path, event_data);
           }
         }
