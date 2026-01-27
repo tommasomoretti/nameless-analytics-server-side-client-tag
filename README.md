@@ -1,6 +1,6 @@
 # Nameless Analytics | Server-side Client Tag
 
-The Nameless Analytics Server-side Client Tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side Tracker Tag](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-tag/) and other sources.
+The Nameless Analytics Server-side Client Tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side Tracker Tag](https://github.com/nameless-analytics/client-side-tracker-tag/) and other sources.
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/nameless-analytics/nameless-analytics/#high-level-data-flow).
 
@@ -9,7 +9,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 ## Table of Contents
-- [Nameless Analytics Server-side Client Tag UI](#nameless-analytics-server-side-client-tag-ui)
+- [Nameless Analytics Server-side Client Tag UI](#server-side-client-tag-ui)
 - [User data](#user-data)
   - [User parameters](#user-parameters)
     - [Add/override user level parameters](#addoverride-user-level-parameters)
@@ -183,7 +183,7 @@ Change the session duration in minutes. Default value: 30 min.
 
 
 ### Enable logs in preview mode
-Enable logs for all events in preview mode. If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/nameless-analytics-client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
+Enable logs for all events in preview mode. If cross-domain is enabled, all domains will send events in relative preview mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
 
 
 
