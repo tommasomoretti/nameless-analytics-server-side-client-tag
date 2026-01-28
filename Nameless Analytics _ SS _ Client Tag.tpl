@@ -65,13 +65,6 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_date$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override user_date parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!user_channel_grouping$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override user_channel_grouping parameter."
@@ -87,13 +80,6 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_tld_source$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override user_tld_source parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!user_campaign$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override user_campaign parameter."
@@ -105,6 +91,13 @@ ___TEMPLATE_PARAMETERS___
                     ],
                     "errorMessage": "Can\u0027t add/override user_channel_grouping parameter.",
                     "enablingConditions": []
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_campaign_click_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override user_campaign_click_id parameter."
                   },
                   {
                     "type": "REGEX",
@@ -139,14 +132,14 @@ ___TEMPLATE_PARAMETERS___
                     "args": [
                       "^(?!user_language$).*"
                     ],
-                    "errorMessage": "Can\u0027t add/override user_language parameter."
+                    "errorMessage": "Can\u0027t add user_language parameter."
                   },
                   {
                     "type": "REGEX",
                     "args": [
                       "^(?!user_first_session_timestamp$).*"
                     ],
-                    "errorMessage": "Can\u0027t add user_first_session_timestamp parameter."
+                    "errorMessage": "Can\u0027t add/override user_first_session_timestamp parameter."
                   },
                   {
                     "type": "REGEX",
@@ -158,9 +151,23 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_id$).*"
+                      "^(?!user_tld_source$).*"
                     ],
-                    "errorMessage": "Can\u0027t add user_id parameter. Add the user ID in the field below."
+                    "errorMessage": "Can\u0027t add user_tld_source parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_city$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add user_city parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_country$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add user_country parameter."
                   }
                 ]
               },
@@ -170,11 +177,7 @@ ___TEMPLATE_PARAMETERS___
                 "name": "param_value",
                 "type": "TEXT",
                 "valueHint": "(not set)",
-                "valueValidators": [
-                  {
-                    "type": "NON_EMPTY"
-                  }
-                ]
+                "valueValidators": []
               }
             ],
             "valueValidators": [
@@ -193,7 +196,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Add or override user parameters to the request in user_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved user parameters: \u003c/br\u003e \n• user_date \u003c/br\u003e \n• user_id \u003c/br\u003e \n• user_channel_grouping \u003c/br\u003e \n• user_source \u003c/br\u003e \n• user_tld_source \u003c/br\u003e \n• user_campaign \u003c/br\u003e \n• user_campaign_id \u003c/br\u003e \n• user_campaign_content \u003c/br\u003e \n• user_campaign_term \u003c/br\u003e \n• user_device_type \u003c/br\u003e \n• user_country \u003c/br\u003e \n• user_language \u003c/br\u003e \n• user_first_session_timestamp \u003c/br\u003e\n• user_last_session_timestamp \u003c/br\u003e",
+        "help": "Add or override user parameters to the request in user_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved user parameters: \u003c/br\u003e  \n• user_channel_grouping \u003c/br\u003e  \n• user_source \u003c/br\u003e  \n• user_tld_source \u003c/br\u003e  \n• user_campaign \u003c/br\u003e  \n• user_campaign_id \u003c/br\u003e  \n• user_campaign_click_id\u003c/br\u003e\n• user_campaign_content \u003c/br\u003e  \n• user_campaign_term \u003c/br\u003e  \n• user_device_type \u003c/br\u003e  \n• user_country \u003c/br\u003e  \n• user_language \u003c/br\u003e  \n• user_city \u003c/br\u003e\n• user_country \u003c/br\u003e\n• user_first_session_timestamp \u003c/br\u003e\n• user_last_session_timestamp",
         "defaultValue": false,
         "displayName": "User parameters"
       },
@@ -203,7 +206,7 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Remove user level parameters",
         "simpleValueType": true,
         "displayName": "",
-        "help": "Remove user parameters from the request in user_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved user parameters: \u003c/br\u003e \n• user_date \u003c/br\u003e \n• user_id \u003c/br\u003e \n• user_channel_grouping \u003c/br\u003e \n• user_source \u003c/br\u003e \n• user_tld_source \u003c/br\u003e \n• user_campaign \u003c/br\u003e \n• user_campaign_id \u003c/br\u003e \n• user_campaign_content \u003c/br\u003e \n• user_campaign_term \u003c/br\u003e \n• user_device_type \u003c/br\u003e \n• user_country \u003c/br\u003e \n• user_language \u003c/br\u003e \n• user_first_session_timestamp \u003c/br\u003e\n• user_last_session_timestamp \u003c/br\u003e",
+        "help": "Remove user parameters from the request in user_data. If a parameter has the same name, it will be removed.\n\u003c/br\u003e\u003c/br\u003e\nReserved user parameters: \u003c/br\u003e  \n• user_channel_grouping \u003c/br\u003e  \n• user_source \u003c/br\u003e  \n• user_tld_source \u003c/br\u003e  \n• user_campaign \u003c/br\u003e  \n• user_campaign_id \u003c/br\u003e  \n• user_campaign_click_id\u003c/br\u003e\n• user_campaign_content \u003c/br\u003e  \n• user_campaign_term \u003c/br\u003e  \n• user_device_type \u003c/br\u003e  \n• user_country \u003c/br\u003e  \n• user_language \u003c/br\u003e  \n• user_city \u003c/br\u003e\n• user_country \u003c/br\u003e\n• user_first_session_timestamp \u003c/br\u003e\n• user_last_session_timestamp",
         "defaultValue": false,
         "alwaysInSummary": true,
         "subParams": [
@@ -226,13 +229,6 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_date$).*"
-                    ],
-                    "errorMessage": "Can\u0027t remove user_date parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!user_channel_grouping$).*"
                     ],
                     "errorMessage": "Can\u0027t remove user_channel_grouping parameter."
@@ -247,13 +243,6 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_tld_source$).*"
-                    ],
-                    "errorMessage": "Can\u0027t remove user_tld_source parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!user_campaign$).*"
                     ],
                     "errorMessage": "Can\u0027t remove user_campaign parameter."
@@ -264,6 +253,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!user_campaign_id$).*"
                     ],
                     "errorMessage": "Can\u0027t remove user_campaign_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_campaign_click_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove user_campaign_click_id parameter."
                   },
                   {
                     "type": "REGEX",
@@ -317,9 +313,23 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_id$).*"
+                      "^(?!user_tld_source$).*"
                     ],
-                    "errorMessage": "Can\u0027t remove user_id parameter. Override the user ID in the field above."
+                    "errorMessage": "Can\u0027t remove user_tld_source parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_city$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove user_city parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_country$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove user_country parameter."
                   }
                 ]
               }
@@ -405,13 +415,6 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!session_date$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override session_date parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!session_number$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override session_number parameter."
@@ -440,13 +443,6 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!session_tld_source$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override session_tld_source parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!session_campaign$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override session_campaign parameter."
@@ -457,6 +453,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!session_campaign_id$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override session_campaign_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_campaign_click_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override session_campaign_click_id parameter."
                   },
                   {
                     "type": "REGEX",
@@ -478,13 +481,6 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!session_device_type$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override session_device_type parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!session_country$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override session_country parameter."
                   },
                   {
                     "type": "REGEX",
@@ -566,16 +562,45 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!session_id$).*"
+                      "^(?!session_tld_source$).*"
                     ],
-                    "errorMessage": "Can\u0027t add/override session_id parameter."
+                    "errorMessage": "Can\u0027t add session_tld_source parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_city$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add session_city parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_country$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add session_country parameter.",
+                    "enablingConditions": []
                   },
                   {
                     "type": "REGEX",
                     "args": [
                       "^(?!user_id$).*"
                     ],
-                    "errorMessage": "Can\u0027t add user_id parameter. Add the user ID in the field above."
+                    "errorMessage": "Can\u0027t add/override user_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!total_events$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override total_events parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!total_page_views$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override total_page_views parameter."
                   }
                 ]
               },
@@ -585,11 +610,7 @@ ___TEMPLATE_PARAMETERS___
                 "name": "param_value",
                 "type": "TEXT",
                 "valueHint": "(not set)",
-                "valueValidators": [
-                  {
-                    "type": "NON_EMPTY"
-                  }
-                ]
+                "valueValidators": []
               }
             ],
             "valueValidators": [
@@ -608,7 +629,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Add or override session parameters to the request in session_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved session parameters: \u003c/br\u003e\n• session_date \u003c/br\u003e \n• session_id \u003c/br\u003e\n• session_number \u003c/br\u003e \n• cross_domain_session \u003c/br\u003e \n• session_channel_grouping \u003c/br\u003e \n• session_source \u003c/br\u003e \n• session_tld_source \u003c/br\u003e \n• session_campaign \u003c/br\u003e \n• session_campaign_id \u003c/br\u003e \n• session_campaign_content \u003c/br\u003e \n• session_campaign_term \u003c/br\u003e \n• session_device_type \u003c/br\u003e \n• session_country \u003c/br\u003e \n• session_language \u003c/br\u003e \n• session_hostname \u003c/br\u003e \n• session_browser_name \u003c/br\u003e \n• session_landing_page_category \u003c/br\u003e \n• session_landing_page_location \u003c/br\u003e \n• session_landing_page_title \u003c/br\u003e \n• session_exit_page_category \u003c/br\u003e \n• session_exit_page_location \u003c/br\u003e \n• session_exit_page_title \u003c/br\u003e \n• session_start_timestamp \u003c/br\u003e \n• session_end_timestamp \u003c/br\u003e",
+        "help": "Add or override session parameters to the request in session_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved session parameters: \u003c/br\u003e\n• user_id \u003c/br\u003e\n• session_number \u003c/br\u003e \n• cross_domain_session \u003c/br\u003e \n• session_channel_grouping \u003c/br\u003e \n• session_source \u003c/br\u003e \n• session_tld_source \u003c/br\u003e \n• session_campaign \u003c/br\u003e \n• session_campaign_id \u003c/br\u003e \n• session_campaign_click_id \u003c/br\u003e\n• session_campaign_content \u003c/br\u003e \n• session_campaign_term \u003c/br\u003e \n• session_device_type \u003c/br\u003e \n• session_city \u003c/br\u003e\n• session_country \u003c/br\u003e \n• session_language \u003c/br\u003e \n• session_hostname \u003c/br\u003e \n• session_browser_name \u003c/br\u003e \n• session_landing_page_category \u003c/br\u003e \n• session_landing_page_location \u003c/br\u003e \n• session_landing_page_title \u003c/br\u003e \n• session_exit_page_category \u003c/br\u003e \n• session_exit_page_location \u003c/br\u003e \n• session_exit_page_title \u003c/br\u003e \n• session_start_timestamp \u003c/br\u003e \n• session_end_timestamp \u003c/br\u003e\n• total_events \u003c/br\u003e\n• total_page_views",
         "defaultValue": false,
         "displayName": ""
       },
@@ -633,13 +654,6 @@ ___TEMPLATE_PARAMETERS___
                 "valueValidators": [
                   {
                     "type": "NON_EMPTY"
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!session_date$).*"
-                    ],
-                    "errorMessage": "Can\u0027t remove session_date parameter."
                   },
                   {
                     "type": "REGEX",
@@ -672,13 +686,6 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!session_tld_source$).*"
-                    ],
-                    "errorMessage": "Can\u0027t remove session_tld_source parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!session_campaign$).*"
                     ],
                     "errorMessage": "Can\u0027t remove session_campaign parameter."
@@ -689,6 +696,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!session_campaign_id$).*"
                     ],
                     "errorMessage": "Can\u0027t remove session_campaign_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_campaign_click_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove session_campaign_click_id parameter."
                   },
                   {
                     "type": "REGEX",
@@ -710,13 +724,6 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!session_device_type$).*"
                     ],
                     "errorMessage": "Can\u0027t remove session_device_type parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!session_country$).*"
-                    ],
-                    "errorMessage": "Can\u0027t remove session_country parameter."
                   },
                   {
                     "type": "REGEX",
@@ -798,9 +805,44 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!session_id$).*"
+                      "^(?!session_tld_source$).*^(?!session_end_timestamp$).*"
                     ],
-                    "errorMessage": "Can\u0027t remove session_id parameter."
+                    "errorMessage": "Can\u0027t remove session_tld_source parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_city$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove session_city parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_country$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove session_country parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!user_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove user_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!total_events$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove total_events parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!total_page_views$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove total_page_views parameter."
                   }
                 ]
               }
@@ -821,7 +863,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Remove session parameters from the request in session_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved session parameters: \u003c/br\u003e\n• session_date \u003c/br\u003e \n• session_id \u003c/br\u003e\n• session_number \u003c/br\u003e \n• cross_domain_session \u003c/br\u003e \n• session_channel_grouping \u003c/br\u003e \n• session_source \u003c/br\u003e \n• session_tld_source \u003c/br\u003e \n• session_campaign \u003c/br\u003e \n• session_campaign_id \u003c/br\u003e \n• session_campaign_content \u003c/br\u003e \n• session_campaign_term \u003c/br\u003e \n• session_device_type \u003c/br\u003e \n• session_country \u003c/br\u003e \n• session_language \u003c/br\u003e \n• session_hostname \u003c/br\u003e \n• session_browser_name \u003c/br\u003e \n• session_landing_page_category \u003c/br\u003e \n• session_landing_page_location \u003c/br\u003e \n• session_landing_page_title \u003c/br\u003e \n• session_exit_page_category \u003c/br\u003e \n• session_exit_page_location \u003c/br\u003e \n• session_exit_page_title \u003c/br\u003e \n• session_start_timestamp \u003c/br\u003e \n• session_end_timestamp \u003c/br\u003e",
+        "help": "Remove session parameters from the request in session_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved session parameters: \u003c/br\u003e\n• user_id \u003c/br\u003e\n• session_number \u003c/br\u003e \n• cross_domain_session \u003c/br\u003e \n• session_channel_grouping \u003c/br\u003e \n• session_source \u003c/br\u003e \n• session_tld_source \u003c/br\u003e \n• session_campaign \u003c/br\u003e \n• session_campaign_id \u003c/br\u003e \n• session_campaign_click_id \u003c/br\u003e\n• session_campaign_content \u003c/br\u003e \n• session_campaign_term \u003c/br\u003e \n• session_device_type \u003c/br\u003e \n• session_city \u003c/br\u003e\n• session_country \u003c/br\u003e \n• session_language \u003c/br\u003e \n• session_hostname \u003c/br\u003e \n• session_browser_name \u003c/br\u003e \n• session_landing_page_category \u003c/br\u003e \n• session_landing_page_location \u003c/br\u003e \n• session_landing_page_title \u003c/br\u003e \n• session_exit_page_category \u003c/br\u003e \n• session_exit_page_location \u003c/br\u003e \n• session_exit_page_title \u003c/br\u003e \n• session_start_timestamp \u003c/br\u003e \n• session_end_timestamp \u003c/br\u003e\n• total_events \u003c/br\u003e\n• total_page_views",
         "defaultValue": false,
         "displayName": ""
       }
@@ -893,6 +935,13 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
+                      "^(?!campaign_click_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override campaign_click_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
                       "^(?!campaign_term$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override campaign_term parameter."
@@ -907,97 +956,13 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!page_id$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_id parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_title$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_title parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_hostname_protocol$).*"
-                    ],
-                    "enablingConditions": [],
-                    "errorMessage": "Can\u0027t add/override page_hostname_protocol parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_hostname$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_hostname parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_location$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_location parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_fragment$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_fragment parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_query$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_query parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_extension$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_extension parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_referrer$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_referrer parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_language$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_language parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_status_code$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_status_code parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!cs_container_id$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override cs_container_id parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!user_agent$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override user_agent parameter."
                   },
                   {
                     "type": "REGEX",
+                    "enablingConditions": [],
                     "args": [
                       "^(?!browser_name$).*"
                     ],
@@ -1005,18 +970,17 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "type": "REGEX",
-                    "enablingConditions": [],
+                    "errorMessage": "Can\u0027t add/override browser_language parameter.",
                     "args": [
                       "^(?!browser_language$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override browser_language parameter."
+                    ]
                   },
                   {
                     "type": "REGEX",
-                    "errorMessage": "Can\u0027t add/override browser_version parameter.",
                     "args": [
                       "^(?!browser_version$).*"
-                    ]
+                    ],
+                    "errorMessage": "Can\u0027t add/override browser_version parameter."
                   },
                   {
                     "type": "REGEX",
@@ -1027,10 +991,10 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "type": "REGEX",
+                    "errorMessage": "Can\u0027t add/override device_vendor parameter.",
                     "args": [
                       "^(?!device_vendor$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override device_vendor parameter."
+                    ]
                   },
                   {
                     "type": "REGEX",
@@ -1041,10 +1005,10 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "type": "REGEX",
-                    "errorMessage": "Can\u0027t add/override os_name parameter.",
                     "args": [
                       "^(?!os_name$).*"
-                    ]
+                    ],
+                    "errorMessage": "Can\u0027t add/override os_name parameter."
                   },
                   {
                     "type": "REGEX",
@@ -1070,9 +1034,9 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!country$).*"
+                      "^(?!tld_source$).*"
                     ],
-                    "errorMessage": "Can\u0027t add/override country parameter."
+                    "errorMessage": "Can\u0027t add/override tld_source parameter."
                   },
                   {
                     "type": "REGEX",
@@ -1084,16 +1048,9 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!ss_hostname$).*"
+                      "^(?!country$).*"
                     ],
-                    "errorMessage": "Can\u0027t add/override ss_hostname parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!ss_container_id$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override ss_container_id parameter."
+                    "errorMessage": "Can\u0027t add/override country parameter."
                   }
                 ]
               },
@@ -1103,11 +1060,7 @@ ___TEMPLATE_PARAMETERS___
                 "name": "param_value",
                 "type": "TEXT",
                 "valueHint": "(not set)",
-                "valueValidators": [
-                  {
-                    "type": "NON_EMPTY"
-                  }
-                ]
+                "valueValidators": []
               }
             ],
             "valueValidators": [
@@ -1126,7 +1079,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Add or override event parameters to the request in event_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved event parameters: \u003c/br\u003e \n• event_type \u003c/br\u003e \n• channel_grouping \u003c/br\u003e \n• source \u003c/br\u003e \n• campaign \u003c/br\u003e \n• campaign_id \u003c/br\u003e \n• campaign_term \u003c/br\u003e \n• campaign_content \u003c/br\u003e \n• page_id \u003c/br\u003e \n• page_title \u003c/br\u003e \n• page_hostname_protocol \u003c/br\u003e \n• page_hostname \u003c/br\u003e \n• page_location \u003c/br\u003e \n• page_fragment \u003c/br\u003e \n• page_query \u003c/br\u003e \n• page_extension \u003c/br\u003e \n• page_referrer \u003c/br\u003e \n• page_language \u003c/br\u003e \n• page_status_code \u003c/br\u003e \n• cs_container_id \u003c/br\u003e \n• user_agent \u003c/br\u003e \n• browser_name \u003c/br\u003e \n• browser_language \u003c/br\u003e \n• browser_version \u003c/br\u003e \n• device_type \u003c/br\u003e \n• device_vendor \u003c/br\u003e \n• device_model \u003c/br\u003e \n• os_name \u003c/br\u003e \n• os_version \u003c/br\u003e \n• screen_size \u003c/br\u003e \n• viewport_size \u003c/br\u003e \n• country \u003c/br\u003e \n• city \u003c/br\u003e \n• ss_hostname \u003c/br\u003e \n• ss_container_id \u003c/br\u003e",
+        "help": "Add or override event parameters to the request in event_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved event parameters: \u003c/br\u003e \n• event_type \u003c/br\u003e \n• channel_grouping \u003c/br\u003e \n• source \u003c/br\u003e \n• tld_source \u003c/br\u003e\n• campaign \u003c/br\u003e \n• campaign_id \u003c/br\u003e\n• campaign_click_id \u003c/br\u003e\n• campaign_term \u003c/br\u003e \n• campaign_content \u003c/br\u003e \n• user_agent \u003c/br\u003e \n• browser_name \u003c/br\u003e \n• browser_language \u003c/br\u003e \n• browser_version \u003c/br\u003e \n• device_type \u003c/br\u003e \n• device_vendor \u003c/br\u003e \n• device_model \u003c/br\u003e \n• os_name \u003c/br\u003e \n• os_version \u003c/br\u003e \n• screen_size \u003c/br\u003e \n• viewport_size \u003c/br\u003e\n• city \u003c/br\u003e\n• country",
         "defaultValue": false,
         "displayName": "Event parameters"
       },
@@ -1190,6 +1143,13 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
+                      "^(?!campaign_click_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override campaign_click_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
                       "^(?!campaign_term$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override campaign_term parameter."
@@ -1204,123 +1164,31 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!page_id$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_id parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_title$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_title parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_hostname_protocol$).*"
-                    ],
-                    "enablingConditions": [],
-                    "errorMessage": "Can\u0027t add/override page_hostname_protocol parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_hostname$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_hostname parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_location$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_location parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_fragment$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_fragment parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_query$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_query parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_extension$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_extension parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_referrer$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_referrer parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_language$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_language parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!page_status_code$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override page_status_code parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!cs_container_id$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override cs_container_id parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
                       "^(?!user_agent$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override user_agent parameter."
                   },
                   {
                     "type": "REGEX",
-                    "args": [
-                      "^(?!browser_name$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override browser_name parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "errorMessage": "Can\u0027t add/override browser_name parameter.",
-                    "args": [
-                      "^(?!browser_name$).*"
-                    ]
-                  },
-                  {
-                    "type": "REGEX",
                     "enablingConditions": [],
                     "args": [
-                      "^(?!browser_language$).*"
+                      "^(?!browser_name$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override browser_language parameter."
                   },
                   {
                     "type": "REGEX",
-                    "errorMessage": "Can\u0027t add/override browser_version parameter.",
+                    "errorMessage": "Can\u0027t add/override browser_language parameter.",
+                    "args": [
+                      "^(?!browser_language$).*"
+                    ]
+                  },
+                  {
+                    "type": "REGEX",
                     "args": [
                       "^(?!browser_version$).*"
-                    ]
+                    ],
+                    "errorMessage": "Can\u0027t add/override browser_version parameter."
                   },
                   {
                     "type": "REGEX",
@@ -1331,10 +1199,10 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "type": "REGEX",
+                    "errorMessage": "Can\u0027t add/override device_vendor parameter.",
                     "args": [
                       "^(?!device_vendor$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override device_vendor parameter."
+                    ]
                   },
                   {
                     "type": "REGEX",
@@ -1345,10 +1213,10 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "type": "REGEX",
-                    "errorMessage": "Can\u0027t add/override os_name parameter.",
                     "args": [
                       "^(?!os_name$).*"
-                    ]
+                    ],
+                    "errorMessage": "Can\u0027t add/override os_name parameter."
                   },
                   {
                     "type": "REGEX",
@@ -1374,30 +1242,23 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
+                      "^(?!tld_source$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override tld_source parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "errorMessage": "Can\u0027t add/override city parameter.",
+                    "args": [
+                      "^(?!city$).*"
+                    ]
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
                       "^(?!country$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override country parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!city$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override city parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!ss_hostname$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override ss_hostname parameter."
-                  },
-                  {
-                    "type": "REGEX",
-                    "args": [
-                      "^(?!ss_container_id$).*"
-                    ],
-                    "errorMessage": "Can\u0027t add/override ss_container_id parameter."
                   }
                 ]
               }
@@ -1418,7 +1279,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Remove event parameters from the request in event_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved event parameters: \u003c/br\u003e \n• event_type \u003c/br\u003e \n• channel_grouping \u003c/br\u003e \n• source \u003c/br\u003e \n• campaign \u003c/br\u003e \n• campaign_id \u003c/br\u003e \n• campaign_term \u003c/br\u003e \n• campaign_content \u003c/br\u003e \n• page_id \u003c/br\u003e \n• page_title \u003c/br\u003e \n• page_hostname_protocol \u003c/br\u003e \n• page_hostname \u003c/br\u003e \n• page_location \u003c/br\u003e \n• page_fragment \u003c/br\u003e \n• page_query \u003c/br\u003e \n• page_extension \u003c/br\u003e \n• page_referrer \u003c/br\u003e \n• page_language \u003c/br\u003e \n• page_status_code \u003c/br\u003e \n• cs_container_id \u003c/br\u003e \n• user_agent \u003c/br\u003e \n• browser_name \u003c/br\u003e \n• browser_language \u003c/br\u003e \n• browser_version \u003c/br\u003e \n• device_type \u003c/br\u003e \n• device_vendor \u003c/br\u003e \n• device_model \u003c/br\u003e \n• os_name \u003c/br\u003e \n• os_version \u003c/br\u003e \n• screen_size \u003c/br\u003e \n• viewport_size \u003c/br\u003e \n• country \u003c/br\u003e \n• city \u003c/br\u003e \n• ss_hostname \u003c/br\u003e \n• ss_container_id \u003c/br\u003e",
+        "help": "Remove event parameters from the request in event_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved event parameters: \u003c/br\u003e \n• event_type \u003c/br\u003e \n• channel_grouping \u003c/br\u003e \n• source \u003c/br\u003e \n• tld_source \u003c/br\u003e\n• campaign \u003c/br\u003e \n• campaign_id \u003c/br\u003e\n• campaign_click_id \u003c/br\u003e\n• campaign_term \u003c/br\u003e \n• campaign_content \u003c/br\u003e \n• user_agent \u003c/br\u003e \n• browser_name \u003c/br\u003e \n• browser_language \u003c/br\u003e \n• browser_version \u003c/br\u003e \n• device_type \u003c/br\u003e \n• device_vendor \u003c/br\u003e \n• device_model \u003c/br\u003e \n• os_name \u003c/br\u003e \n• os_version \u003c/br\u003e \n• screen_size \u003c/br\u003e \n• viewport_size \u003c/br\u003e\n• city \u003c/br\u003e\n• country",
         "defaultValue": false,
         "displayName": ""
       }
