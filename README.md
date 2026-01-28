@@ -56,39 +56,93 @@ This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ## User data
 ### User parameters
-Add user parameters for all events. The parameters will be added in the user_data object in the payload.
+The parameters will be added in the user_data object in the payload.
 
 They are:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
+These user parameters can't be added, overridden or removed:
+- user_channel_grouping  
+- user_source  
+- user_tld_source  
+- user_campaign  
+- user_campaign_id  
+- user_campaign_click_id
+- user_campaign_content  
+- user_campaign_term  
+- user_device_type  
+- user_country  
+- user_language  
+- user_city
+- user_country
+- user_first_session_timestamp
+- user_last_session_timestamp
+
+This is the hierarchy of user parameter importance: 
+
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
+
 #### Add/override user level parameters
-Accepted values: strings, integers, floats, and JSON.
+Add or override parameters at user level. Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
 - User parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
 #### Remove user level parameters
-Remove user level parameters in user_data object in the payload. 
+Remove user level parameters in user_data object in the payload.
 
 
 
 ## Session data
 ### Session parameters
-Add session parameters for all events. The parameters will be added in the session_data object in the payload.
+The parameters will be added in the session_data object in the payload.
 
 They are:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
+These session parameters can't be added, overridden or removed:
+- user_id
+- session_number 
+- cross_domain_session 
+- session_channel_grouping 
+- session_source 
+- session_tld_source 
+- session_campaign 
+- session_campaign_id 
+- session_campaign_click_id
+- session_campaign_content 
+- session_campaign_term 
+- session_device_type 
+- session_city
+- session_country 
+- session_language 
+- session_hostname 
+- session_browser_name 
+- session_landing_page_category 
+- session_landing_page_location 
+- session_landing_page_title 
+- session_exit_page_category 
+- session_exit_page_location 
+- session_exit_page_title 
+- session_start_timestamp 
+- session_end_timestamp
+- total_events
+- total_page_views
+
+This is the hierarchy of session parameter importance: 
+
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
+
 #### Add/override User ID parameter
-Accepted values: strings. 
+Add or override User ID parameter at session level. Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
 - User ID parameter added in Nameless Analytics Client-side Tracker Configuration Variable
 
 #### Add/override session level parameters
-Accepted values: strings, integers, floats, and JSON.
+Add or override session level parameters. Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
 - Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
@@ -100,10 +154,37 @@ Remove session level parameters in session_data object in the payload.
 
 ## Event data
 ### Event parameters
-Add event parameters for all events. The parameters will be added in the event_data object in the payload.
+The parameters will be added in the event_data object in the payload. 
+
+Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
+
+These event parameters can't be added, overridden or removed:
+- event_type 
+- channel_grouping 
+- source 
+- campaign 
+- campaign_id
+- campaign_click_id
+- campaign_term 
+- campaign_content 
+- user_agent 
+- browser_name 
+- browser_language 
+- browser_version 
+- device_type 
+- device_vendor 
+- device_model 
+- os_name 
+- os_version 
+- screen_size 
+- viewport_size
+
+This is the hierarchy of event parameter importance: 
+
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
 #### Add/override event level parameters
-Accepted values: strings, integers, floats, and JSON.
+Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON.
 
 These parameters can override:
 - Event parameters added in the Nameless Analytics Client-side Tracker Tag
