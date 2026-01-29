@@ -56,13 +56,13 @@ This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ## User data
 ### User parameters
-The parameters will be added in the user_data object in the payload.
+Add, override or remove user parameters in the user_data object. 
 
-They are:
+They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
-These user parameters can't be added, overridden or removed:
+These event parameters are reserved and can't be modified:
 - user_channel_grouping  
 - user_source  
 - user_tld_source  
@@ -96,13 +96,13 @@ Remove user level parameters in user_data object in the payload.
 
 ## Session data
 ### Session parameters
-The parameters will be added in the session_data object in the payload.
+Add, override or remove session parameters in the session_data object. 
 
-They are:
+They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
-These session parameters can't be added, overridden or removed:
+These event parameters are reserved and can't be modified:
 - user_id
 - session_number 
 - cross_domain_session 
@@ -154,9 +154,7 @@ Remove session level parameters in session_data object in the payload.
 
 ## Event data
 ### Event parameters
-The parameters will be added in the event_data object in the payload. 
-
-Please note: if a parameter has the same name as another, it can override or be overridden depending on where it was set.
+Add, override or remove event parameters in the event_data object. 
 
 These event parameters can't be added, overridden or removed:
 - event_type 
@@ -190,7 +188,6 @@ These parameters can override:
 - Event parameters added in the Nameless Analytics Client-side Tracker Tag
 - Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable
 - dataLayer event parameters added in the Nameless Analytics Client-side Tracker Tag
-- Default event parameters
 
 #### Remove event level parameters
 Remove event level parameters in event_data object in the payload. 
