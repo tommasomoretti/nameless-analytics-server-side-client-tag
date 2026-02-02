@@ -58,11 +58,13 @@ This is the UI of the Nameless Analytics Server-side Client Tag.
 ### User parameters
 Add, override or remove user parameters in the user_data object. 
 
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
+
 They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
-These event parameters are reserved and can't be modified:
+These user parameters are reserved and can't be modified:
 - user_channel_grouping  
 - user_source  
 - user_tld_source  
@@ -78,10 +80,6 @@ These event parameters are reserved and can't be modified:
 - user_country
 - user_first_session_timestamp
 - user_last_session_timestamp
-
-This is the hierarchy of user parameter importance: 
-
-See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
 #### Add/override user level parameters
 Add or override parameters at user level. Accepted values: strings, integers, floats, and JSON.
@@ -102,7 +100,9 @@ They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
 - read and sent to BigQuery with the current parameter status --> current values 
 
-These event parameters are reserved and can't be modified:
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
+
+These session parameters are reserved and can't be modified:
 - user_id
 - session_number 
 - cross_domain_session 
@@ -131,10 +131,6 @@ These event parameters are reserved and can't be modified:
 - total_events
 - total_page_views
 
-This is the hierarchy of session parameter importance: 
-
-See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
-
 #### Add/override User ID parameter
 Add or override User ID parameter at session level. Accepted values: strings, integers, floats, and JSON.
 
@@ -156,6 +152,8 @@ Remove session level parameters in session_data object in the payload.
 ### Event parameters
 Add, override or remove event parameters in the event_data object. 
 
+See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
+
 These event parameters can't be added, overridden or removed:
 - event_type 
 - channel_grouping 
@@ -176,10 +174,6 @@ These event parameters can't be added, overridden or removed:
 - os_version 
 - screen_size 
 - viewport_size
-
-This is the hierarchy of event parameter importance: 
-
-See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
 
 #### Add/override event level parameters
 Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON.
