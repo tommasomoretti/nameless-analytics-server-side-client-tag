@@ -50,7 +50,7 @@ It is responsible for validating incoming requests, enriching payloads with Fire
 
 This is the UI of the Nameless Analytics Server-side Client Tag.
 
-![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/f8525c4f-cd3e-471b-894d-dab219a6a58f)
+![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/d436d2a6-6488-40b3-b229-fe548bc863e0)
 
 
 
