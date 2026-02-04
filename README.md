@@ -192,19 +192,6 @@ Set the specific domains from which requests can be claimed.
 
 If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the "Allowed domains" field. Add one domain per row.
 
-To ensure proper DNS resolution, the IP addresses of the Google App Engine or Cloud Run instances must be correctly associated with each respective domain name.
-
-Follow these guides for:
-- [Google App Engine standard environment](https://cloud.google.com/appengine/docs/standard/mapping-custom-domains)
-- [Google App Engine flexible environment](https://cloud.google.com/appengine/docs/flexible/mapping-custom-domains)
-- [Google Cloud Run](https://cloud.google.com/run/docs/mapping-custom-domains)
-
-The container must be configured as well. Add the domains in the Admin > Container settings of the Server-side Google Tag Manager.
-
-![Add multiple domains to server-side GTM](https://github.com/user-attachments/assets/53eb03cd-8fdf-437b-b0e2-aa92d7bcef4e)
-
-To select a domain for the preview mode, click the icon near the preview button and select a domain.
-
 
 ### Reject requests by IP
 Reject requests from unauthorized IP addresses. Value accepted IPv4 and IPv6 addresses.
