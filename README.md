@@ -4,7 +4,7 @@ The Nameless Analytics Server-side Client Tag is a highly customizable GTM custo
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/nameless-analytics/nameless-analytics/#high-level-data-flow).
 
-🚧 **Nameless Analytics and the documentation are currently in beta and subject to change.** 🚧
+### 🚧 Nameless Analytics and the documentation are currently in beta and subject to change 🚧
 
 
 
@@ -204,7 +204,7 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
-The [Nameless Analytics Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md) retreive page data from BigQuery and send a request to the Nameless Analytics Server-side Client Tag endpoint. 
+The [Nameless Analytics Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md) retrieve page data from BigQuery and send a request to the Nameless Analytics Server-side Client Tag endpoint. 
 
 
 
