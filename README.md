@@ -60,7 +60,7 @@ Add, override or remove user parameters in the user_data object. See [Parameter 
 
 They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
-- read and sent to BigQuery with the current parameter status --> current values 
+- sent to BigQuery with the last available values --> every values
 
 These user parameters are reserved and can't be modified:
 - user_channel_grouping  
@@ -96,7 +96,7 @@ Add, override or remove session parameters in the session_data object. See [Para
 
 They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
-- read and sent to BigQuery with the current parameter status --> current values 
+- sent to BigQuery with the last available values --> every values
 
 These session parameters are reserved and can't be modified:
 - user_id
@@ -147,6 +147,8 @@ Remove session level parameters in session_data object in the payload.
 ## Event data
 ### Event parameters
 Add, override or remove event parameters in the event_data object. See [Parameter Hierarchy & Overriding](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy--overriding) in the main project documentation.
+
+They will be sent to BigQuery with every event.
 
 These event parameters can't be added, overridden or removed:
 - event_type 
