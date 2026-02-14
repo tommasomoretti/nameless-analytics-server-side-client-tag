@@ -230,7 +230,7 @@ When the **"Add API key for Streaming protocol"** checkbox is enabled, the Clien
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
-The [Nameless Analytics Streaming Protocol Python Script](../nameless-analytics/streaming-protocol/README.md) retrieve page data from BigQuery and send a request to the Nameless Analytics Server-side Client Tag endpoint. 
+The [Nameless Analytics Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) allows you to send data from your backend directly to the Nameless Analytics Server-side Client Tag endpoint. 
 
 
 
