@@ -73,9 +73,8 @@ These user parameters are reserved and can't be modified:
 - user_campaign_term  
 - user_device_type  
 - user_country  
-- user_language  
 - user_city
-- user_country
+- user_language  
 - user_first_session_timestamp
 - user_last_session_timestamp
 
@@ -87,6 +86,9 @@ These parameters can override:
 
 #### Remove user level parameters
 Remove user level parameters in user_data object in the payload.
+
+These parameters can remove:
+- User parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
 
 
@@ -142,6 +144,9 @@ These parameters can override:
 #### Remove session level parameters
 Remove session level parameters in session_data object in the payload. 
 
+These parameters can remove:
+- Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
+
 
 
 ## Event data
@@ -150,7 +155,7 @@ Add, override or remove event parameters in the event_data object. See [Paramete
 
 They will be sent to BigQuery with every event.
 
-These event parameters can't be added, overridden or removed:
+These event parameters are reserved and can't be modified:
 - event_type 
 - channel_grouping 
 - source 
@@ -170,6 +175,9 @@ These event parameters can't be added, overridden or removed:
 - os_version 
 - screen_size 
 - viewport_size
+- tld_source
+- city
+- country
 
 #### Add/override event level parameters
 Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, and JSON.
@@ -177,10 +185,15 @@ Add or overwrite parameters for a specific event. Accepted values: strings, inte
 These parameters can override:
 - Event parameters added in the Nameless Analytics Client-side Tracker Tag
 - Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable
-- dataLayer event parameters added in the Nameless Analytics Client-side Tracker Tag
+- Event parameters from dataLayer added in the Nameless Analytics Client-side Tracker Tag
 
 #### Remove event level parameters
-Remove event level parameters in event_data object in the payload. 
+Remove event level parameters by name in event_data object in the payload. 
+
+These parameters can remove:
+- Event parameters added in the Nameless Analytics Client-side Tracker Tag
+- Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable
+- Event parameters from dataLayer added in the Nameless Analytics Client-side Tracker Tag
 
 
 
