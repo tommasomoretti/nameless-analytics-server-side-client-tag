@@ -2513,9 +2513,11 @@ function send_to_firestore(event_data) {
             session_hostname: event_data.page_data.page_hostname,
             session_browser_name: event_data.event_data.browser_name,
             session_landing_page_category: event_data.page_data.page_category,
+            session_landing_page_url: event_data.page_data.page_url,
             session_landing_page_path: event_data.page_data.page_path,
             session_landing_page_title: event_data.page_data.page_title,
             session_exit_page_category: event_data.page_data.page_category,
+            session_exit_page_url: event_data.page_data.page_url,
             session_exit_page_path: event_data.page_data.page_path,
             session_exit_page_title: event_data.page_data.page_title,
             session_start_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
@@ -2655,9 +2657,11 @@ function send_to_firestore(event_data) {
             session_hostname: event_data.page_data.page_hostname,
             session_browser_name: event_data.event_data.browser_name,
             session_landing_page_category: (event_data.page_data.page_category) ? event_data.page_data.page_category : null,
+            session_landing_page_url: event_data.page_data.page_url,
             session_landing_page_path: event_data.page_data.page_path,
             session_landing_page_title: event_data.page_data.page_title,
             session_exit_page_category: (event_data.page_data.page_category) ? event_data.page_data.page_category : null,
+            session_exit_page_url: event_data.page_data.page_url,
             session_exit_page_path: event_data.page_data.page_path,
             session_exit_page_title: event_data.page_data.page_title,
             session_start_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
@@ -2726,9 +2730,11 @@ function send_to_firestore(event_data) {
             "session_hostname",
             "session_browser_name",
             "session_landing_page_category",
+            "session_landing_page_url",
             "session_landing_page_path",
             "session_landing_page_title",
             "session_exit_page_category",
+            "session_exit_page_url",
             "session_exit_page_path",
             "session_exit_page_title",
             "session_start_timestamp",
@@ -2749,6 +2755,7 @@ function send_to_firestore(event_data) {
 
           // Update session values in Firestore from current event data
           last_session.session_exit_page_category = (event_data.page_data.page_category) ? event_data.page_data.page_category : null;
+          last_session.session_exit_page_url = event_data.page_data.page_url;
           last_session.session_exit_page_path = event_data.page_data.page_path;
           last_session.session_exit_page_title = event_data.page_data.page_title;
           last_session.session_end_timestamp = event_data.event_timestamp;
