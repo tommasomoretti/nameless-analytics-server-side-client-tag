@@ -58,6 +58,9 @@ This is the UI of the Nameless Analytics Server-side Client Tag.
 ### User parameters
 Add, override or remove user parameters in the user_data object. See [Parameter Hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy) in the main project documentation.
 
+> [!WARNING]
+> Be mindful when adding custom **User parameters** as they might cause you to hit the Firestore 1 MiB document limit faster. Read the [Firestore limitations in the main documentation](https://github.com/nameless-analytics/nameless-analytics#known-limitations-firestore-1-mib-document-limit) for more details.
+
 They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
 - sent to BigQuery with the last available values --> all values
@@ -95,6 +98,9 @@ These parameters can remove:
 ## Session data
 ### Session parameters
 Add, override or remove session parameters in the session_data object. See [Parameter Hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy) in the main project documentation.
+
+> [!WARNING]
+> Be mindful when adding custom **Session parameters** as they might cause you to hit the Firestore 1 MiB document limit faster. Read the [Firestore limitations in the main documentation](https://github.com/nameless-analytics/nameless-analytics#known-limitations-firestore-1-mib-document-limit) for more details.
 
 They will be:
 - written in Google Cloud Firestore every time they change --> latest values 
