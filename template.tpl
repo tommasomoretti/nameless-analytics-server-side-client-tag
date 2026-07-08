@@ -13,8 +13,10 @@ ___INFO___
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "Nameless Analytics | SS | Client tag",
-  "categories": ["ANALYTICS"],
+  "displayName": "Nameless Analytics - Client tag",
+  "categories": [
+    "ANALYTICS"
+  ],
   "brand": {
     "id": "brand_dummy",
     "displayName": "Nameless Analytics",
