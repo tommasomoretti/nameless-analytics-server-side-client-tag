@@ -670,63 +670,233 @@ function get_channel_grouping(source, campaign) {
 function claim_request(event_data, status_code, message) {
   claimRequest();
 
-  // For error requests and get_user_data requests
-  if ((status_code === 403 || event_data.event_name === 'get_user_data')) {
+  const processing_status = {
+    claim_request: 'pending',
+    firestore: 'pending',
+    bigquery: 'pending',
+    custom_endpoint: (data.send_data_to_custom_endpoint) ? 'pending' : 'skipped'
+  };
+
+
+  // ERROR RESPONSE
+  if (status_code === 403) {
+    processing_status.claim_request = 'failed';
+    processing_status.firestore = 'skipped';
+    processing_status.bigquery = 'skipped';
+    processing_status.custom_endpoint = 'skipped';
+
     if (data.enable_logs) { log('REQUEST STATUS'); }
-    return_response(event_data, status_code, message);
+    if (data.enable_logs) { log(message); }
 
-    // For standard requests
-  } else {
-    // Send data to Firestore
-    if (data.enable_logs) { log('SENDING EVENT DATA TO GOOGLE FIRESTORE'); }
-    send_to_firestore(event_data)
-      // Return response to browser
-      .then((res) => {
-        if (data.enable_logs) { log('REQUEST STATUS'); }
+    return_response(
+      event_data,
+      status_code,
+      message,
+      processing_status
+    );
 
-        if (data.enable_logs) { log(res.message); }
-        return_response(event_data, res.status_code, res.message);
-        return res;
-      })
-      // Send data to BigQuery
-      .then((res) => {
-        if (res.status === true) {
-          if (data.enable_logs) { log('SENDING EVENT DATA TO GOOGLE BIGQUERY'); }
-          send_to_bq(event_data);
-        }
-        return res;
-      })
-      // Send data to custom endpoint
-      .then((res) => {
-        if (res.status === true) {
-          if (data.send_data_to_custom_endpoint) {
-            if (data.enable_logs) { log('SENDING EVENT DATA TO CUSTOM ENDPOINT'); }
-            send_to_custom_endpoint(data.custom_request_endpoint_path, event_data);
-          }
-        }
-      });
+    return;
   }
+
+
+  // GET USER DATA REQUESTS
+  if (event_data.event_name === 'get_user_data') {
+    processing_status.claim_request = 'success';
+    processing_status.firestore = 'skipped';
+    processing_status.bigquery = 'skipped';
+    processing_status.custom_endpoint = 'skipped';
+
+    if (data.enable_logs) { log('REQUEST STATUS'); }
+    if (data.enable_logs) { log(message); }
+
+    return_response(
+      event_data,
+      status_code,
+      message,
+      processing_status
+    );
+
+    return;
+  }
+
+
+  // STANDARD REQUESTS
+  processing_status.claim_request = 'success';
+
+  // SEND DATA TO FIRESTORE
+  if (data.enable_logs) {log('SENDING EVENT DATA TO GOOGLE FIRESTORE');}
+
+  send_to_firestore(event_data)
+    .then((firestore_res) => {
+
+      // Firestore failed
+      if (firestore_res.status !== true) {
+        processing_status.firestore = 'failed';
+        processing_status.bigquery = 'skipped';
+        processing_status.custom_endpoint = 'skipped';
+
+        if (data.enable_logs) { log('REQUEST STATUS'); }
+        if (data.enable_logs) { log(firestore_res.message); }
+
+        return_response(
+          event_data,
+          firestore_res.status_code,
+          firestore_res.message,
+          processing_status
+        );
+
+        return null;
+      }
+
+      // Firestore success
+      processing_status.firestore = 'success';
+      if (data.enable_logs) {log('SENDING EVENT DATA TO GOOGLE BIGQUERY');}
+
+      return send_to_bq(event_data);
+    })
+
+
+    // BIGQUERY RESPONSE
+    .then((bq_res) => {
+      // Processing already stopped
+      if (bq_res === null || bq_res === undefined) {return null;}
+
+      // BigQuery failed
+      if (bq_res.status !== true) {
+        processing_status.bigquery = 'failed';
+        processing_status.custom_endpoint = 'skipped';
+
+        if (data.enable_logs) { log('REQUEST STATUS'); }
+        if (data.enable_logs) { log(bq_res.message); }
+
+        return_response(
+          event_data,
+          bq_res.status_code,
+          bq_res.message,
+          processing_status
+        );
+
+        return null;
+      }
+
+
+      // BigQuery success
+      processing_status.bigquery = 'success';
+
+      // Send data to custom endpoint enable
+      if (!data.send_data_to_custom_endpoint) {
+        return {
+          status: true,
+          custom_endpoint_skipped: true
+        };
+      }
+
+
+      // Send data to custom endpoint enable
+      if (data.enable_logs) {log('SENDING EVENT DATA TO CUSTOM ENDPOINT');}
+
+      return send_to_custom_endpoint(
+        data.custom_request_endpoint_path,
+        event_data
+      );
+    })
+
+
+    // CUSTOM ENDPOINT RESPONSE
+    .then((endpoint_res) => {
+
+      // Processing already stopped
+      if (endpoint_res === null || endpoint_res === undefined) {
+        return;
+      }
+
+      if (endpoint_res.custom_endpoint_skipped === true) {
+        processing_status.custom_endpoint = 'skipped';
+      } else if (endpoint_res.status === true) {
+        processing_status.custom_endpoint = 'success';
+      } else {
+        processing_status.custom_endpoint = 'failed';
+      }
+
+
+      // SUCCESS RESPONSE
+      message = '🟢 Request processed successfully';
+      status_code = 200;
+
+      if (data.enable_logs) { log('REQUEST STATUS'); }
+      if (data.enable_logs) { log(message); }
+
+      return_response(
+        event_data,
+        status_code,
+        message,
+        processing_status
+      );
+    })
+
+    // OTHER ERRORS
+    .catch((error) => {
+
+      if (processing_status.firestore === 'pending') {
+        processing_status.firestore = 'failed';
+        processing_status.bigquery = 'skipped';
+        processing_status.custom_endpoint = 'skipped';
+
+        message = '🔴 Firestore request failed';
+
+      } else if (processing_status.bigquery === 'pending') {
+        processing_status.bigquery = 'failed';
+        processing_status.custom_endpoint = 'skipped';
+
+        message = '🔴 BigQuery request failed';
+
+      } else if (processing_status.custom_endpoint === 'pending') {
+        processing_status.custom_endpoint = 'failed';
+
+        message = '🔴 Custom endpoint request failed';
+
+      } else {
+        message = '🔴 Request processing failed';
+      }
+
+      status_code = 500;
+
+      if (data.enable_logs) {log('REQUEST STATUS');}
+      if (data.enable_logs) {log(message);}
+      if (data.enable_logs) {log(error);}
+
+      return_response(
+        event_data,
+        status_code,
+        message,
+        processing_status
+      );
+    });
 }
 
 
 // Return response
-function return_response(event_data, status_code, message) {
+function return_response(event_data, status_code, message, processing_status) {
   runContainer(event_data, () => {
     setResponseStatus(status_code);
+
     setResponseHeader('Access-Control-Allow-Credentials', 'true');
     setResponseHeader('Access-Control-Allow-Origin', request_origin);
     setResponseHeader('Access-Control-Allow-Methods', 'POST');
     setResponseHeader('cache-control', 'no-store');
+    setResponseHeader('content-type', 'application/json');
+
     setResponseBody(JSON.stringify({
       status_code: status_code,
       response: message,
+      processing: processing_status,
       data: event_data
     }));
 
     returnResponse();
 
-    if (status_code === 403) {
-      if (data.enable_logs) { log('🔴 Request refused'); }
+    if (status_code >= 400) {
+      if (data.enable_logs) {log('🔴 Request refused');}
     }
   });
 }
@@ -1068,6 +1238,7 @@ function send_to_firestore(event_data) {
 
           return Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
             .then(
+              // RESPONSE SUCCESS
               (id) => {
                 if (data.enable_logs) { log('🟢 User already in Firestore, session successfully updated to Firestore'); }
 
@@ -1080,6 +1251,7 @@ function send_to_firestore(event_data) {
 
                 return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
               },
+              // RESPONSE ERROR
               () => {
                 message = '🔴 User or session data not updated to Firestore';
                 status_code = 403;
@@ -1124,16 +1296,15 @@ function set_cookie(cookie_name, cookie_value, max_age) {
 function send_to_bq(event_data) {
   const payload_copy = JSON.parse(JSON.stringify(event_data));
 
-  if (data.enable_logs) { log('👉 Payload to send: ', payload_copy); }
+  if (data.enable_logs) {log('👉 Payload to send: ', payload_copy);}
 
-  // Encode data for Google BigQuery        
+  // Encode data for Google BigQuery
   encode_data(payload_copy, 'user_data');
   encode_data(payload_copy, 'session_data');
   encode_data(payload_copy, 'page_data');
   encode_data(payload_copy, 'event_data');
   encode_data(payload_copy, 'consent_data');
   encode_data(payload_copy, 'gtm_data');
-
   payload_copy.datalayer = (payload_copy.datalayer) ? JSON.stringify(payload_copy.datalayer) : null;
   payload_copy.ecommerce = (payload_copy.ecommerce) ? JSON.stringify(payload_copy.ecommerce) : null;
 
@@ -1144,16 +1315,39 @@ function send_to_bq(event_data) {
     tableId: data.bq_table_id
   };
 
-  // Write options
+  // Google BigQuery write options
   const options = {
     skipInvalidRows: false,
     ignoreUnknownValues: false
   };
 
-  // Write to Google BigQuery
-  BigQuery.insert(project, [payload_copy], options,
-    () => { if (data.enable_logs) { log('🟢 Payload data inserted successfully into BigQuery'); } },
-    () => { if (data.enable_logs) { log('🔴 Payload data not inserted into BigQuery'); } }
+  // Send data to Google BigQuery
+  return BigQuery.insert(
+    project,
+    [payload_copy],
+    options
+  ).then(
+    // REQUEST SUCCESS
+    () => {
+      if (data.enable_logs) {log('🟢 Payload data inserted successfully into BigQuery');}
+
+      return {
+        status: true,
+        status_code: 200,
+        message: '🟢 Payload data inserted successfully into BigQuery'
+      };
+    },
+    // REQUEST ERROR
+    (errors) => {
+      if (data.enable_logs) {log('🔴 Payload data not inserted into BigQuery');}
+      if (data.enable_logs) {log(errors);}
+
+      return {
+        status: false,
+        status_code: 500,
+        message: '🔴 Payload data not inserted into BigQuery'
+      };
+    }
   );
 }
 
@@ -1203,13 +1397,14 @@ function encode_data(bq_event_data, prop) {
 // --------------------------------------------------------------------------------------------------------------
 
 function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
-  if (data.enable_logs) { log('👉 Payload to send: ', event_data); }
+  if (data.enable_logs) {log('👉 Payload to send: ', event_data);}
 
   const request_options = {
     method: 'POST',
     headers: {}
   };
 
+  // Add custom headers
   if (data.add_custom_request_headers) {
     const custom_request_headers = data.custom_request_headers;
 
@@ -1223,12 +1418,43 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
     }
   }
 
-  sendHttpRequest(custom_request_endpoint_path, request_options, JSON.stringify(event_data))
-    .then((result) => {
+  // Send to custom endpoint
+  return sendHttpRequest(
+    custom_request_endpoint_path,
+    request_options,
+    JSON.stringify(event_data)
+  ).then(
+    (result) => {
+      // REQUEST SUCCESS
       if (result.statusCode >= 200 && result.statusCode < 300) {
-        if (data.enable_logs) { log('🟢 Request sent successfully to:', custom_request_endpoint_path); }
-      } else {
-        if (data.enable_logs) { log('🔴 Request not sent successfully. Error:', result); }
+        if (data.enable_logs) {
+          log('🟢 Request sent successfully to:', custom_request_endpoint_path);}
+
+        return {
+          status: true,
+          status_code: result.statusCode,
+          message: '🟢 Request sent successfully to custom endpoint'
+        };
       }
-    });
+
+      // HTTP ERROR
+      if (data.enable_logs) {log('🔴 Request not sent successfully. Error:', result);}
+
+      return {
+        status: false,
+        status_code: result.statusCode,
+        message: '🔴 Request not sent successfully to custom endpoint'
+      };
+    },
+    // REQUEST ERROR
+    (error) => {
+      if (data.enable_logs) {log('🔴 Request not sent successfully. Error:', error);}
+
+      return {
+        status: false,
+        status_code: null,
+        message: '🔴 Request not sent successfully to custom endpoint'
+      };
+    }
+  );
 }
