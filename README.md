@@ -127,9 +127,11 @@ These session parameters are reserved and can't be modified:
 - session_landing_page_category 
 - session_landing_page_path 
 - session_landing_page_title 
+- session_landing_page_url
 - session_exit_page_category 
 - session_exit_page_path 
 - session_exit_page_title 
+- session_exit_page_url
 - session_start_timestamp 
 - session_end_timestamp
 
