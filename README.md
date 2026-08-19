@@ -28,7 +28,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Accept requests from authorized domains only](#accept-requests-from-authorized-domains-only)
   - [Reject requests by IP](#reject-requests-by-ip)
   - [Enable Bot protection](#enable-bot-protection)
-  - [API key for Streaming protocol requests](#api-key-for-streaming-protocol-requests)
+  - [API key for Streaming Protocol requests](#api-key-for-streaming-protocol-requests)
 - [Google BigQuery settings](#google-bigquery-settings)
   - [Project name](#project-name)
   - [Dataset name](#dataset-name)
@@ -228,10 +228,10 @@ If enabled, the Nameless Analytics Server-side Client Tag filters requests based
 Requests with a missing or empty `User-Agent` header are also automatically rejected.
 
 
-### API key for Streaming protocol requests
-Secure the Streaming protocol (Measurement Protocol) endpoint by requiring a secret API key.
+### API key for Streaming Protocol requests
+Secure the Streaming Protocol (Measurement Protocol) endpoint by requiring a secret API key.
 
-When the **"Add API key for Streaming protocol"** checkbox is enabled, the Client Tag will reject any request where the `event_origin` is set to `Streaming protocol` unless it includes a valid `X-Api-Key` header matching the configured value.
+When the **"Add API key for Streaming Protocol"** checkbox is enabled, the Client Tag will reject any request where the `event_origin` is set to `Streaming Protocol` unless it includes a valid `X-Api-Key` header matching the configured value.
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
