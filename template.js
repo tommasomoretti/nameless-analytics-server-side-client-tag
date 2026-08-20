@@ -53,8 +53,8 @@ var status_code;
 // Event data
 const event_data = JSON.parse(getRequestBody());
 const event_data_obj = event_data.event_data || {};
-const event_api_key = getRequestHeader('X-Api-Key'); // For Streaming protocol 
-const api_key = data.api_key; // For Streaming protocol
+const event_api_key = getRequestHeader('X-Api-Key'); // For Streaming Protocol 
+const api_key = data.api_key; // For Streaming Protocol
 
 const page_date = event_data.page_date;
 const page_id = event_data.page_id;
@@ -134,7 +134,7 @@ if (getRequestPath() === endpoint) {
 
         // REFUSE REQUESTS
         // Check request for get_user_data
-        if (event_name === 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming protocol') {
+        if (event_name === 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming Protocol') {
           message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
           status_code = 403;
 
@@ -167,8 +167,8 @@ if (getRequestPath() === endpoint) {
         }
 
         // Check event origin 
-        if (event_origin !== 'Website' && event_origin !== 'Streaming protocol' && event_name !== 'get_user_data') {
-          message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming protocol';
+        if (event_origin !== 'Website' && event_origin !== 'Streaming Protocol' && event_name !== 'get_user_data') {
+          message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming Protocol';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
@@ -188,7 +188,7 @@ if (getRequestPath() === endpoint) {
           return;
         }
 
-        if (event_origin === 'Streaming protocol' && request_user_agent !== 'nameless analytics - streaming protocol') {
+        if (event_origin === 'Streaming Protocol' && request_user_agent !== 'nameless analytics - streaming protocol') {
           message = '🔴 Invalid User-Agent header value. Request from bot';
           if (data.enable_logs) { log(message); }
           status_code = 403;
@@ -212,12 +212,12 @@ if (getRequestPath() === endpoint) {
           }
         }
 
-        // Check Streaming protocol requests API key
-        if (event_origin === 'Streaming protocol' && event_api_key !== api_key) {
+        // Check Streaming Protocol requests API key
+        if (event_origin === 'Streaming Protocol' && event_api_key !== api_key) {
           if (data.add_api_key) {
             message = '🔴 Invalid API key';
           } else {
-            message = '🔴 Add API key for Streaming protocol is not enabled.';
+            message = '🔴 Add API key for Streaming Protocol is not enabled.';
           }
 
           if (data.enable_logs) { log(message); }
@@ -227,9 +227,9 @@ if (getRequestPath() === endpoint) {
           return;
         }
 
-        // Check if page_view is from Streaming protocol
-        if (event_name === 'page_view' && event_origin === 'Streaming protocol') {
-          message = '🔴 Invalid event_name. Can\'t send page_view from Streaming protocol';
+        // Check if page_view is from Streaming Protocol
+        if (event_name === 'page_view' && event_origin === 'Streaming Protocol') {
+          message = '🔴 Invalid event_name. Can\'t send page_view from Streaming Protocol';
           status_code = 403;
 
           if (data.enable_logs) { log(message); }
