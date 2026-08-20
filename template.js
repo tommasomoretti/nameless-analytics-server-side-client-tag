@@ -52,6 +52,7 @@ var status_code;
 
 // Event data
 const event_data = JSON.parse(getRequestBody());
+const event_data_obj = event_data.event_data || {};
 const event_api_key = getRequestHeader('X-Api-Key'); // For Streaming protocol 
 const api_key = data.api_key; // For Streaming protocol
 
@@ -66,7 +67,6 @@ const event_id = event_data.event_id;
 event_data.user_data = event_data.user_data || {};
 event_data.session_data = event_data.session_data || {};
 event_data.gtm_data = event_data.gtm_data || {};
-const event_data_obj = event_data.event_data || {};
 if (event_data.event_data) {
   event_data.event_data.channel_grouping = get_channel_grouping(event_data_obj.source, event_data_obj.campaign);
 }
