@@ -41,8 +41,16 @@ const testRegex = require('testRegex');
 // CONSTANTS
 // --------------------------------------------------------------------------------------------------------------
 
-// Request data
+// Check request endpoint 
 const endpoint = data.endpoint;
+const request_path = getRequestPath();
+
+if (request_path !== endpoint) {
+  return;
+}
+
+
+// Request data
 const request_origin = getRequestHeader('Origin');
 const request_ip = getRemoteAddress();
 const request_method = getRequestMethod();
