@@ -158,14 +158,14 @@ if (getRequestPath() === endpoint) {
           if (data.enable_logs) { log('CHECKING COOKIES'); }
 
           if (user_cookie_value === undefined) {
-            message = '🔴 User cookie not found. No cross-domain link decoration will be applied';
+            message = '🔴 User cookie not found. No cross-domain URL decoration will be applied';
             status_code = 403;
 
             if (data.enable_logs) { log(message); }
             claim_request(set_ids_get_user_data(), status_code, message);
             return;
           } else if (session_cookie_value === undefined) {
-            message = '🔴 Session cookie not found. No cross-domain link decoration will be applied';
+            message = '🔴 Session cookie not found. No cross-domain URL decoration will be applied';
             status_code = 403;
 
             if (data.enable_logs) { log(message); }
@@ -288,7 +288,7 @@ if (getRequestPath() === endpoint) {
         // CLAIM REQUESTS 
         // Claim get user data requests
         if (event_name === 'get_user_data') {
-          if (data.enable_logs) { log('🟢 Request correct, user and session cookies found. Cross-domain link decoration will be applied'); }
+          if (data.enable_logs) { log('🟢 Request correct, user and session cookies found. Cross-domain URL decoration will be applied'); }
 
           message = '🟢 Request claimed successfully';
           status_code = 200;
