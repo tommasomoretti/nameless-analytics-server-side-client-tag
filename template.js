@@ -288,7 +288,7 @@ if (getRequestPath() === endpoint) {
         // CLAIM REQUESTS 
         // Claim get user data requests
         if (event_name === 'get_user_data') {
-          if (data.enable_logs) { log('🟢 Request correct, user and session cookie found. Cross-domain link decoration will be applied'); }
+          if (data.enable_logs) { log('🟢 Request correct, user and session cookies found. Cross-domain link decoration will be applied'); }
 
           message = '🟢 Request claimed successfully';
           status_code = 200;
