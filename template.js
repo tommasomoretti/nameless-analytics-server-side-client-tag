@@ -101,6 +101,13 @@ function validate_session_cookie(cookie) {
   return testRegex(pattern, cookie);
 }
 
+// Validate cross-domain ID format (session_id: 15 char + _ + 15 char)
+function validate_cross_domain_id(id) {
+  if (!id) return false;
+  const pattern = createRegex('^[A-Za-z0-9]{15}_[A-Za-z0-9]{15}$');
+  return testRegex(pattern, id);
+}
+
 
 // --------------------------------------------------------------------------------------------------------------
 // CHECK REQUESTS
@@ -407,7 +414,15 @@ function set_ids_get_user_data() {
 function set_ids(event_data) {
   const page_id = event_data.page_id;
   const event_id = event_data.event_id;
-  const cross_domain_id = event_data.event_data.cross_domain_id;
+  const raw_cross_domain_id = event_data.event_data.cross_domain_id;
+
+  // Accept the cross-domain ID only if it has a valid session_id format
+  const cross_domain_id = validate_cross_domain_id(raw_cross_domain_id) ? raw_cross_domain_id : null;
+
+  if (raw_cross_domain_id && !cross_domain_id) {
+    if (data.enable_logs) { log('🟠 Invalid cross-domain ID format. Value ignored.'); }
+    event_data.event_data.cross_domain_id = null;
+  }
 
   // Cross-domain request
   if (event_origin === 'Website' && cross_domain_id) {
