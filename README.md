@@ -28,6 +28,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Accept requests from authorized domains only](#accept-requests-from-authorized-domains-only)
   - [Reject requests by IP](#reject-requests-by-ip)
   - [Enable Bot protection](#enable-bot-protection)
+  - [Cross-domain ID validation](#cross-domain-id-validation)
   - [API key for Streaming Protocol requests](#api-key-for-streaming-protocol-requests)
 - [Google BigQuery settings](#google-bigquery-settings)
   - [Project name](#project-name)
@@ -226,6 +227,22 @@ If enabled, the Nameless Analytics Server-side Client Tag filters requests based
 - **Automation & Security:** `nmap`, `zgrab`, `masscan`, `shodan`, `headless`, `phantomjs`, `selenium`, `puppeteer`, `playwright`, `cypress`, `electron`.
 
 Requests with a missing or empty `User-Agent` header are also automatically rejected.
+
+
+### Cross-domain ID validation
+When cross-domain tracking is enabled, the destination page sends the originating `session_id` in the payload as `cross_domain_id`. Since that value travels through a URL parameter, the Server-side Client Tag validates its format before using it as an identity.
+
+A value is accepted only if it matches the format of a server-issued `session_id`: 15 alphanumeric characters, an underscore, 15 alphanumeric characters.
+
+Values that do not match are **discarded, not rejected**: the event is still claimed, stored and attributed to a brand new session, and the following message is logged in GTM Server Preview:
+
+```text
+🟠 Invalid cross-domain ID format. Value ignored.
+```
+
+This behaviour is intentional. A stale or broken link on a partner site degrades to a new session instead of costing you the visit, while a malformed value can never reach the cookies or the Firestore document path.
+
+No configuration is required: the check is always active.
 
 
 ### API key for Streaming Protocol requests
