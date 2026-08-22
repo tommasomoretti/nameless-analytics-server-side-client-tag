@@ -168,9 +168,16 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_country$).*"
+                      "^(?!user_date$).*"
                     ],
-                    "errorMessage": "Can\u0027t add user_country parameter."
+                    "errorMessage": "Can\u0027t add/override user_date parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!client_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override client_id parameter."
                   }
                 ]
               },
@@ -330,9 +337,16 @@ ___TEMPLATE_PARAMETERS___
                   {
                     "type": "REGEX",
                     "args": [
-                      "^(?!user_country$).*"
+                      "^(?!user_date$).*"
                     ],
-                    "errorMessage": "Can\u0027t remove user_country parameter."
+                    "errorMessage": "Can\u0027t remove user_date parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!client_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove client_id parameter."
                   }
                 ]
               }
@@ -590,6 +604,34 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!user_id$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override user_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_date$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override session_date parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override session_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_landing_page_url$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override session_landing_page_url parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_exit_page_url$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override session_exit_page_url parameter."
                   }
                 ]
               },
@@ -818,6 +860,34 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!user_id$).*"
                     ],
                     "errorMessage": "Can\u0027t remove user_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_date$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove session_date parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove session_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_landing_page_url$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove session_landing_page_url parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!session_exit_page_url$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove session_exit_page_url parameter."
                   }
                 ]
               }
@@ -1026,6 +1096,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!country$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override country parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!cross_domain_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override cross_domain_id parameter."
                   }
                 ]
               },
@@ -1234,6 +1311,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!country$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override country parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!cross_domain_id$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove cross_domain_id parameter."
                   }
                 ]
               }
@@ -1400,7 +1484,7 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Enable Bot protection",
         "simpleValueType": true,
         "alwaysInSummary": true,
-        "help": "If enabled, the Nameless Analytics Server-side Client Tag filters requests based on a predefined blacklist of values in the User-Agent header:\n\u003c/br\u003e\u003c/br\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cb\u003eHTTP Libraries:\u003c/b\u003e curl, wget, python, requests, httpie, go-http-client, java, okhttp, libwww, perl, axios, node, fetch, php, guzzle, ruby, faraday, rest-client.\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eAI Agents \u0026 LLMs:\u003c/b\u003e gptbot, chatgpt, anthropic, claude, perplexity, bytspider, ccbot.\n\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eSEO \u0026 Marketing Bots:\u003c/b\u003e ahrefs, semrush, dotbot, mj12, rogerbot, bot, crawler, spider, scraper.\n\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eAutomation \u0026 Security:\u003c/b\u003e nmap, zgrab, masscan, shodan, headless, phantomjs, selenium, puppeteer, playwright, cypress, electron.\n\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/br\u003e\nRequests with a missing or empty User-Agent header are also automatically rejected."
+        "help": "If enabled, the Nameless Analytics Server-side Client Tag filters requests based on a predefined blacklist of values in the User-Agent header:\n\u003c/br\u003e\u003c/br\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cb\u003eHTTP Libraries:\u003c/b\u003e curl, wget, python, requests, httpie, go-http-client, java, okhttp, libwww, perl, axios, node, fetch, php, guzzle, ruby, faraday, rest-client.\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eAI Agents \u0026 LLMs:\u003c/b\u003e gptbot, chatgpt, anthropic, claude, perplexity, bytespider, ccbot.\n\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eSEO \u0026 Marketing Bots:\u003c/b\u003e ahrefs, semrush, dotbot, mj12, rogerbot, bot, crawler, spider, scraper.\n\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eAutomation \u0026 Security:\u003c/b\u003e nmap, zgrab, masscan, shodan, headless, phantomjs, selenium, puppeteer, playwright, cypress, electron.\n\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/br\u003e\nRequests with a missing or empty User-Agent header are also automatically rejected."
       },
       {
         "type": "CHECKBOX",
@@ -1919,7 +2003,7 @@ if (getRequestPath() === endpoint) {
         }
 
         if (data.enable_bot_protection) {
-          const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "php", "guzzle", "ruby", "faraday", "rest-client", "gptbot", "chatgpt", "anthropic", "claude", "perplexity", "bytspider", "ccbot", "ahrefs", "semrush", "dotbot", "mj12", "rogerbot", "nmap", "zgrab", "masscan", "shodan", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright", "cypress", "electron"];
+          const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "php", "guzzle", "ruby", "faraday", "rest-client", "gptbot", "chatgpt", "anthropic", "claude", "perplexity", "bytespider", "ccbot", "ahrefs", "semrush", "dotbot", "mj12", "rogerbot", "nmap", "zgrab", "masscan", "shodan", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright", "cypress", "electron"];
 
           for (var i = 0; i < bad_agents.length; i++) {
             if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
@@ -2253,7 +2337,7 @@ function build_payload(event_data) {
   // When hosting GTM Server-side on Cloud Run, follow this guide to correctly configure geolocation headers: https://www.simoahava.com/analytics/cloud-run-server-side-tagging-google-tag-manager/#add-geolocation-headers-to-the-traffic
 
   event_data.event_data.country = getRequestHeader('X-Appengine-Country') || getRequestHeader('X-Gclb-Country') || getRequestHeader('X-GEO-Country');
-  event_data.event_data.city = getRequestHeader('X-Appengine-City') || getRequestHeader('X-Gclb-Region') || getRequestHeader('X-GEO-Region');
+  event_data.event_data.city = getRequestHeader('X-Appengine-City') || getRequestHeader('X-Gclb-City') || getRequestHeader('X-GEO-City');
 
   event_data.gtm_data.ss_hostname = getRequestHeader('Host');
   event_data.gtm_data.ss_container_id = getContainerVersion().containerId;

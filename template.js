@@ -213,7 +213,7 @@ if (getRequestPath() === endpoint) {
         }
 
         if (data.enable_bot_protection) {
-          const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "php", "guzzle", "ruby", "faraday", "rest-client", "gptbot", "chatgpt", "anthropic", "claude", "perplexity", "bytspider", "ccbot", "ahrefs", "semrush", "dotbot", "mj12", "rogerbot", "nmap", "zgrab", "masscan", "shodan", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright", "cypress", "electron"];
+          const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "php", "guzzle", "ruby", "faraday", "rest-client", "gptbot", "chatgpt", "anthropic", "claude", "perplexity", "bytespider", "ccbot", "ahrefs", "semrush", "dotbot", "mj12", "rogerbot", "nmap", "zgrab", "masscan", "shodan", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright", "cypress", "electron"];
 
           for (var i = 0; i < bad_agents.length; i++) {
             if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
@@ -547,7 +547,7 @@ function build_payload(event_data) {
   // When hosting GTM Server-side on Cloud Run, follow this guide to correctly configure geolocation headers: https://www.simoahava.com/analytics/cloud-run-server-side-tagging-google-tag-manager/#add-geolocation-headers-to-the-traffic
 
   event_data.event_data.country = getRequestHeader('X-Appengine-Country') || getRequestHeader('X-Gclb-Country') || getRequestHeader('X-GEO-Country');
-  event_data.event_data.city = getRequestHeader('X-Appengine-City') || getRequestHeader('X-Gclb-Region') || getRequestHeader('X-GEO-Region');
+  event_data.event_data.city = getRequestHeader('X-Appengine-City') || getRequestHeader('X-Gclb-City') || getRequestHeader('X-GEO-City');
 
   event_data.gtm_data.ss_hostname = getRequestHeader('Host');
   event_data.gtm_data.ss_container_id = getContainerVersion().containerId;
