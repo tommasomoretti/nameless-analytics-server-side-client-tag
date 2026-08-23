@@ -2018,7 +2018,7 @@ if (getRequestPath() === endpoint) {
         }
 
         // Check Streaming Protocol requests API key
-        if (event_origin === 'Streaming Protocol' && event_api_key !== api_key) {
+        if (event_origin === 'Streaming Protocol' && (!data.add_api_key || event_api_key !== api_key)) {
           if (data.add_api_key) {
             message = '🔴 Invalid API key';
           } else {
