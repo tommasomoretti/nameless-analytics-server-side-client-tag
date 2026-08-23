@@ -234,7 +234,7 @@ When cross-domain tracking is enabled, the destination page sends the originatin
 
 A value is accepted only if it matches the format of a server-issued `session_id`: 15 alphanumeric characters, an underscore, 15 alphanumeric characters.
 
-Values that do not match are **discarded, not rejected**: the event is still claimed, stored and attributed to a brand new session, and the following message is logged in GTM Server Preview:
+Values that do not match are **discarded, not rejected**: the event is still claimed and stored, and is attributed using the local `na_u` and `na_s` cookies as if no cross-domain ID had been sent — in the typical case, a new session. The following message is logged in GTM Server Preview:
 
 ```text
 🟠 Invalid cross-domain ID format. Value ignored.
@@ -248,7 +248,7 @@ No configuration is required: the check is always active.
 ### API key for Streaming Protocol requests
 Secure the Streaming Protocol (Measurement Protocol) endpoint by requiring a secret API key.
 
-When the **"Add API key for Streaming Protocol"** checkbox is enabled, the Client Tag will reject any request where the `event_origin` is set to `Streaming Protocol` unless it includes a valid `X-Api-Key` header matching the configured value.
+Any request where `event_origin` is set to `Streaming Protocol` is rejected unless it includes an `X-Api-Key` header matching the configured value. There is no bypass: enable **"Add API key for Streaming Protocol"** and set a key before sending events from a backend.
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
