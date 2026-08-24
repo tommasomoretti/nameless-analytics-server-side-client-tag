@@ -298,8 +298,9 @@ The following success messages indicate a correct implementation and data delive
 | **Scope** | **Message** | **Description** |
 |:---|:---|:---|
 | Data validation | 🟢 Request correct | The incoming request passed all validation checks |
-| | 🟢 Request claimed successfully | Default success message for a fully processed event |
+| | 🟢 Request processed successfully | Final success message for a fully processed event, returned with `status_code: 200` once Firestore, BigQuery and the custom endpoint have all completed |
 | Cross-domain | 🟢 Request correct, user and session cookies found. Cross-domain link decoration will be applied | Success log for `get_user_data` cross-domain requests |
+| | 🟢 Request claimed successfully | Success message of a `get_user_data` request. Cross-domain handshakes end here: they are answered with the identifiers and never reach Firestore or BigQuery |
 | User & Session | 👉 Same client_id, same session_id | Confirms cookie refresh for active user and session |
 | | 👉 Returning user, no active session | Confirms session initialization for returning user |
 | | 👉 New user, no active session | Confirms new user and session identifier generation |
