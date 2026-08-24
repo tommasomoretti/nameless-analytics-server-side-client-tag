@@ -214,6 +214,16 @@ Set the specific domains from which requests can be claimed.
 
 If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the "Authorized domains" field. Add one domain per row.
 
+> [!IMPORTANT]
+> **The option is off by default, and while it is off every origin is accepted.** The check compares the Effective TLD+1 of the request `Origin` header with the configured list: with no list to compare against, the tag matches the request against itself and always claims it. Anyone who knows your endpoint path can send events from any website, and they are stored like any other event. Turn the option on and list your domains for any production container. GTM Server Preview reports the current state as `👉 Authorized origins: All` or as the list of domains.
+
+Add domains as bare host names, without protocol: `www.yourdomain.com`, not `https://www.yourdomain.com`. Only the Effective TLD+1 is compared, so a single entry covers every subdomain of that domain.
+
+Two consequences worth knowing before enabling it:
+
+- requests without an `Origin` header are rejected. Browsers always send it on the tracker's `fetch` calls, but server-to-server calls do not unless you add it: the [Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) scripts set `Origin` explicitly for this reason, and any custom backend implementation must do the same;
+- in a cross-domain setup, every domain involved must be listed, otherwise the requests coming from the other sites are refused with `🔴 Request origin not authorized`.
+
 
 ### Reject requests by IP
 Reject requests from unauthorized IP addresses. Accepted values IPv4 and IPv6 addresses.
