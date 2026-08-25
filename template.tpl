@@ -1765,7 +1765,7 @@ ___TEMPLATE_PARAMETERS___
         "alwaysInSummary": true,
         "displayName": "",
         "help": "Enable logging on GTM debug console.",
-        "defaultValue": true
+        "defaultValue": false
       }
     ],
     "help": "Optional settings for data forwarding and logging."

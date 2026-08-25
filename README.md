@@ -34,10 +34,11 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Google BigQuery project ID](#google-bigquery-project-id)
   - [Google BigQuery dataset ID](#google-bigquery-dataset-id)
   - [Google BigQuery table ID](#google-bigquery-table-id)
-- [Advanced settings](#advanced-settings)
-  - [Send data to custom endpoint](#send-data-to-custom-endpoint)
+- [Session settings](#session-settings)
   - [Change user and session cookie prefix](#change-user-and-session-cookie-prefix)
   - [Change default session duration](#change-default-session-duration)
+- [Advanced settings](#advanced-settings)
+  - [Send data to custom endpoint](#send-data-to-custom-endpoint)
   - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Verifying the setup](#verifying-the-setup)
 - [Troubleshooting](#troubleshooting)
@@ -299,17 +300,23 @@ All three fields are required and start empty: the tag will not save until each 
 
 
 
-## Advanced settings
-### Send data to custom endpoint
-Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
-
-
+## Session settings
 ### Change user and session cookie prefix
-Change the user and session cookie prefix. Default prefix: `na_u` and `na_s`. See [Server-side cookies](https://github.com/nameless-analytics/nameless-analytics/#server-side-cookies) for more information.
+Override the default name of the user and session cookies. When enabled, set the new prefix in the **Cookie prefix** field.
+
+Default prefix: `na_u` and `na_s`. See [Server-side cookies](https://github.com/nameless-analytics/nameless-analytics/#server-side-cookies) for more information.
 
 
 ### Change default session duration
-Change the session duration in minutes. Default value: 30 min.
+Override the default duration of the session cookie. When enabled, set the new value, in minutes, in the **Session duration** field.
+
+Default value: 30 minutes.
+
+
+
+## Advanced settings
+### Send data to custom endpoint
+Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
 
 
 ### Enable logs in debug view
