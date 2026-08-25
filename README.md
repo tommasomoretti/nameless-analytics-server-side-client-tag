@@ -70,6 +70,8 @@ They will be:
 - sent to BigQuery with the last available values --> all values
 
 These user parameters are reserved and can't be modified:
+- user_date
+- client_id
 - user_channel_grouping
 - user_source
 - user_tld_source
@@ -111,6 +113,8 @@ They will be:
 - sent to BigQuery with the last available values --> all values
 
 These session parameters are reserved and can't be modified:
+- session_date
+- session_id
 - user_id
 - session_number
 - cross_domain_session
