@@ -31,9 +31,9 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Cross-domain ID validation](#cross-domain-id-validation)
   - [API key for Streaming Protocol requests](#api-key-for-streaming-protocol-requests)
 - [Google BigQuery settings](#google-bigquery-settings)
-  - [Project name](#project-name)
-  - [Dataset name](#dataset-name)
-  - [Table name](#table-name)
+  - [Google BigQuery project ID](#google-bigquery-project-id)
+  - [Google BigQuery dataset ID](#google-bigquery-dataset-id)
+  - [Google BigQuery table ID](#google-bigquery-table-id)
 - [Advanced settings](#advanced-settings)
   - [Send data to custom endpoint](#send-data-to-custom-endpoint)
   - [Change user and session cookie prefix](#change-user-and-session-cookie-prefix)
@@ -282,16 +282,20 @@ The [Nameless Analytics Streaming Protocol](https://github.com/nameless-analytic
 
 
 ## Google BigQuery settings
-### Project name
-The unique ID of the Google Cloud Project.
+### Google BigQuery project ID
+The unique ID of the Google Cloud project that holds the dataset.
 
 
-### Dataset name
-The ID of the BigQuery dataset where Nameless Analytics will store its tables. This dataset must be created before the tag can write data.
+### Google BigQuery dataset ID
+The ID of the BigQuery dataset where Nameless Analytics will store its tables. The dataset must be created before the tag can write data.
 
 
-### Table name
-The name of the main raw events table. By default, this is set to `events_raw`. Create it using the DML query in the [Create raw tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/TABLES.md#create-raw-tables) section before you start sending events.
+### Google BigQuery table ID
+The ID of the main raw events table. Create it using the DML query in the [Create raw tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/TABLES.md#create-raw-tables) section before you start sending events.
+
+The setup script creates the table as `events_raw`, and the table functions that read the raw table expect that name, so use a different one only if you also update them.
+
+All three fields are required and start empty: the tag will not save until each one has a value.
 
 
 
