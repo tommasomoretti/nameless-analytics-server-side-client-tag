@@ -316,7 +316,11 @@ Default value: 30 minutes.
 
 ## Advanced settings
 ### Send data to custom endpoint
-Send POST requests to custom endpoint with the same data loaded into Google BigQuery. 
+Send POST requests to custom endpoint with the same data loaded into Google BigQuery.
+
+Set the destination in **Full endpoint domain path**: unlike the other domain fields of the platform, this one is a complete URL and must start with `https://`.
+
+To authenticate the call, check **Add custom request headers** and fill in the **Custom request headers** table, which has a **Header name** and a **Header value** column. Credentials set here never reach the browser, since the request leaves from your server-side container. 
 
 
 ### Enable logs in debug view
