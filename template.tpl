@@ -1904,219 +1904,207 @@ function validate_cross_domain_id(id) {
 // --------------------------------------------------------------------------------------------------------------
 
 // Check request endpoint
-if (getRequestPath() === endpoint) {
-  if (data.enable_logs) { log('NAMELESS ANALYTICS'); }
-  if (data.enable_logs) { log('CLIENT TAG CONFIGURATION'); }
+if (data.enable_logs) { log('NAMELESS ANALYTICS'); }
+if (data.enable_logs) { log('CLIENT TAG CONFIGURATION'); }
 
-  // Check request origin, required fields and claim requests
-  if (check_origin()) {
-    if (!check_ip()) {
+// Check request origin, required fields and claim requests
+if (check_origin()) {
+  if (!check_ip()) {
 
-      if (data.enable_logs) { log('CHECKING REQUEST'); }
+    if (data.enable_logs) { log('CHECKING REQUEST'); }
 
-      if (event_name === 'get_user_data') {
-        if (data.enable_logs) { log('👉 Request type: Get user data'); }
-      } else {
-        if (data.enable_logs) { log('👉 Request type:', event_origin); }
-      }
+    if (event_name === 'get_user_data') {
+      if (data.enable_logs) { log('👉 Request type: Get user data'); }
+    } else {
+      if (data.enable_logs) { log('👉 Request type:', event_origin); }
+    }
 
-      if (data.enable_logs) { log('👉 Event name: ', event_data.event_name); }
+    if (data.enable_logs) { log('👉 Event name: ', event_data.event_name); }
 
-      if (request_method === 'POST') {
-        // Check required fields
-        const missing_fields = [];
+    if (request_method === 'POST') {
+      // Check required fields
+      const missing_fields = [];
 
-        if (!page_date) missing_fields.push('page_date');
-        if (!page_id) missing_fields.push('page_id');
-        if (!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');
+      if (!page_date) missing_fields.push('page_date');
+      if (!page_id) missing_fields.push('page_id');
+      if (!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');
 
-        if (!event_origin) missing_fields.push('event_origin');
-        if (!event_date) missing_fields.push('event_date');
-        if (!event_timestamp) missing_fields.push('event_timestamp');
-        if (!event_name) missing_fields.push('event_name');
-        if (!event_id) missing_fields.push('event_id');
-        if (!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');
+      if (!event_origin) missing_fields.push('event_origin');
+      if (!event_date) missing_fields.push('event_date');
+      if (!event_timestamp) missing_fields.push('event_timestamp');
+      if (!event_name) missing_fields.push('event_name');
+      if (!event_id) missing_fields.push('event_id');
+      if (!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');
 
-        // REFUSE REQUESTS
-        // Check request for get_user_data
-        if (event_name === 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming Protocol') {
-          message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // Check if user or session cookie is missing for get_user_data requests
-        if (event_name === 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
-          if (data.enable_logs) { log('👉 Request from get_user_data event'); }
-
-          if (data.enable_logs) { log('CHECKING COOKIES'); }
-
-          if (user_cookie_value === undefined) {
-            message = '🔴 User cookie not found. No cross-domain URL decoration will be applied';
-            status_code = 403;
-
-            if (data.enable_logs) { log(message); }
-            claim_request(set_ids_get_user_data(), status_code, message);
-            return;
-          } else if (session_cookie_value === undefined) {
-            message = '🔴 Session cookie not found. No cross-domain URL decoration will be applied';
-            status_code = 403;
-
-            if (data.enable_logs) { log(message); }
-            claim_request(set_ids_get_user_data(), status_code, message);
-            return;
-          }
-        }
-
-        // Check event origin 
-        if (event_origin !== 'Website' && event_origin !== 'Streaming Protocol' && event_name !== 'get_user_data') {
-          message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming Protocol';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // Check User-Agent header (Bot detection)
-        const request_user_agent = (getRequestHeader('User-Agent') || '').toLowerCase();
-
-        if (request_user_agent === '' || request_user_agent === null) {
-          message = '🔴 Missing User-Agent header. Request from bot';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        if (event_origin === 'Streaming Protocol' && request_user_agent !== 'nameless analytics - streaming protocol') {
-          message = '🔴 Invalid User-Agent header value. Request from bot';
-          if (data.enable_logs) { log(message); }
-          status_code = 403;
-
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        if (data.enable_bot_protection) {
-          const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "php", "guzzle", "ruby", "faraday", "rest-client", "gptbot", "chatgpt", "anthropic", "claude", "perplexity", "bytespider", "ccbot", "ahrefs", "semrush", "dotbot", "mj12", "rogerbot", "nmap", "zgrab", "masscan", "shodan", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright", "cypress", "electron"];
-
-          for (var i = 0; i < bad_agents.length; i++) {
-            if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
-              message = '🔴 Invalid User-Agent header value. Request from bot';
-              status_code = 403;
-              if (data.enable_logs) { log(message); }
-
-              claim_request({ event_name: event_name }, status_code, message);
-              return;
-            }
-          }
-        }
-
-        // Check Streaming Protocol requests API key
-        if (event_origin === 'Streaming Protocol' && (!data.add_api_key || event_api_key !== api_key)) {
-          if (data.add_api_key) {
-            message = '🔴 Invalid API key';
-          } else {
-            message = '🔴 Add API key for Streaming Protocol is not enabled.';
-          }
-
-          if (data.enable_logs) { log(message); }
-          status_code = 403;
-
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // Check if page_view is from Streaming Protocol
-        if (event_name === 'page_view' && event_origin === 'Streaming Protocol') {
-          message = '🔴 Invalid event_name. Can\'t send page_view from Streaming Protocol';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // Check if some required parameter is missing 
-        if (event_name !== 'get_user_data' && missing_fields.length > 0) {
-          message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));
-          if (data.enable_logs) { log(message); }
-          status_code = 403;
-
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // Check if user cookie is missing
-        if (event_origin === 'Website' && event_data.event_name !== 'page_view' && event_data.event_name !== 'get_user_data' && user_cookie_value === undefined) {
-          message = '🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // Check if session cookie is missing
-        if (event_origin === 'Website' && event_data.event_name !== 'page_view' && event_data.event_name !== 'get_user_data' && session_cookie_value === undefined) {
-          message = '🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // Check if cookie format is valid
-        if (!validate_user_cookie(user_cookie_value) || !validate_session_cookie(session_cookie_value)) {
-          message = '🔴 Invalid cookie format';
-          status_code = 403;
-
-          if (data.enable_logs) { log(message); }
-          claim_request({ event_name: event_name }, status_code, message);
-          return;
-        }
-
-        // CLAIM REQUESTS 
-        // Claim get user data requests
-        if (event_name === 'get_user_data') {
-          if (data.enable_logs) { log('🟢 Request correct, user and session cookies found. Cross-domain URL decoration will be applied'); }
-
-          message = '🟢 Request claimed successfully';
-          status_code = 200;
-
-          if (data.enable_logs) { log('REQUEST STATUS'); }
-          claim_request(set_ids_get_user_data(), status_code, message);
-          return;
-        } else {
-          // Claim standard requests
-          if (data.enable_logs) { log('🟢 Request correct'); }
-
-          claim_request(build_payload(set_ids(event_data)), null, '');
-          return;
-        }
-
-      } else {
-        if (data.enable_logs) { log('CHECKING REQUEST'); }
-
-        // RETURN RESPONSE ERRORS
-        message = '🔴 Request method not correct';
+      // REFUSE REQUESTS
+      // Check request for get_user_data
+      if (event_name === 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming Protocol') {
+        message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
         status_code = 403;
 
         if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
         return;
       }
+
+      // Check if user or session cookie is missing for get_user_data requests
+      if (event_name === 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
+        if (data.enable_logs) { log('👉 Request from get_user_data event'); }
+
+        if (data.enable_logs) { log('CHECKING COOKIES'); }
+
+        if (user_cookie_value === undefined) {
+          message = '🔴 User cookie not found. No cross-domain URL decoration will be applied';
+          status_code = 403;
+
+          if (data.enable_logs) { log(message); }
+          claim_request(set_ids_get_user_data(), status_code, message);
+          return;
+        } else if (session_cookie_value === undefined) {
+          message = '🔴 Session cookie not found. No cross-domain URL decoration will be applied';
+          status_code = 403;
+
+          if (data.enable_logs) { log(message); }
+          claim_request(set_ids_get_user_data(), status_code, message);
+          return;
+        }
+      }
+
+      // Check event origin 
+      if (event_origin !== 'Website' && event_origin !== 'Streaming Protocol' && event_name !== 'get_user_data') {
+        message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming Protocol';
+        status_code = 403;
+
+        if (data.enable_logs) { log(message); }
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      // Check User-Agent header (Bot detection)
+      const request_user_agent = (getRequestHeader('User-Agent') || '').toLowerCase();
+
+      if (request_user_agent === '' || request_user_agent === null) {
+        message = '🔴 Missing User-Agent header. Request from bot';
+        status_code = 403;
+
+        if (data.enable_logs) { log(message); }
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      if (event_origin === 'Streaming Protocol' && request_user_agent !== 'nameless analytics - streaming protocol') {
+        message = '🔴 Invalid User-Agent header value. Request from bot';
+        if (data.enable_logs) { log(message); }
+        status_code = 403;
+
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      if (data.enable_bot_protection) {
+        const bad_agents = ["curl", "wget", "python", "requests", "httpie", "go-http-client", "java", "okhttp", "libwww", "perl", "axios", "node", "fetch", "php", "guzzle", "ruby", "faraday", "rest-client", "gptbot", "chatgpt", "anthropic", "claude", "perplexity", "bytespider", "ccbot", "ahrefs", "semrush", "dotbot", "mj12", "rogerbot", "nmap", "zgrab", "masscan", "shodan", "bot", "crawler", "spider", "scraper", "headless", "phantomjs", "selenium", "puppeteer", "playwright", "cypress", "electron"];
+
+        for (var i = 0; i < bad_agents.length; i++) {
+          if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
+            message = '🔴 Invalid User-Agent header value. Request from bot';
+            status_code = 403;
+            if (data.enable_logs) { log(message); }
+
+            claim_request({ event_name: event_name }, status_code, message);
+            return;
+          }
+        }
+      }
+
+      // Check Streaming Protocol requests API key
+      if (event_origin === 'Streaming Protocol' && (!data.add_api_key || event_api_key !== api_key)) {
+        if (data.add_api_key) {
+          message = '🔴 Invalid API key';
+        } else {
+          message = '🔴 Add API key for Streaming Protocol is not enabled.';
+        }
+
+        if (data.enable_logs) { log(message); }
+        status_code = 403;
+
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      // Check if page_view is from Streaming Protocol
+      if (event_name === 'page_view' && event_origin === 'Streaming Protocol') {
+        message = '🔴 Invalid event_name. Can\'t send page_view from Streaming Protocol';
+        status_code = 403;
+
+        if (data.enable_logs) { log(message); }
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      // Check if some required parameter is missing 
+      if (event_name !== 'get_user_data' && missing_fields.length > 0) {
+        message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));
+        if (data.enable_logs) { log(message); }
+        status_code = 403;
+
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      // Check if user cookie is missing
+      if (event_origin === 'Website' && event_data.event_name !== 'page_view' && event_data.event_name !== 'get_user_data' && user_cookie_value === undefined) {
+        message = '🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session';
+        status_code = 403;
+
+        if (data.enable_logs) { log(message); }
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      // Check if session cookie is missing
+      if (event_origin === 'Website' && event_data.event_name !== 'page_view' && event_data.event_name !== 'get_user_data' && session_cookie_value === undefined) {
+        message = '🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session';
+        status_code = 403;
+
+        if (data.enable_logs) { log(message); }
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      // Check if cookie format is valid
+      if (!validate_user_cookie(user_cookie_value) || !validate_session_cookie(session_cookie_value)) {
+        message = '🔴 Invalid cookie format';
+        status_code = 403;
+
+        if (data.enable_logs) { log(message); }
+        claim_request({ event_name: event_name }, status_code, message);
+        return;
+      }
+
+      // CLAIM REQUESTS 
+      // Claim get user data requests
+      if (event_name === 'get_user_data') {
+        if (data.enable_logs) { log('🟢 Request correct, user and session cookies found. Cross-domain URL decoration will be applied'); }
+
+        message = '🟢 Request claimed successfully';
+        status_code = 200;
+
+        if (data.enable_logs) { log('REQUEST STATUS'); }
+        claim_request(set_ids_get_user_data(), status_code, message);
+        return;
+      } else {
+        // Claim standard requests
+        if (data.enable_logs) { log('🟢 Request correct'); }
+
+        claim_request(build_payload(set_ids(event_data)), null, '');
+        return;
+      }
+
     } else {
       if (data.enable_logs) { log('CHECKING REQUEST'); }
 
       // RETURN RESPONSE ERRORS
-      message = '🔴 Request IP not authorized';
+      message = '🔴 Request method not correct';
       status_code = 403;
 
       if (data.enable_logs) { log(message); }
@@ -2127,13 +2115,23 @@ if (getRequestPath() === endpoint) {
     if (data.enable_logs) { log('CHECKING REQUEST'); }
 
     // RETURN RESPONSE ERRORS
-    message = '🔴 Request origin not authorized';
+    message = '🔴 Request IP not authorized';
     status_code = 403;
 
     if (data.enable_logs) { log(message); }
     claim_request({ event_name: event_name }, status_code, message);
     return;
   }
+} else {
+  if (data.enable_logs) { log('CHECKING REQUEST'); }
+
+  // RETURN RESPONSE ERRORS
+  message = '🔴 Request origin not authorized';
+  status_code = 403;
+
+  if (data.enable_logs) { log(message); }
+  claim_request({ event_name: event_name }, status_code, message);
+  return;
 }
 
 
@@ -3271,7 +3269,6 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
     }
   );
 }
-
 
 ___SERVER_PERMISSIONS___
 
