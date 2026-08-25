@@ -276,7 +276,7 @@ The ID of the BigQuery dataset where Nameless Analytics will store its tables. T
 
 
 ### Table name
-The name of the main raw events table. By default, this is set to `events_raw`. Create it using the Create tables DML query in the [Create tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/TABLES.md#create-tables) section before start sending events.
+The name of the main raw events table. By default, this is set to `events_raw`. Create it using the DML query in the [Create raw tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/TABLES.md#create-raw-tables) section before you start sending events.
 
 
 
@@ -286,7 +286,7 @@ Send POST requests to custom endpoint with the same data loaded into Google BigQ
 
 
 ### Change user and session cookie prefix
-Change the user and session cookie prefix. Default prefix: na_u and na_s. See [Cookie section](https://github.com/nameless-analytics/nameless-analytics/#cookies) for more information.
+Change the user and session cookie prefix. Default prefix: `na_u` and `na_s`. See [Server-side cookies](https://github.com/nameless-analytics/nameless-analytics/#server-side-cookies) for more information.
 
 
 ### Change default session duration
