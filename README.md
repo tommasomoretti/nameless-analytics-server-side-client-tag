@@ -238,13 +238,20 @@ Add one address per row in the **Banned IPs** table, under the **Internet Protoc
 
 
 ### Enable Bot protection
+The option sits under **Client settings** → **Security rules**.
+
 If enabled, the Nameless Analytics Server-side Client Tag filters requests based on a predefined blacklist of values in the `User-Agent` header:
 - **HTTP Libraries:** `curl`, `wget`, `python`, `requests`, `httpie`, `go-http-client`, `java`, `okhttp`, `libwww`, `perl`, `axios`, `node`, `fetch`, `php`, `guzzle`, `ruby`, `faraday`, `rest-client`.
 - **AI Agents & LLMs:** `gptbot`, `chatgpt`, `anthropic`, `claude`, `perplexity`, `bytespider`, `ccbot`.
 - **SEO & Marketing Bots:** `ahrefs`, `semrush`, `dotbot`, `mj12`, `rogerbot`, `bot`, `crawler`, `spider`, `scraper`.
 - **Automation & Security:** `nmap`, `zgrab`, `masscan`, `shodan`, `headless`, `phantomjs`, `selenium`, `puppeteer`, `playwright`, `cypress`, `electron`.
 
-Requests with a missing or empty `User-Agent` header are also automatically rejected.
+Two further `User-Agent` checks run **regardless of this option** and cannot be turned off:
+
+- a request with a missing or empty `User-Agent` header is always rejected;
+- a request declaring `event_origin: "Streaming Protocol"` is always rejected unless its `User-Agent` is exactly `Nameless Analytics - Streaming Protocol`. The comparison ignores case but is otherwise exact: any prefix or suffix fails it. See the [Streaming Protocol documentation](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol).
+
+Both are rejected with `403 Forbidden` and the same message as a blacklisted agent.
 
 
 ### Cross-domain ID validation
