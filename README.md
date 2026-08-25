@@ -38,7 +38,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Send data to custom endpoint](#send-data-to-custom-endpoint)
   - [Change user and session cookie prefix](#change-user-and-session-cookie-prefix)
   - [Change default session duration](#change-default-session-duration)
-  - [Enable logs in preview mode](#enable-logs-in-preview-mode)
+  - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Verifying the setup](#verifying-the-setup)
 - [Troubleshooting](#troubleshooting)
 
@@ -185,6 +185,7 @@ These event parameters are reserved and can't be modified:
 - tld_source
 - city
 - country
+- cross_domain_id
 
 #### Add/override event level parameters
 Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, JSON and booleans.
@@ -206,7 +207,12 @@ These parameters can remove:
 
 ## Client settings
 ### Endpoint path
-Endpoint path to which requests have to be sent.
+The request endpoint path the tag listens on. It must start with `/` and must not end with `/`.
+
+A server-side container can run several clients, each listening on its own path, and every incoming request goes to the client that claims it. This tag claims a request only when its path matches this value exactly, which has two consequences:
+
+- it must be identical to the **Endpoint path** set in the [Client-side Tracker Configuration Variable](https://github.com/nameless-analytics/client-side-tracker-configuration-variable/#endpoint-path), otherwise the requests reach the container but this client never takes them;
+- it should not overlap with the path claimed by any other client in the same container, so give Nameless Analytics a dedicated one (e.g. `/na/collect`).
 
 
 ### Accept requests from authorized domains only
@@ -293,15 +299,15 @@ Change the user and session cookie prefix. Default prefix: `na_u` and `na_s`. Se
 Change the session duration in minutes. Default value: 30 min.
 
 
-### Enable logs in preview mode
-Enable logs for all events in preview mode. 
+### Enable logs in debug view
+Enable logs for all events in the GTM server debug view. The Client-side Tracker Tag logs to the browser JavaScript console, this tag logs here.
 
-If cross-domain is enabled, all cross-domain requests will be visible in each domain's respective GTM Preview Mode. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
+If cross-domain is enabled, all cross-domain requests will be visible in each domain's respective debug view. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
 
 
 
 ## Verifying the setup
-When logs are enabled in the [Advanced settings](#enable-logs-in-preview-mode), you can verify that the tag is processing events correctly by checking the GTM Server Preview mode logs.
+When logs are enabled in the [Advanced settings](#enable-logs-in-debug-view), you can verify that the tag is processing events correctly by checking the GTM server debug view.
 
 The following success messages indicate a correct implementation and data delivery:
 
