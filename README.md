@@ -4,6 +4,7 @@ The Nameless Analytics Server-side Client Tag is a highly customizable GTM custo
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/nameless-analytics/nameless-analytics/#overview).
 
+
 ### 🚧 Nameless Analytics and the documentation are currently in beta and subject to change
 
 
@@ -350,6 +351,7 @@ The following success messages indicate a correct implementation and data delive
 | | 🟢 User already in Firestore, session successfully updated to Firestore | Confirmation that an existing session was refreshed |
 | | 🟢 Payload data inserted successfully into BigQuery | Confirmation that the event was pushed to BigQuery |
 | | 🟢 Request sent successfully to: [URL] | Forwarded successfully to a custom endpoint |
+
 
 
 ## Troubleshooting
