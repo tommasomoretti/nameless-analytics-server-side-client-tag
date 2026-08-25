@@ -193,7 +193,7 @@ if (check_origin()) {
       // Check User-Agent header (Bot detection)
       const request_user_agent = (getRequestHeader('User-Agent') || '').toLowerCase();
 
-      if (request_user_agent === '' || request_user_agent === null) {
+      if (!request_user_agent) {
         message = '🔴 Missing User-Agent header. Request from bot';
         status_code = 403;
 
