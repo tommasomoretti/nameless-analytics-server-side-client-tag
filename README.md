@@ -110,31 +110,31 @@ They will be:
 
 These session parameters are reserved and can't be modified:
 - user_id
-- session_number 
-- cross_domain_session 
-- session_channel_grouping 
-- session_source 
-- session_tld_source 
-- session_campaign 
-- session_campaign_id 
+- session_number
+- cross_domain_session
+- session_channel_grouping
+- session_source
+- session_tld_source
+- session_campaign
+- session_campaign_id
 - session_campaign_click_id
-- session_campaign_content 
-- session_campaign_term 
-- session_device_type 
+- session_campaign_term
+- session_campaign_content
+- session_device_type
+- session_country
 - session_city
-- session_country 
-- session_language 
-- session_hostname 
-- session_browser_name 
-- session_landing_page_category 
-- session_landing_page_path 
-- session_landing_page_title 
+- session_language
+- session_hostname
+- session_browser_name
+- session_landing_page_category
 - session_landing_page_url
-- session_exit_page_category 
-- session_exit_page_path 
-- session_exit_page_title 
+- session_landing_page_path
+- session_landing_page_title
+- session_exit_page_category
 - session_exit_page_url
-- session_start_timestamp 
+- session_exit_page_path
+- session_exit_page_title
+- session_start_timestamp
 - session_end_timestamp
 
 #### Add/override User ID parameter
