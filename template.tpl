@@ -1939,7 +1939,7 @@ if (check_origin()) {
       // REFUSE REQUESTS
       // Check request for get_user_data
       if (event_name === 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming Protocol') {
-        message = '🔴 Invalid event_origin parameter value. Accepted values: Website';
+        message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming Protocol';
         status_code = 403;
 
         if (data.enable_logs) { log(message); }
@@ -1971,7 +1971,7 @@ if (check_origin()) {
       }
 
       // Check event origin 
-      if (event_origin !== 'Website' && event_origin !== 'Streaming Protocol' && event_name !== 'get_user_data') {
+      if (event_name !== 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming Protocol') {
         message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming Protocol';
         status_code = 403;
 
