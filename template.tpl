@@ -1425,7 +1425,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Authorized domains from which to accept requests.  \u003c/br\u003e\u003c/br\u003e The URL must start with https:/, must not end with /, and contain a valid domain.",
+        "help": "Authorized domains from which to accept requests.  \u003c/br\u003e\u003c/br\u003e The URL must not start with http:// or https://, must not end with /, and must contain a valid domain.",
         "displayName": "Security rules"
       },
       {
@@ -1768,7 +1768,7 @@ ___TEMPLATE_PARAMETERS___
         "defaultValue": true
       }
     ],
-    "help": "Lorem ipsum"
+    "help": "Optional settings for data forwarding and logging."
   },
   {
     "type": "GROUP",

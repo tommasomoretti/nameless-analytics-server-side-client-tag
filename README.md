@@ -232,7 +232,9 @@ Two consequences worth knowing before enabling it:
 
 
 ### Reject requests by IP
-Reject requests from unauthorized IP addresses. Accepted values IPv4 and IPv6 addresses.
+Reject requests coming from specific IP addresses. The option sits under **Client settings** → **Security rules**.
+
+Add one address per row in the **Banned IPs** table, under the **Internet Protocol address** column. Both IPv4 and IPv6 are accepted, and the field validation rejects anything that is not a well-formed address.
 
 
 ### Enable Bot protection
