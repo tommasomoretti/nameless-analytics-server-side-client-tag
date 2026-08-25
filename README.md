@@ -218,10 +218,10 @@ A server-side container can run several clients, each listening on its own path,
 ### Accept requests from authorized domains only
 Set the specific domains from which requests can be claimed.
 
-If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the "Authorized domains" field. Add one domain per row.
+The option sits under **Client settings** → **Security rules**. If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the **Authorized domains** table. Add one domain per row.
 
 > [!IMPORTANT]
-> **The option is off by default, and while it is off every origin is accepted.** The check compares the Effective TLD+1 of the request `Origin` header with the configured list: with no list to compare against, the tag matches the request against itself and always claims it. Anyone who knows your endpoint path can send events from any website, and they are stored like any other event. Turn the option on and list your domains for any production container. GTM Server Preview reports the current state as `👉 Authorized origins: All` or as the list of domains.
+> **The option is off by default, and while it is off every origin is accepted.** The check compares the Effective TLD+1 of the request `Origin` header with the configured list: with no list to compare against, the tag matches the request against itself and always claims it. Anyone who knows your endpoint path can send events from any website, and they are stored like any other event. Turn the option on and list your domains for any production container. The GTM server debug view reports the current state as `👉 Authorized origins: All` or as the list of domains.
 
 Add domains as bare host names, without protocol: `www.yourdomain.com`, not `https://www.yourdomain.com`. Only the Effective TLD+1 is compared, so a single entry covers every subdomain of that domain.
 
