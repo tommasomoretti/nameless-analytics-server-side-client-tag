@@ -9,6 +9,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 ## Table of Contents
+
 - [Nameless Analytics Server-side Client Tag UI](#nameless-analytics-server-side-client-tag-ui)
 - [User data](#user-data)
   - [User parameters](#user-parameters)
@@ -46,7 +47,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
 
 
 ## Nameless Analytics Server-side Client Tag UI
-The Nameless Analytics Server-side Client Tag serves as the secure, high-performance gateway for your data infrastructure. 
+The Nameless Analytics Server-side Client Tag serves as the secure, high-performance gateway for your data infrastructure.
 
 It is responsible for validating incoming requests, enriching payloads with Firestore data, and routing verified events to BigQuery and external endpoints.
 
@@ -64,22 +65,22 @@ Add, override or remove user parameters in the user_data object. See [Parameter 
 > Be mindful when adding custom **User parameters** as they might cause you to hit the Firestore 1 MiB document limit faster. Read the [Firestore limitations in the main documentation](https://github.com/nameless-analytics/nameless-analytics#known-limitations-firestore-1-mib-document-limit) for more details.
 
 They will be:
-- written in Google Cloud Firestore every time they change --> latest values 
+- written in Google Cloud Firestore every time they change --> latest values
 - sent to BigQuery with the last available values --> all values
 
 These user parameters are reserved and can't be modified:
-- user_channel_grouping  
-- user_source  
-- user_tld_source  
-- user_campaign  
-- user_campaign_id  
+- user_channel_grouping
+- user_source
+- user_tld_source
+- user_campaign
+- user_campaign_id
 - user_campaign_click_id
-- user_campaign_content  
-- user_campaign_term  
-- user_device_type  
-- user_country  
+- user_campaign_content
+- user_campaign_term
+- user_device_type
+- user_country
 - user_city
-- user_language  
+- user_language
 - user_first_session_timestamp
 - user_last_session_timestamp
 
@@ -105,7 +106,7 @@ Add, override or remove session parameters in the session_data object. See [Para
 > Be mindful when adding custom **Session parameters** as they might cause you to hit the Firestore 1 MiB document limit faster. Read the [Firestore limitations in the main documentation](https://github.com/nameless-analytics/nameless-analytics#known-limitations-firestore-1-mib-document-limit) for more details.
 
 They will be:
-- written in Google Cloud Firestore every time they change --> latest values 
+- written in Google Cloud Firestore every time they change --> latest values
 - sent to BigQuery with the last available values --> all values
 
 These session parameters are reserved and can't be modified:
@@ -150,7 +151,7 @@ These parameters can override:
 - Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
 
 #### Remove session level parameters
-Remove session level parameters in session_data object in the payload. 
+Remove session level parameters in session_data object in the payload.
 
 These parameters can remove:
 - Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
@@ -164,24 +165,24 @@ Add, override or remove event parameters in the event_data object. See [Paramete
 They will be sent to BigQuery with every event.
 
 These event parameters are reserved and can't be modified:
-- event_type 
-- channel_grouping 
-- source 
-- campaign 
+- event_type
+- channel_grouping
+- source
+- campaign
 - campaign_id
 - campaign_click_id
-- campaign_term 
-- campaign_content 
-- user_agent 
-- browser_name 
-- browser_language 
-- browser_version 
-- device_type 
-- device_vendor 
-- device_model 
-- os_name 
-- os_version 
-- screen_size 
+- campaign_term
+- campaign_content
+- user_agent
+- browser_name
+- browser_language
+- browser_version
+- device_type
+- device_vendor
+- device_model
+- os_name
+- os_version
+- screen_size
 - viewport_size
 - tld_source
 - city
@@ -197,7 +198,7 @@ These parameters can override:
 - Event parameters from dataLayer added in the Nameless Analytics Client-side Tracker Tag
 
 #### Remove event level parameters
-Remove event level parameters by name in event_data object in the payload. 
+Remove event level parameters by name in event_data object in the payload.
 
 These parameters can remove:
 - Event parameters added in the Nameless Analytics Client-side Tracker Tag
@@ -278,7 +279,7 @@ Any request where `event_origin` is set to `Streaming Protocol` is rejected unle
 
 Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
 
-The [Nameless Analytics Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) allows you to send data from your backend directly to the Nameless Analytics Server-side Client Tag endpoint. 
+The [Nameless Analytics Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) allows you to send data from your backend directly to the Nameless Analytics Server-side Client Tag endpoint.
 
 
 
@@ -320,7 +321,7 @@ Send POST requests to custom endpoint with the same data loaded into Google BigQ
 
 Set the destination in **Full endpoint domain path**: unlike the other domain fields of the platform, this one is a complete URL and must start with `https://`.
 
-To authenticate the call, check **Add custom request headers** and fill in the **Custom request headers** table, which has a **Header name** and a **Header value** column. Credentials set here never reach the browser, since the request leaves from your server-side container. 
+To authenticate the call, check **Add custom request headers** and fill in the **Custom request headers** table, which has a **Header name** and a **Header value** column. Credentials set here never reach the browser, since the request leaves from your server-side container.
 
 
 ### Enable logs in debug view
@@ -357,4 +358,3 @@ If you encounter any issues or see 🔴 error messages in the console, please re
 #
 
 [Website](https://namelessanalytics.com/?utm_source=github.com&utm_medium=referral&utm_campaign=nameless_analytics_server_side_client_tag_readme) | [Twitter](https://x.com/nmlssanalytics) | [LinkedIn](https://www.linkedin.com/company/nameless-analytics/)
-
