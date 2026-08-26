@@ -1251,7 +1251,7 @@ function send_to_firestore(event_data) {
             last_session.cross_domain_session = (event_data.event_data.cross_domain_id) ? 'Yes' : 'No';
           }
 
-          if (event_data.event_name === 'login') { last_session.user_id = event_data.session_data.user_id; }
+          if (event_data.event_name === 'login') { last_session.user_id = event_data.session_data.user_id || null; }
           if (event_data.event_name === 'logout') { last_session.user_id = null; }
 
           // Send data to firestore                    
