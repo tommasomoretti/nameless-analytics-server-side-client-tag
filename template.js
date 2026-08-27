@@ -66,6 +66,13 @@ if (getType(event_data) !== 'object') {
   return;
 }
 
+const payload_schema_errors = validate_payload_schema(event_data);
+
+if (payload_schema_errors.length > 0) {
+  return_invalid_payload_schema_response(payload_schema_errors);
+  return;
+}
+
 const event_data_obj = event_data.event_data || {};
 const event_api_key = getRequestHeader('X-Api-Key'); // For Streaming Protocol 
 const api_key = data.api_key; // For Streaming Protocol
@@ -115,6 +122,211 @@ function validate_cross_domain_id(id) {
 }
 
 
+// Validate payload schema before deriving values or writing data
+function validate_payload_schema(payload) {
+  const errors = [];
+  const is_get_user_data = payload.event_name === 'get_user_data';
+  const allowed_fields = (is_get_user_data) ?
+    ['event_name', 'event_origin'] :
+    ['user_data', 'session_data', 'page_date', 'page_id', 'page_data', 'event_date', 'event_timestamp', 'event_id', 'event_name', 'event_origin', 'event_data', 'datalayer', 'ecommerce', 'gtm_data', 'consent_data'];
+
+  Object.keys(payload).forEach((key) => {
+    if (allowed_fields.indexOf(key) === -1) {
+      errors.push('unsupported top-level parameter "' + key + '"');
+    }
+  });
+
+  if (is_get_user_data) {
+    if (getType(payload.event_origin) !== 'string') {
+      errors.push('event_origin must be a string');
+    } else if (payload.event_origin !== 'Website' && payload.event_origin !== 'Streaming Protocol') {
+      errors.push('event_origin must be Website or Streaming Protocol');
+    }
+
+    return errors;
+  }
+
+  if (getType(payload.page_date) === 'undefined' || getType(payload.page_date) === 'null') {
+    errors.push('page_date is required');
+  } else if (!validate_iso_date(payload.page_date)) {
+    errors.push('page_date must be a valid date in YYYY-MM-DD format');
+  }
+
+  const valid_page_id = validate_partial_page_id(payload.page_id);
+  if (getType(payload.page_id) === 'undefined' || getType(payload.page_id) === 'null') {
+    errors.push('page_id is required');
+  } else if (!valid_page_id) {
+    errors.push('page_id must be a 15-character alphanumeric string');
+  }
+
+  if (getType(payload.page_data) === 'undefined' || getType(payload.page_data) === 'null') {
+    errors.push('page_data is required');
+  } else if (getType(payload.page_data) !== 'object' || Object.keys(payload.page_data).length === 0) {
+    errors.push('page_data must be a non-empty object');
+  } else {
+    validate_required_nullable_string(payload.page_data, 'page_title', errors);
+    validate_required_string(payload.page_data, 'page_hostname', errors);
+    validate_required_nullable_string(payload.page_data, 'page_url', errors);
+    validate_required_nullable_string(payload.page_data, 'page_path', errors);
+    validate_required_positive_integer(payload.page_data, 'page_load_timestamp', errors);
+  }
+
+  if (getType(payload.event_date) === 'undefined' || getType(payload.event_date) === 'null') {
+    errors.push('event_date is required');
+  } else if (!validate_iso_date(payload.event_date)) {
+    errors.push('event_date must be a valid date in YYYY-MM-DD format');
+  }
+
+  if (getType(payload.event_timestamp) === 'undefined' || getType(payload.event_timestamp) === 'null') {
+    errors.push('event_timestamp is required');
+  } else if (getType(payload.event_timestamp) !== 'number' || payload.event_timestamp <= 0 || payload.event_timestamp % 1 !== 0) {
+    errors.push('event_timestamp must be a positive integer');
+  }
+
+  const valid_event_id = validate_partial_event_id(payload.event_id);
+  if (getType(payload.event_id) === 'undefined' || getType(payload.event_id) === 'null') {
+    errors.push('event_id is required');
+  } else if (!valid_event_id) {
+    errors.push('event_id must contain two 15-character alphanumeric segments separated by an underscore');
+  } else if (valid_page_id && payload.event_id.indexOf(payload.page_id + '_') !== 0) {
+    errors.push('event_id must start with page_id followed by an underscore');
+  }
+
+  if (getType(payload.event_name) === 'undefined' || getType(payload.event_name) === 'null') {
+    errors.push('event_name is required');
+  } else if (getType(payload.event_name) !== 'string' || payload.event_name.length === 0) {
+    errors.push('event_name must be a non-empty string');
+  }
+
+  if (getType(payload.event_origin) === 'undefined' || getType(payload.event_origin) === 'null') {
+    errors.push('event_origin is required');
+  } else if (getType(payload.event_origin) !== 'string') {
+    errors.push('event_origin must be a string');
+  } else if (payload.event_origin !== 'Website' && payload.event_origin !== 'Streaming Protocol') {
+    errors.push('event_origin must be Website or Streaming Protocol');
+  }
+
+  const valid_event_data = getType(payload.event_data) === 'object' && Object.keys(payload.event_data).length > 0;
+  if (getType(payload.event_data) === 'undefined' || getType(payload.event_data) === 'null') {
+    errors.push('event_data is required');
+  } else if (!valid_event_data) {
+    errors.push('event_data must be a non-empty object');
+  } else if (getType(payload.event_data.event_type) === 'undefined' || getType(payload.event_data.event_type) === 'null') {
+    errors.push('event_data.event_type is required');
+  } else if (getType(payload.event_data.event_type) !== 'string') {
+    errors.push('event_data.event_type must be a string');
+  } else if (payload.event_name === 'page_view' && payload.event_data.event_type !== 'page_view') {
+    errors.push('event_data.event_type must be page_view when event_name is page_view');
+  } else if (payload.event_name !== 'page_view' && payload.event_data.event_type !== 'event') {
+    errors.push('event_data.event_type must be event when event_name is not page_view');
+  }
+
+  if (valid_event_data) {
+    validate_required_nullable_string(payload.event_data, 'source', errors);
+    validate_required_nullable_string(payload.event_data, 'campaign', errors);
+    validate_required_nullable_string(payload.event_data, 'campaign_id', errors);
+    validate_required_nullable_string(payload.event_data, 'campaign_click_id', errors);
+    validate_required_nullable_string(payload.event_data, 'campaign_term', errors);
+    validate_required_nullable_string(payload.event_data, 'campaign_content', errors);
+  }
+
+  validate_optional_object(payload, 'user_data', errors);
+  validate_optional_object(payload, 'session_data', errors);
+  validate_optional_object(payload, 'gtm_data', errors);
+  validate_optional_object(payload, 'consent_data', errors);
+
+  if (getType(payload.consent_data) === 'object' && Object.keys(payload.consent_data).length === 0) {
+    errors.push('consent_data must be a non-empty object or null');
+  }
+
+  if (getType(payload.datalayer) !== 'undefined' && getType(payload.datalayer) !== 'null' && getType(payload.datalayer) !== 'array') {
+    errors.push('datalayer must be an array or null');
+  }
+
+  if (getType(payload.ecommerce) !== 'undefined' && getType(payload.ecommerce) !== 'null' && getType(payload.ecommerce) !== 'object') {
+    errors.push('ecommerce must be an object or null');
+  }
+
+  return errors;
+}
+
+
+function validate_optional_object(payload, key, errors) {
+  const value_type = getType(payload[key]);
+
+  if (value_type !== 'undefined' && value_type !== 'null' && value_type !== 'object') {
+    errors.push(key + ' must be an object or null');
+  }
+}
+
+
+function validate_required_string(container, key, errors) {
+  const value_type = getType(container[key]);
+
+  if (value_type === 'undefined') {
+    errors.push(key + ' is required');
+  } else if (value_type !== 'string' || container[key].length === 0) {
+    errors.push(key + ' must be a non-empty string');
+  }
+}
+
+
+function validate_required_nullable_string(container, key, errors) {
+  const value_type = getType(container[key]);
+
+  if (value_type === 'undefined') {
+    errors.push(key + ' is required');
+  } else if (value_type !== 'string' && value_type !== 'null') {
+    errors.push(key + ' must be a string or null');
+  }
+}
+
+
+function validate_required_positive_integer(container, key, errors) {
+  const value = container[key];
+  const value_type = getType(value);
+
+  if (value_type === 'undefined' || value_type === 'null') {
+    errors.push(key + ' is required');
+  } else if (value_type !== 'number' || value <= 0 || value % 1 !== 0) {
+    errors.push(key + ' must be a positive integer');
+  }
+}
+
+
+function validate_iso_date(value) {
+  if (getType(value) !== 'string') return false;
+
+  const pattern = createRegex('^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');
+  if (!testRegex(pattern, value)) return false;
+
+  const parts = value.split('-');
+  const year = makeNumber(parts[0]);
+  const month = makeNumber(parts[1]);
+  const day = makeNumber(parts[2]);
+  const days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const leap_year = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+  if (leap_year) days_in_month[1] = 29;
+
+  return year >= 1 && day <= days_in_month[month - 1];
+}
+
+
+function validate_partial_page_id(id) {
+  if (getType(id) !== 'string') return false;
+  const pattern = createRegex('^[A-Za-z0-9]{15}$');
+  return testRegex(pattern, id);
+}
+
+
+function validate_partial_event_id(id) {
+  if (getType(id) !== 'string') return false;
+  const pattern = createRegex('^[A-Za-z0-9]{15}_[A-Za-z0-9]{15}$');
+  return testRegex(pattern, id);
+}
+
+
 // --------------------------------------------------------------------------------------------------------------
 // CHECK REQUESTS
 // --------------------------------------------------------------------------------------------------------------
@@ -138,31 +350,7 @@ if (check_origin()) {
     if (data.enable_logs) { log('👉 Event name: ', event_data.event_name); }
 
     if (request_method === 'POST') {
-      // Check required fields
-      const missing_fields = [];
-
-      if (!page_date) missing_fields.push('page_date');
-      if (!page_id) missing_fields.push('page_id');
-      if (!page_data_obj || Object.keys(page_data_obj).length === 0) missing_fields.push('page_data');
-
-      if (!event_origin) missing_fields.push('event_origin');
-      if (!event_date) missing_fields.push('event_date');
-      if (!event_timestamp) missing_fields.push('event_timestamp');
-      if (!event_name) missing_fields.push('event_name');
-      if (!event_id) missing_fields.push('event_id');
-      if (!event_data_obj || Object.keys(event_data_obj).length === 0) missing_fields.push('event_data');
-
       // REFUSE REQUESTS
-      // Check request for get_user_data
-      if (event_name === 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming Protocol') {
-        message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming Protocol';
-        status_code = 403;
-
-        if (data.enable_logs) { log(message); }
-        claim_request({ event_name: event_name }, status_code, message);
-        return;
-      }
-
       // Check if user or session cookie is missing for get_user_data requests
       if (event_name === 'get_user_data' && (user_cookie_value === undefined || session_cookie_value === undefined)) {
         if (data.enable_logs) { log('👉 Request from get_user_data event'); }
@@ -184,16 +372,6 @@ if (check_origin()) {
           claim_request(set_ids_get_user_data(), status_code, message);
           return;
         }
-      }
-
-      // Check event origin 
-      if (event_name !== 'get_user_data' && event_origin !== 'Website' && event_origin !== 'Streaming Protocol') {
-        message = '🔴 Invalid event_origin parameter value. Accepted values: Website or Streaming Protocol';
-        status_code = 403;
-
-        if (data.enable_logs) { log(message); }
-        claim_request({ event_name: event_name }, status_code, message);
-        return;
       }
 
       // Check User-Agent header (Bot detection)
@@ -253,16 +431,6 @@ if (check_origin()) {
         status_code = 403;
 
         if (data.enable_logs) { log(message); }
-        claim_request({ event_name: event_name }, status_code, message);
-        return;
-      }
-
-      // Check if some required parameter is missing 
-      if (event_name !== 'get_user_data' && missing_fields.length > 0) {
-        message = '🔴 Missing required parameters: '.concat(missing_fields.join(', '));
-        if (data.enable_logs) { log(message); }
-        status_code = 403;
-
         claim_request({ event_name: event_name }, status_code, message);
         return;
       }
@@ -904,6 +1072,16 @@ function claim_request(event_data, status_code, message) {
 
 // Return response
 function return_invalid_json_response() {
+  return_bad_request_response('🔴 Invalid JSON request body');
+}
+
+
+function return_invalid_payload_schema_response(errors) {
+  return_bad_request_response('🔴 Invalid payload schema: ' + errors.join('; '));
+}
+
+
+function return_bad_request_response(message) {
   const processing_status = {
     claim_request: 'failed',
     firestore: 'skipped',
@@ -915,7 +1093,7 @@ function return_invalid_json_response() {
     log('NAMELESS ANALYTICS');
     log('CLIENT TAG CONFIGURATION');
     log('CHECKING REQUEST');
-    log('🔴 Invalid JSON request body');
+    log(message);
     log('REQUEST STATUS');
     log('🔴 Request refused');
   }
@@ -934,7 +1112,7 @@ function return_invalid_json_response() {
 
   setResponseBody(JSON.stringify({
     status_code: 400,
-    response: '🔴 Invalid JSON request body',
+    response: message,
     processing: processing_status,
     data: null
   }));
@@ -974,12 +1152,12 @@ function return_response(event_data, status_code, message, processing_status) {
 // --------------------------------------------------------------------------------------------------------------
 
 function send_to_firestore(event_data) {
-  const projectId = data.bq_project_id;
+  const project_id = data.bq_project_id;
   const queries = [['client_id', '==', event_data.client_id]];
   const collection_path = 'users';
   const document_path = collection_path + '/' + event_data.client_id;
 
-  return Firestore.query(collection_path, queries, { projectId: projectId, limit: 1 })
+  return Firestore.query(collection_path, queries, { projectId: project_id, limit: 1 })
     .then((documents) => {
 
       // REJECT REQUESTS (orphan events) 
@@ -1077,7 +1255,7 @@ function send_to_firestore(event_data) {
         // Send data to Firestore 
         if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
 
-        return Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
+        return Firestore.write(document_path, firestore_data, { projectId: project_id, merge: true })
           .then(
             (id) => {
               if (data.enable_logs) { log('🟢 User successfully created in Firestore, session successfully added to Firestore'); }
@@ -1216,7 +1394,7 @@ function send_to_firestore(event_data) {
           // Send data to Firestore                    
           if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
 
-          return Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
+          return Firestore.write(document_path, firestore_data, { projectId: project_id, merge: true })
             .then(
               (id) => {
                 if (data.enable_logs) { log('🟢 User already in Firestore, session successfully added to Firestore'); }
@@ -1303,7 +1481,7 @@ function send_to_firestore(event_data) {
           // Send data to firestore                    
           if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
 
-          return Firestore.write(document_path, firestore_data, { projectId: projectId, merge: true })
+          return Firestore.write(document_path, firestore_data, { projectId: project_id, merge: true })
             .then(
               // RESPONSE SUCCESS
               (id) => {
