@@ -988,7 +988,7 @@ function send_to_firestore(event_data) {
         if (data.enable_logs) { log(message); }
         if (data.enable_logs) { log('REQUEST STATUS'); }
         return { status: false, status_code: 403, message: message };
-      } if (event_data.event_name !== 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
+      } else if (event_data.event_name !== 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
         message = "🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session";
         if (data.enable_logs) { log(message); }
         if (data.enable_logs) { log('REQUEST STATUS'); }
