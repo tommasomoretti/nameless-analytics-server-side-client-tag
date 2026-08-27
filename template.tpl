@@ -1848,6 +1848,12 @@ var message;
 var status_code;
 
 
+if (request_method !== 'POST') {
+  return_method_not_allowed_response();
+  return;
+}
+
+
 // Event data
 const event_data = JSON.parse(getRequestBody());
 
@@ -2275,14 +2281,7 @@ if (check_origin()) {
       }
 
     } else {
-      if (data.enable_logs) { log('CHECKING REQUEST'); }
-
-      // RETURN RESPONSE ERRORS
-      message = '🔴 Request method not correct';
-      status_code = 403;
-
-      if (data.enable_logs) { log(message); }
-      claim_request({ event_name: event_name }, status_code, message);
+      return_method_not_allowed_response();
       return;
     }
   } else {
@@ -2664,7 +2663,7 @@ function claim_request(event_data, status_code, message) {
 
 
   // ERROR RESPONSE
-  if (status_code === 403) {
+  if (status_code >= 400) {
     processing_status.claim_request = 'failed';
     processing_status.firestore = 'skipped';
     processing_status.bigquery = 'skipped';
@@ -2862,16 +2861,21 @@ function claim_request(event_data, status_code, message) {
 
 // Return response
 function return_invalid_json_response() {
-  return_bad_request_response('🔴 Invalid JSON request body');
+  return_request_error_response(400, '🔴 Invalid JSON request body');
 }
 
 
 function return_invalid_payload_schema_response(errors) {
-  return_bad_request_response('🔴 Invalid payload schema: ' + errors.join('; '));
+  return_request_error_response(400, '🔴 Invalid payload schema: ' + errors.join('; '));
 }
 
 
-function return_bad_request_response(message) {
+function return_method_not_allowed_response() {
+  return_request_error_response(405, '🔴 Request method not correct');
+}
+
+
+function return_request_error_response(status_code, message) {
   const processing_status = {
     claim_request: 'failed',
     firestore: 'skipped',
@@ -2889,7 +2893,7 @@ function return_bad_request_response(message) {
   }
 
   claimRequest();
-  setResponseStatus(400);
+  setResponseStatus(status_code);
 
   if (request_origin) {
     setResponseHeader('Access-Control-Allow-Credentials', 'true');
@@ -2897,11 +2901,14 @@ function return_bad_request_response(message) {
   }
 
   setResponseHeader('Access-Control-Allow-Methods', 'POST');
+  if (status_code === 405) {
+    setResponseHeader('Allow', 'POST');
+  }
   setResponseHeader('cache-control', 'no-store');
   setResponseHeader('content-type', 'application/json');
 
   setResponseBody(JSON.stringify({
-    status_code: 400,
+    status_code: status_code,
     response: message,
     processing: processing_status,
     data: null
