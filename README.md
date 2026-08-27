@@ -30,6 +30,7 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Accept requests from authorized domains only](#accept-requests-from-authorized-domains-only)
   - [Reject requests by IP](#reject-requests-by-ip)
   - [Enable Bot protection](#enable-bot-protection)
+  - [Request body validation](#request-body-validation)
   - [Cross-domain ID validation](#cross-domain-id-validation)
   - [API key for Streaming Protocol requests](#api-key-for-streaming-protocol-requests)
 - [Google BigQuery settings](#google-bigquery-settings)
@@ -259,6 +260,10 @@ Two further `User-Agent` checks run **regardless of this option** and cannot be 
 - a request declaring `event_origin: "Streaming Protocol"` is always rejected unless its `User-Agent` is exactly `Nameless Analytics - Streaming Protocol`. The comparison ignores case but is otherwise exact: any prefix or suffix fails it. See the [Streaming Protocol documentation](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol).
 
 Both are rejected with `403 Forbidden` and the same message as a blacklisted agent.
+
+
+### Request body validation
+The request body must contain a valid JSON object. A missing body, malformed JSON, a JSON array, or a primitive JSON value is rejected with `400 Bad Request` before the GTM container runs. Firestore, BigQuery, and custom endpoint forwarding are all skipped.
 
 
 ### Cross-domain ID validation

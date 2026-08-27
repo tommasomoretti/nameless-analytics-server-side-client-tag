@@ -60,6 +60,12 @@ var status_code;
 
 // Event data
 const event_data = JSON.parse(getRequestBody());
+
+if (getType(event_data) !== 'object') {
+  return_invalid_json_response();
+  return;
+}
+
 const event_data_obj = event_data.event_data || {};
 const event_api_key = getRequestHeader('X-Api-Key'); // For Streaming Protocol 
 const api_key = data.api_key; // For Streaming Protocol
@@ -897,6 +903,46 @@ function claim_request(event_data, status_code, message) {
 
 
 // Return response
+function return_invalid_json_response() {
+  const processing_status = {
+    claim_request: 'failed',
+    firestore: 'skipped',
+    bigquery: 'skipped',
+    custom_endpoint: 'skipped'
+  };
+
+  if (data.enable_logs) {
+    log('NAMELESS ANALYTICS');
+    log('CLIENT TAG CONFIGURATION');
+    log('CHECKING REQUEST');
+    log('🔴 Invalid JSON request body');
+    log('REQUEST STATUS');
+    log('🔴 Request refused');
+  }
+
+  claimRequest();
+  setResponseStatus(400);
+
+  if (request_origin) {
+    setResponseHeader('Access-Control-Allow-Credentials', 'true');
+    setResponseHeader('Access-Control-Allow-Origin', request_origin);
+  }
+
+  setResponseHeader('Access-Control-Allow-Methods', 'POST');
+  setResponseHeader('cache-control', 'no-store');
+  setResponseHeader('content-type', 'application/json');
+
+  setResponseBody(JSON.stringify({
+    status_code: 400,
+    response: '🔴 Invalid JSON request body',
+    processing: processing_status,
+    data: null
+  }));
+
+  returnResponse();
+}
+
+
 function return_response(event_data, status_code, message, processing_status) {
   runContainer(event_data, () => {
     setResponseStatus(status_code);
