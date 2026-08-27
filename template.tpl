@@ -2207,18 +2207,24 @@ if (check_origin()) {
       }
 
       // Check Streaming Protocol requests API key
-      if (event_origin === 'Streaming Protocol' && (!data.add_api_key || event_api_key !== api_key)) {
-        if (data.add_api_key) {
-          message = '🔴 Invalid API key';
-        } else {
+      if (event_origin === 'Streaming Protocol') {
+        if (!data.add_api_key) {
           message = '🔴 Add API key for Streaming Protocol is not enabled.';
+          status_code = 403;
+
+          if (data.enable_logs) { log(message); }
+          claim_request({ event_name: event_name }, status_code, message);
+          return;
         }
 
-        if (data.enable_logs) { log(message); }
-        status_code = 403;
+        if (event_api_key !== api_key) {
+          message = '🔴 Invalid API key';
+          status_code = 401;
 
-        claim_request({ event_name: event_name }, status_code, message);
-        return;
+          if (data.enable_logs) { log(message); }
+          claim_request({ event_name: event_name }, status_code, message);
+          return;
+        }
       }
 
       // Check if page_view is from Streaming Protocol
@@ -2925,6 +2931,9 @@ function return_response(event_data, status_code, message, processing_status) {
     setResponseHeader('Access-Control-Allow-Credentials', 'true');
     setResponseHeader('Access-Control-Allow-Origin', request_origin);
     setResponseHeader('Access-Control-Allow-Methods', 'POST');
+    if (status_code === 401) {
+      setResponseHeader('WWW-Authenticate', 'ApiKey realm="Nameless Analytics"');
+    }
     setResponseHeader('cache-control', 'no-store');
     setResponseHeader('content-type', 'application/json');
 
