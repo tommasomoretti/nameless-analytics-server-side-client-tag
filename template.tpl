@@ -2155,14 +2155,14 @@ if (check_origin()) {
 
         if (user_cookie_value === undefined) {
           message = '🔴 User cookie not found. No cross-domain URL decoration will be applied';
-          status_code = 403;
+          status_code = 400;
 
           if (data.enable_logs) { log(message); }
           claim_request(set_ids_get_user_data(), status_code, message);
           return;
         } else if (session_cookie_value === undefined) {
           message = '🔴 Session cookie not found. No cross-domain URL decoration will be applied';
-          status_code = 403;
+          status_code = 400;
 
           if (data.enable_logs) { log(message); }
           claim_request(set_ids_get_user_data(), status_code, message);
@@ -2224,7 +2224,7 @@ if (check_origin()) {
       // Check if page_view is from Streaming Protocol
       if (event_name === 'page_view' && event_origin === 'Streaming Protocol') {
         message = '🔴 Invalid event_name. Can\'t send page_view from Streaming Protocol';
-        status_code = 403;
+        status_code = 400;
 
         if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
@@ -2234,7 +2234,7 @@ if (check_origin()) {
       // Check if user cookie is missing
       if (event_origin === 'Website' && event_data.event_name !== 'page_view' && event_data.event_name !== 'get_user_data' && user_cookie_value === undefined) {
         message = '🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session';
-        status_code = 403;
+        status_code = 400;
 
         if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
@@ -2244,7 +2244,7 @@ if (check_origin()) {
       // Check if session cookie is missing
       if (event_origin === 'Website' && event_data.event_name !== 'page_view' && event_data.event_name !== 'get_user_data' && session_cookie_value === undefined) {
         message = '🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session';
-        status_code = 403;
+        status_code = 400;
 
         if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
@@ -2254,7 +2254,7 @@ if (check_origin()) {
       // Check if cookie format is valid
       if (!validate_user_cookie(user_cookie_value) || !validate_session_cookie(session_cookie_value)) {
         message = '🔴 Invalid cookie format';
-        status_code = 403;
+        status_code = 400;
 
         if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
@@ -2962,12 +2962,12 @@ function send_to_firestore(event_data) {
         message = "🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session";
         if (data.enable_logs) { log(message); }
         if (data.enable_logs) { log('REQUEST STATUS'); }
-        return { status: false, status_code: 403, message: message };
+        return { status: false, status_code: 400, message: message };
       } else if (event_data.event_name !== 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
         message = "🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session";
         if (data.enable_logs) { log(message); }
         if (data.enable_logs) { log('REQUEST STATUS'); }
-        return { status: false, status_code: 403, message: message };
+        return { status: false, status_code: 400, message: message };
       }
 
       // Set cookies
