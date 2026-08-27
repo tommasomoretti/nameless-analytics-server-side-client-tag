@@ -2130,6 +2130,7 @@ function validate_partial_event_id(id) {
 // Check request endpoint
 if (data.enable_logs) { log('NAMELESS ANALYTICS'); }
 if (data.enable_logs) { log('CLIENT TAG CONFIGURATION'); }
+log_client_tag_configuration();
 
 // Check request origin, required fields and claim requests
 if (check_origin()) {
@@ -2314,20 +2315,38 @@ if (check_origin()) {
 }
 
 
+// Log the active client tag configuration
+// Printed in full before any validation runs, so the block is complete
+// even when the request is refused by the first check.
+function log_client_tag_configuration() {
+  if (!data.enable_logs) { return; }
+
+  var authorized_domains = '';
+  if (data.add_authorized_domains) {
+    const authorized_domains_list = data.authorized_domains_list;
+    for (var i = 0; i < authorized_domains_list.length; i++) {
+      authorized_domains = authorized_domains.concat(', ', computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain));
+    }
+  }
+
+  var banned_ips = '';
+  if (data.add_banned_ips) {
+    const banned_ip_list = data.banned_ips_list;
+    for (var j = 0; j < banned_ip_list.length; j++) {
+      banned_ips = banned_ips.concat(', ', banned_ip_list[j].banned_ip);
+    }
+  }
+
+  log('👉 Endpoint:', endpoint);
+  log('👉 Authorized origins:', (data.add_authorized_domains) ? authorized_domains.slice(2) : ' All');
+  if (data.enable_bot_protection) { log('👉 Bot detection enabled'); }
+  log('👉 Unauthorized IPs:', (data.add_banned_ips) ? banned_ips.slice(2) : 'None');
+}
+
+
 // Check request origin
 function check_origin() {
   const authorized_domains_list = (data.add_authorized_domains) ? data.authorized_domains_list : [{ authorized_domain: request_origin }];
-  var authorized_domains = '';
-
-  for (var i = 0; i < authorized_domains_list.length; i++) {
-    const authorized_domains_tld = computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain);
-    authorized_domains = authorized_domains.concat(', ', authorized_domains_tld);
-  }
-
-  if (data.enable_logs) { log('👉 Endpoint:', endpoint); }
-  if (data.enable_logs) { log('👉 Authorized origins:', (data.add_authorized_domains) ? authorized_domains.slice(2) : ' All'); }
-
-  if (data.enable_logs && data.enable_bot_protection) { log('👉 Bot detection enabled'); }
 
   for (var i = 0; i < authorized_domains_list.length; i++) {
     if (computeEffectiveTldPlusOne(request_origin) === computeEffectiveTldPlusOne(authorized_domains_list[i].authorized_domain)) {
@@ -2340,13 +2359,6 @@ function check_origin() {
 // Check request ip
 function check_ip() {
   const banned_ip_list = (data.add_banned_ips) ? data.banned_ips_list : [{ banned_ip: null }];
-  var banned_ips = '';
-
-  for (var i = 0; i < banned_ip_list.length; i++) {
-    banned_ips = banned_ips.concat(', ', banned_ip_list[i].banned_ip);
-  }
-
-  if (data.enable_logs) { log('👉 Unauthorized IPs:', (data.add_banned_ips) ? banned_ips.slice(2) : 'None'); }
 
   for (var i = 0; i < banned_ip_list.length; i++) {
     if (request_ip === banned_ip_list[i].banned_ip) {
