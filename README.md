@@ -44,14 +44,6 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Send data to custom endpoint](#send-data-to-custom-endpoint)
   - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Verifying the setup](#verifying-the-setup)
-  - [CLIENT TAG CONFIGURATION](#client-tag-configuration)
-  - [CHECKING REQUEST](#checking-request)
-  - [CHECKING COOKIES](#checking-cookies)
-  - [CHECKING USER AND SESSION COOKIES](#checking-user-and-session-cookies)
-  - [SENDING EVENT DATA TO GOOGLE FIRESTORE](#sending-event-data-to-google-firestore)
-  - [SENDING EVENT DATA TO GOOGLE BIGQUERY](#sending-event-data-to-google-bigquery)
-  - [SENDING EVENT DATA TO CUSTOM ENDPOINT](#sending-event-data-to-custom-endpoint)
-  - [REQUEST STATUS](#request-status)
 - [Troubleshooting](#troubleshooting)
 
 
@@ -244,7 +236,7 @@ Add domains as bare host names, without protocol: `www.yourdomain.com`, not `htt
 Two consequences worth knowing before enabling it:
 
 - requests without an `Origin` header are rejected. Browsers always send it on the tracker's `fetch` calls, but server-to-server calls do not unless you add it: the [Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) scripts set `Origin` explicitly for this reason, and any custom backend implementation must do the same;
-- in a cross-domain setup, every domain involved must be listed, otherwise the requests coming from the other sites are refused with `🔴 Request origin not authorized`.
+- in a cross-domain setup, every domain involved must be listed, otherwise requests coming from the other sites are rejected.
 
 
 ### Reject requests by IP
@@ -350,9 +342,9 @@ If cross-domain is enabled, all cross-domain requests will be visible in each do
 
 
 ## Verifying the setup
-When [Enable logs in debug view](#enable-logs-in-debug-view) is on, the tag prints its progress to the GTM server debug view, one block per stage.
+Enable [logs in debug view](#enable-logs-in-debug-view), start GTM Server Preview and load a page where the Client-side Tracker Tag sends `page_view`.
 
-This is the output of a successfully processed `page_view` from an existing user and session:
+A successfully processed `page_view` for an existing user and session follows this path:
 
 ```text
 NAMELESS ANALYTICS
@@ -383,129 +375,30 @@ REQUEST STATUS
   🟢 Request processed successfully
 ```
 
-Reading it top to bottom tells you how far the request got. The blocks are always printed in this order, and the first one missing is where the request stopped.
+Validate these points:
 
+1. `CLIENT TAG CONFIGURATION` shows the expected endpoint, authorized origins, bot protection and banned IP settings.
+2. `CHECKING REQUEST` identifies the request as `Website` and confirms `page_view` as valid.
+3. `CHECKING USER AND SESSION COOKIES` reports the expected identity state: new user on the first visit, existing session on subsequent hits, or a new session after expiry.
+4. Firestore reports that the user and session were created, added or updated successfully.
+5. BigQuery confirms that the payload was inserted successfully.
+6. The custom endpoint confirms delivery when enabled; when disabled, `custom_endpoint` is `skipped`.
+7. `REQUEST STATUS` ends with `🟢 Request processed successfully`.
 
-### CLIENT TAG CONFIGURATION
-Four informational lines that echo the active security configuration, printed before any request check. They carry no status: they confirm what the tag is enforcing.
+In the request response, confirm HTTP `200` and these processing values:
 
-| Line | Meaning |
-|:---|:---|
-| `👉 Endpoint: [path]` | The path this tag claims |
-| `👉 Authorized origins: All` | **Accept requests from authorized domains only** is off and every origin is accepted. When on, the line lists the configured domains instead |
-| `👉 Bot detection enabled` | Printed only when **Enable Bot protection** is on |
-| `👉 Unauthorized IPs: [list]` | The **Banned IPs** table, or `None` when it is empty |
-
-If the request is refused here the block is followed by `CHECKING REQUEST` and one of:
-
-| Message | Meaning |
-|:---|:---|
-| `🔴 Request origin not authorized` | The `Origin` header is missing, or its Effective TLD+1 is not in **Authorized domains** |
-| `🔴 Request IP not authorized` | The caller's IP is listed in **Banned IPs** |
-
-
-### CHECKING REQUEST
-Identifies the request, then applies every validation rule in order.
-
-```text
-CHECKING REQUEST
-  👉 Request type: Website
-  👉 Event name: page_view
-  🟢 Request correct
+```json
+{
+  "claim_request": "success",
+  "firestore": "success",
+  "bigquery": "success",
+  "custom_endpoint": "skipped"
+}
 ```
 
-`Request type` is `Website`, `Streaming Protocol` or `Get user data`. The refusals below all answer `403 Forbidden` and stop the request.
+For cross-domain tracking, a successful `get_user_data` request ends with `🟢 Request claimed successfully`; Firestore, BigQuery and the custom endpoint are intentionally `skipped` for this handshake.
 
-Each refusal carries the HTTP status that matches its cause, so the status alone tells you which family of problem you are looking at.
-
-| Status | Message | Meaning |
-|:---|:---|:---|
-| `200` | `🟢 Request correct` | Every check passed. Processing continues |
-| `405` | `🔴 Request method not correct` | The request is not a `POST`. This runs first, before anything else is read |
-| `400` | `🔴 Invalid JSON request body` | The body is missing, malformed, or parses to something other than an object |
-| `400` | `🔴 Invalid payload schema: [details]` | The body is a valid JSON object but does not match the payload schema. The details list every detected problem, for example `event_origin must be Website or Streaming Protocol`, `page_date must be a valid date in YYYY-MM-DD format`, or `unsupported top-level parameter "…"` |
-| `400` | `🔴 Invalid cookie format` | `na_u` or `na_s` do not match their expected shape |
-| `400` | `🔴 Invalid event_name. Can't send page_view from Streaming Protocol` | `page_view` must come from the website tracker |
-| `400` | `🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session` | An interaction event arrived without a `na_u` cookie |
-| `400` | `🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session` | An interaction event arrived without a `na_s` cookie |
-| `401` | `🔴 Invalid API key` | The `X-Api-Key` header does not match the configured value. The response carries a `WWW-Authenticate: ApiKey` header |
-| `403` | `🔴 Missing User-Agent header. Request from bot` | No `User-Agent` header. Always active, regardless of **Enable Bot protection** |
-| `403` | `🔴 Invalid User-Agent header value. Request from bot` | The `User-Agent` matches the blacklist, or a Streaming Protocol request did not send exactly `Nameless Analytics - Streaming Protocol` |
-| `403` | `🔴 Add API key for Streaming Protocol is not enabled.` | The request declares `event_origin: "Streaming Protocol"` but no key is configured. This is a configuration problem, not a credentials one, which is why it answers `403` and not `401` |
-
-
-### CHECKING COOKIES
-Printed only for `get_user_data` requests, the cross-domain handshake.
-
-| Message | Meaning |
-|:---|:---|
-| `🟢 Request correct, user and session cookies found. Cross-domain URL decoration will be applied` | Both identity cookies exist and their values are returned to the browser |
-| `🟢 Request claimed successfully` | The handshake ends here: it never reaches Firestore or BigQuery |
-| `🔴 User cookie not found. No cross-domain URL decoration will be applied` | No `na_u` cookie, so there is no identity to transfer |
-| `🔴 Session cookie not found. No cross-domain URL decoration will be applied` | Same, for `na_s` |
-
-
-### CHECKING USER AND SESSION COOKIES
-Reports which identity the request resolved to. Always two lines: the outcome, then what the tag did with the cookies.
-
-| Message | Meaning |
-|:---|:---|
-| `👉 Same client_id, same session_id` + `👉 Extend cookies max-age` | Known visitor with an active session |
-| `👉 Returning user, no active session` + `👉 Same client_id: […], create new session_id: […]` | Known visitor whose session had expired |
-| `👉 New user, no active session` + `👉 Create new client_id: […] and new session_id: […]` | First visit |
-| `👉 Cross-domain visit` | The request carried a valid `cross_domain_id` and inherits the originating session |
-| `🟠 Invalid cross-domain ID format. Value ignored.` | The `cross_domain_id` did not match a server-issued `session_id`. It is discarded and identity falls back to the local cookies. The event is still processed |
-
-
-### SENDING EVENT DATA TO GOOGLE FIRESTORE
-Prints what it found, the payload it is about to write, and the outcome.
-
-| Message | Meaning |
-|:---|:---|
-| `👉 User exist` / `👉 User does not exist` | Whether a document for this `client_id` was found |
-| `👉 Session exist` / `👉 Session does not exist` | Whether the session is already in that document |
-| `🟢 User successfully created in Firestore, session successfully added to Firestore` | New user and first session persisted |
-| `🟢 User already in Firestore, session successfully added to Firestore` | New session added to an existing user |
-| `🟢 User already in Firestore, session successfully updated to Firestore` | Existing session refreshed |
-| `🔴 User or session data not created to Firestore` | The write failed while creating the user |
-| `🔴 User or session data not added to Firestore` | The write failed while adding a session |
-| `🔴 User or session data not updated to Firestore` | The write failed while updating a session |
-
-A failure here answers `403` and marks BigQuery and the custom endpoint as `skipped`: nothing is written to BigQuery, on purpose, so the two stores cannot drift apart.
-
-
-### SENDING EVENT DATA TO GOOGLE BIGQUERY
-
-| Message | Meaning |
-|:---|:---|
-| `🟢 Payload data inserted successfully into BigQuery` | The event was streamed to the raw table |
-| `🔴 Payload data not inserted into BigQuery` | The streaming insert failed, usually a permission or schema mismatch |
-
-
-### SENDING EVENT DATA TO CUSTOM ENDPOINT
-Printed only when **Send data to custom endpoint** is on.
-
-| Message | Meaning |
-|:---|:---|
-| `🟢 Request sent successfully to: [URL]` | The endpoint answered successfully |
-| `🔴 Request not sent successfully. Error: [error]` | The endpoint answered with an error or could not be reached |
-
-A failure here does **not** lose the event: Firestore and BigQuery have already succeeded, so the response is still `200` and only `custom_endpoint: failed` appears in the `processing` object.
-
-
-### REQUEST STATUS
-The closing block, always printed. It carries the message the client receives in the `response` field.
-
-| Message | Meaning |
-|:---|:---|
-| `🟢 Request processed successfully` | Returned with `status_code: 200` once every enabled step has completed |
-| `🔴 Request refused` | The request was rejected. The reason is in the block above |
-| `🔴 Firestore request failed` | An unexpected exception while writing to Firestore. Answered with `500`, and the error object is printed on the next line |
-| `🔴 BigQuery request failed` | Same, for BigQuery |
-| `🔴 Custom endpoint request failed` | Same, for the forwarding |
-| `🔴 Request processing failed` | An unexpected exception outside those three stages |
-
-The four `500` messages are different from the handled failures above: those are **handled** failures, where the service answered with an error. These are raised when the chain throws and the tag never gets an answer to report. See the [Troubleshooting Guide](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md).
+If a stage is missing, a status is not successful or the request is refused, use the [Troubleshooting Guide](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md).
 
 
 
