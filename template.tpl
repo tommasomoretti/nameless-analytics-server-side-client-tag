@@ -2158,14 +2158,12 @@ if (check_origin()) {
           message = '🔴 User cookie not found. No cross-domain URL decoration will be applied';
           status_code = 400;
 
-          if (data.enable_logs) { log(message); }
           claim_request(set_ids_get_user_data(), status_code, message);
           return;
         } else if (session_cookie_value === undefined) {
           message = '🔴 Session cookie not found. No cross-domain URL decoration will be applied';
           status_code = 400;
 
-          if (data.enable_logs) { log(message); }
           claim_request(set_ids_get_user_data(), status_code, message);
           return;
         }
@@ -2178,14 +2176,12 @@ if (check_origin()) {
         message = '🔴 Missing User-Agent header. Request from bot';
         status_code = 403;
 
-        if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
         return;
       }
 
       if (event_origin === 'Streaming Protocol' && request_user_agent !== 'nameless analytics - streaming protocol') {
         message = '🔴 Invalid User-Agent header value. Request from bot';
-        if (data.enable_logs) { log(message); }
         status_code = 403;
 
         claim_request({ event_name: event_name }, status_code, message);
@@ -2199,8 +2195,6 @@ if (check_origin()) {
           if (request_user_agent.indexOf(bad_agents[i]) !== -1) {
             message = '🔴 Invalid User-Agent header value. Request from bot';
             status_code = 403;
-            if (data.enable_logs) { log(message); }
-
             claim_request({ event_name: event_name }, status_code, message);
             return;
           }
@@ -2213,7 +2207,6 @@ if (check_origin()) {
           message = '🔴 Add API key for Streaming Protocol is not enabled.';
           status_code = 403;
 
-          if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
           return;
         }
@@ -2222,7 +2215,6 @@ if (check_origin()) {
           message = '🔴 Invalid API key';
           status_code = 401;
 
-          if (data.enable_logs) { log(message); }
           claim_request({ event_name: event_name }, status_code, message);
           return;
         }
@@ -2233,7 +2225,6 @@ if (check_origin()) {
         message = '🔴 Invalid event_name. Can\'t send page_view from Streaming Protocol';
         status_code = 400;
 
-        if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
         return;
       }
@@ -2243,7 +2234,6 @@ if (check_origin()) {
         message = '🔴 Orphan event: missing user cookie. Trigger a page_view event first to create a new user and a new session';
         status_code = 400;
 
-        if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
         return;
       }
@@ -2253,7 +2243,6 @@ if (check_origin()) {
         message = '🔴 Orphan event: missing session cookie. Trigger a page_view event first to create a new session';
         status_code = 400;
 
-        if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
         return;
       }
@@ -2263,7 +2252,6 @@ if (check_origin()) {
         message = '🔴 Invalid cookie format';
         status_code = 400;
 
-        if (data.enable_logs) { log(message); }
         claim_request({ event_name: event_name }, status_code, message);
         return;
       }
@@ -2276,7 +2264,6 @@ if (check_origin()) {
         message = '🟢 Request claimed successfully';
         status_code = 200;
 
-        if (data.enable_logs) { log('REQUEST STATUS'); }
         claim_request(set_ids_get_user_data(), status_code, message);
         return;
       } else {
@@ -2298,7 +2285,6 @@ if (check_origin()) {
     message = '🔴 Request IP not authorized';
     status_code = 403;
 
-    if (data.enable_logs) { log(message); }
     claim_request({ event_name: event_name }, status_code, message);
     return;
   }
@@ -2309,7 +2295,6 @@ if (check_origin()) {
   message = '🔴 Request origin not authorized';
   status_code = 403;
 
-  if (data.enable_logs) { log(message); }
   claim_request({ event_name: event_name }, status_code, message);
   return;
 }
@@ -2981,13 +2966,9 @@ function send_to_firestore(event_data) {
       // REJECT REQUESTS (orphan events) 
       if (event_data.event_name !== 'page_view' && documents.length === 0) {
         message = "🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session";
-        if (data.enable_logs) { log(message); }
-        if (data.enable_logs) { log('REQUEST STATUS'); }
         return { status: false, status_code: 400, message: message };
       } else if (event_data.event_name !== 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
         message = "🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session";
-        if (data.enable_logs) { log(message); }
-        if (data.enable_logs) { log('REQUEST STATUS'); }
         return { status: false, status_code: 400, message: message };
       }
 
@@ -3103,7 +3084,6 @@ function send_to_firestore(event_data) {
               message = '🔴 User or session data not created to Firestore';
               status_code = 403;
 
-              if (data.enable_logs) { log(message); }
               return { status: false, status_code: status_code, message: message };
             }
           );
@@ -3231,7 +3211,6 @@ function send_to_firestore(event_data) {
                 message = '🔴 User or session data not added to Firestore';
                 status_code = 403;
 
-                if (data.enable_logs) { log(message); }
                 return { status: false, status_code: status_code, message: message };
               }
             );
@@ -3320,7 +3299,6 @@ function send_to_firestore(event_data) {
                 message = '🔴 User or session data not updated to Firestore';
                 status_code = 403;
 
-                if (data.enable_logs) { log(message); }
                 return { status: false, status_code: status_code, message: message };
               }
             );
