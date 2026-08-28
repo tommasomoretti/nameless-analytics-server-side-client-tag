@@ -1375,6 +1375,7 @@ function send_to_firestore(event_data) {
 
           // Update last session timestamp of the user
           firestore_data.user_last_session_timestamp = event_data.event_timestamp;
+          event_data.user_data.user_last_session_timestamp = firestore_data.user_last_session_timestamp;
 
           // Set new session values for Firestore from current event data
           var new_session = {
