@@ -1,6 +1,6 @@
 # Nameless Analytics | Server-side Client Tag
 
-The Nameless Analytics Server-side Client Tag is a highly customizable GTM custom template designed to claim and enhance requests from [Nameless Analytics Client-side Tracker Tag](https://github.com/nameless-analytics/client-side-tracker-tag/) and other sources.
+The Nameless Analytics Server-side Client Tag claims and validates Nameless Analytics requests, enriches them with user and session data, writes events to Firestore and BigQuery, and can forward them to an external endpoint.
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/nameless-analytics/nameless-analytics/#overview).
 
@@ -8,10 +8,9 @@ For an overview of how Nameless Analytics works [start from here](https://github
 ### 🚧 Nameless Analytics and the documentation are currently in beta and subject to change
 
 
-
 ## Table of Contents
 
-- [Nameless Analytics Server-side Client Tag UI](#nameless-analytics-server-side-client-tag-ui)
+- [Template interface](#template-interface)
 - [User data](#user-data)
   - [User parameters](#user-parameters)
     - [Add/override user level parameters](#addoverride-user-level-parameters)
@@ -44,16 +43,11 @@ For an overview of how Nameless Analytics works [start from here](https://github
   - [Send data to custom endpoint](#send-data-to-custom-endpoint)
   - [Enable logs in debug view](#enable-logs-in-debug-view)
 - [Verifying the setup](#verifying-the-setup)
-- [Troubleshooting](#troubleshooting)
 
 
 
-## Nameless Analytics Server-side Client Tag UI
-The Nameless Analytics Server-side Client Tag serves as the secure, high-performance gateway for your data infrastructure.
-
-It is responsible for validating incoming requests, enriching payloads with Firestore data, and routing verified events to BigQuery and external endpoints.
-
-This is the UI of the Nameless Analytics Server-side Client Tag.
+## Template interface
+Use the template to configure server-side parameter changes, request security, storage, session cookies, external forwarding and debug logs.
 
 ![Nameless Analytics Server-side Client Tag UI](https://github.com/user-attachments/assets/0ae82d69-d89d-43ad-97cf-64330af205ed)
 
@@ -61,14 +55,14 @@ This is the UI of the Nameless Analytics Server-side Client Tag.
 
 ## User data
 ### User parameters
-Add, override or remove user parameters in the user_data object. See [Parameter Hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy) in the main project documentation.
+Custom user parameters are received in `user_data` and persisted with the user. Accepted values are strings, integers, floats, booleans and JSON-compatible values.
+
+Firestore keeps the latest stored value for each user, while BigQuery preserves the value attached to each enriched event. Server-side additions and removals are applied after the Client-side Tracker Configuration Variable. See [Parameter hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy).
 
 > [!WARNING]
-> Be mindful when adding custom **User parameters** as they might cause you to hit the Firestore 1 MiB document limit faster. See [Firestore 1 MiB document limit](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md#firestore-1-mib-document-limit) for details.
+> Custom user parameters increase the size of the Firestore user document. See [Firestore 1 MiB document limit](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md#firestore-1-mib-document-limit).
 
-They will be:
-- written in Google Cloud Firestore every time they change --> latest values
-- sent to BigQuery with the last available values --> all values
+<details><summary>Reserved user parameters</summary>
 
 These user parameters are reserved and can't be modified:
 - user_date
@@ -88,30 +82,28 @@ These user parameters are reserved and can't be modified:
 - user_first_session_timestamp
 - user_last_session_timestamp
 
-#### Add/override user level parameters
-Add or override parameters at user level. Accepted values: strings, integers, floats, JSON and booleans.
+</details>
 
-These parameters can override:
-- User parameters added in Nameless Analytics Client-side Tracker Configuration Variable
+#### Add/override user level parameters
+Add custom fields to every tracked event. A matching field received from the Client-side Tracker Configuration Variable is replaced before Firestore enrichment.
 
 #### Remove user level parameters
-Remove user level parameters in user_data object in the payload.
+Remove matching custom fields from the incoming `user_data` object after server-side additions are applied.
 
-These parameters can remove:
-- User parameters added in Nameless Analytics Client-side Tracker Configuration Variable
+This option does not currently delete a value already stored in Firestore. For an existing user, the stored value can therefore be added back to the enriched event.
 
 
 
 ## Session data
 ### Session parameters
-Add, override or remove session parameters in the session_data object. See [Parameter Hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy) in the main project documentation.
+Custom session parameters are received in `session_data` and persisted with the session. Accepted values are strings, integers, floats, booleans and JSON-compatible values.
+
+Firestore keeps the latest stored value for the session, while BigQuery preserves the value attached to each enriched event. Server-side additions and removals are applied after the Client-side Tracker Configuration Variable. See [Parameter hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy).
 
 > [!WARNING]
-> Be mindful when adding custom **Session parameters** as they might cause you to hit the Firestore 1 MiB document limit faster. See [Firestore 1 MiB document limit](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md#firestore-1-mib-document-limit) for details.
+> Custom session parameters increase the size of the Firestore user document. See [Firestore 1 MiB document limit](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md#firestore-1-mib-document-limit).
 
-They will be:
-- written in Google Cloud Firestore every time they change --> latest values
-- sent to BigQuery with the last available values --> all values
+<details><summary>Reserved session parameters</summary>
 
 These session parameters are reserved and can't be modified:
 - session_date
@@ -144,31 +136,28 @@ These session parameters are reserved and can't be modified:
 - session_start_timestamp
 - session_end_timestamp
 
-#### Add/override User ID parameter
-Add or override User ID parameter at session level. Accepted values: strings, integers, floats, JSON and booleans.
+</details>
 
-These parameters can override:
-- User ID parameter added in Nameless Analytics Client-side Tracker Configuration Variable
+#### Add/override User ID parameter
+Provide the optional `user_id` at session level. An existing non-null session value remains unchanged during normal events; use `login` to replace it and `logout` to clear it. See [User ID lifecycle](https://github.com/nameless-analytics/nameless-analytics/#user-id-lifecycle).
 
 #### Add/override session level parameters
-Add or override session level parameters. Accepted values: strings, integers, floats, JSON and booleans.
-
-These parameters can override:
-- Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
+Add custom fields to every tracked event. A matching field received from the Client-side Tracker Configuration Variable is replaced before Firestore enrichment.
 
 #### Remove session level parameters
-Remove session level parameters in session_data object in the payload.
+Remove matching custom fields from the incoming `session_data` object after server-side additions are applied.
 
-These parameters can remove:
-- Session parameters added in Nameless Analytics Client-side Tracker Configuration Variable
+This option does not currently delete a value already stored in Firestore. For an existing session, the stored value can therefore be added back to the enriched event.
 
 
 
 ## Event data
 ### Event parameters
-Add, override or remove event parameters in the event_data object. See [Parameter Hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy) in the main project documentation.
+Custom event parameters are received in `event_data` and written to BigQuery with the event. Accepted values are strings, integers, floats, booleans and JSON-compatible values.
 
-They will be sent to BigQuery with every event.
+The browser resolves `dataLayer`, Configuration Variable and Client-side Tracker Tag values first. The Server-side Client Tag then applies its additions or overrides followed by its removals. See [Parameter hierarchy](https://github.com/nameless-analytics/nameless-analytics/#parameter-hierarchy).
+
+<details><summary>Reserved event parameters</summary>
 
 These event parameters are reserved and can't be modified:
 - event_type
@@ -195,215 +184,123 @@ These event parameters are reserved and can't be modified:
 - country
 - cross_domain_id
 
-#### Add/override event level parameters
-Add or overwrite parameters for a specific event. Accepted values: strings, integers, floats, JSON and booleans.
+</details>
 
-These parameters can override:
-- Event parameters added in the Nameless Analytics Client-side Tracker Tag
-- Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable
-- Event parameters from dataLayer added in the Nameless Analytics Client-side Tracker Tag
+#### Add/override event level parameters
+Add custom fields to every tracked event. A matching browser-side value is replaced before the event is stored.
 
 #### Remove event level parameters
-Remove event level parameters by name in event_data object in the payload.
-
-These parameters can remove:
-- Event parameters added in the Nameless Analytics Client-side Tracker Tag
-- Shared event parameters added in the Nameless Analytics Client-side Tracker Configuration Variable
-- Event parameters from dataLayer added in the Nameless Analytics Client-side Tracker Tag
+Remove custom fields before storage. Removal runs after server-side additions, so a field present in both lists is removed.
 
 
 
 ## Client settings
 ### Endpoint path
-The request endpoint path the tag listens on. It must start with `/` and must not end with `/`.
+Enter the dedicated request path beginning with `/` and without a trailing slash. It must exactly match the [Endpoint path](https://github.com/nameless-analytics/client-side-tracker-configuration-variable/#endpoint-path) in the Client-side Tracker Configuration Variable.
 
-A server-side container can run several clients, each listening on its own path, and every incoming request goes to the client that claims it. This tag claims a request only when its path matches this value exactly, which has two consequences:
-
-- it must be identical to the **Endpoint path** set in the [Client-side Tracker Configuration Variable](https://github.com/nameless-analytics/client-side-tracker-configuration-variable/#endpoint-path), otherwise the requests reach the container but this client never takes them;
-- it should not overlap with the path claimed by any other client in the same container, so give Nameless Analytics a dedicated one (e.g. `/na/collect`).
-
+The client claims only requests whose path matches this value. Avoid using a path claimed by another client in the same server container.
 
 ### Accept requests from authorized domains only
-Set the specific domains from which requests can be claimed.
+Restrict requests to the domains listed under **Authorized domains**. This option is off by default, so every origin is accepted until it is enabled; enable it for production containers.
 
-The option sits under **Client settings** → **Security rules**. If the Server-side Google Tag Manager container needs to claim requests from multiple domains, all those domains must be listed in the **Authorized domains** table. Add one domain per row.
+Enter bare domain names without protocol, path or trailing slash. The comparison uses the registrable domain, so one entry covers its subdomains. Include every production, staging and cross-domain participant.
 
-> [!IMPORTANT]
-> **The option is off by default, and while it is off every origin is accepted.** The check compares the Effective TLD+1 of the request `Origin` header with the configured list: with no list to compare against, the tag matches the request against itself and always claims it. Anyone who knows your endpoint path can send events from any website, and they are stored like any other event. Turn the option on and list your domains for any production container. The GTM server debug view reports the current state as `👉 Authorized origins: All` or as the list of domains.
-
-Add domains as bare host names, without protocol: `www.yourdomain.com`, not `https://www.yourdomain.com`. Only the Effective TLD+1 is compared, so a single entry covers every subdomain of that domain.
-
-Two consequences worth knowing before enabling it:
-
-- requests without an `Origin` header are rejected. Browsers always send it on the tracker's `fetch` calls, but server-to-server calls do not unless you add it: the [Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) scripts set `Origin` explicitly for this reason, and any custom backend implementation must do the same;
-- in a cross-domain setup, every domain involved must be listed, otherwise requests coming from the other sites are rejected.
-
+When filtering is enabled, requests without an `Origin` header are rejected. Browser tracking supplies it automatically; Streaming Protocol and other backend implementations must set it explicitly. Because callers can reproduce an `Origin` header, this setting is an origin filter rather than authentication.
 
 ### Reject requests by IP
-Reject requests coming from specific IP addresses. The option sits under **Client settings** → **Security rules**.
+Reject requests whose source address exactly matches an entry in **Banned IPs**. Add one IPv4 or IPv6 address per row under **Internet Protocol address**.
 
-Add one address per row in the **Banned IPs** table, under the **Internet Protocol address** column. Both IPv4 and IPv6 are accepted, and the field validation rejects anything that is not a well-formed address.
-
+Use an edge rate limiter or WAF for broader traffic control; this list is intended for known addresses.
 
 ### Enable Bot protection
-The option sits under **Client settings** → **Security rules**.
+Reject requests when the `User-Agent` contains one of the built-in signatures. Matching is case-insensitive and can produce false positives, so verify legitimate automated integrations before enabling it.
 
-If enabled, the Nameless Analytics Server-side Client Tag filters requests based on a predefined blacklist of values in the `User-Agent` header:
+<details><summary>Built-in User-Agent signatures</summary>
+
 - **HTTP Libraries:** `curl`, `wget`, `python`, `requests`, `httpie`, `go-http-client`, `java`, `okhttp`, `libwww`, `perl`, `axios`, `node`, `fetch`, `php`, `guzzle`, `ruby`, `faraday`, `rest-client`.
 - **AI Agents & LLMs:** `gptbot`, `chatgpt`, `anthropic`, `claude`, `perplexity`, `bytespider`, `ccbot`.
 - **SEO & Marketing Bots:** `ahrefs`, `semrush`, `dotbot`, `mj12`, `rogerbot`, `bot`, `crawler`, `spider`, `scraper`.
 - **Automation & Security:** `nmap`, `zgrab`, `masscan`, `shodan`, `headless`, `phantomjs`, `selenium`, `puppeteer`, `playwright`, `cypress`, `electron`.
 
-Two further `User-Agent` checks run **regardless of this option** and cannot be turned off:
+</details>
 
-- a request with a missing or empty `User-Agent` header is always rejected;
-- a request declaring `event_origin: "Streaming Protocol"` is always rejected unless its `User-Agent` is exactly `Nameless Analytics - Streaming Protocol`. The comparison ignores case but is otherwise exact: any prefix or suffix fails it. See the [Streaming Protocol documentation](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol).
+Two further `User-Agent` checks are always active, even when general bot protection is disabled:
 
-Both are rejected with `403 Forbidden` and the same message as a blacklisted agent.
-
+- a missing or empty value is rejected;
+- Streaming Protocol requests must use exactly `Nameless Analytics - Streaming Protocol`.
 
 ### Request body validation
-The request body must contain a valid JSON object. A missing body, malformed JSON, a JSON array, or a primitive JSON value is rejected with `400 Bad Request` before the GTM container runs. Firestore, BigQuery, and custom endpoint forwarding are all skipped.
+The endpoint accepts `POST` requests containing a valid JSON object. Before storage, the client validates the payload structure, required fields, value types, dates and identifier formats. Unsupported top-level fields are not accepted.
 
+The Client-side Tracker Tag builds the website payload automatically. Backend implementations should follow the [Streaming Protocol request requirements](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol#request-requirements). Except for the `get_user_data` handshake, a website `page_view` must create the user and session before later events can use them.
 
 ### Cross-domain ID validation
-When cross-domain tracking is enabled, the destination page sends the originating `session_id` in the payload as `cross_domain_id`. Since that value travels through a URL parameter, the Server-side Client Tag validates its format before using it as an identity.
+The client accepts `cross_domain_id` only when it follows the server-issued session ID format: two groups of 15 alphanumeric characters separated by an underscore.
 
-A value is accepted only if it matches the format of a server-issued `session_id`: 15 alphanumeric characters, an underscore, 15 alphanumeric characters.
-
-Values that do not match are **discarded, not rejected**: the event is still claimed and stored, and is attributed using the local `na_u` and `na_s` cookies as if no cross-domain ID had been sent — in the typical case, a new session. The following message is logged in GTM Server Preview:
-
-```text
-🟠 Invalid cross-domain ID format. Value ignored.
-```
-
-This behaviour is intentional. A stale or broken link on a partner site degrades to a new session instead of costing you the visit, while a malformed value can never reach the cookies or the Firestore document path.
-
-No configuration is required: the check is always active.
-
+An invalid value is ignored without rejecting the event. The request continues with the destination's local cookies when available; otherwise the normal new-user or new-session logic applies. No configuration is required. See [Cross-domain architecture](https://github.com/nameless-analytics/nameless-analytics/#cross-domain-architecture).
 
 ### API key for Streaming Protocol requests
-Secure the Streaming Protocol (Measurement Protocol) endpoint by requiring a secret API key.
+Enable **Add API key for Streaming Protocol** and enter a secret value before sending backend events. Every request declaring `event_origin: "Streaming Protocol"` must provide the same value in the `X-Api-Key` header and use the required `User-Agent`.
 
-Any request where `event_origin` is set to `Streaming Protocol` is rejected unless it includes an `X-Api-Key` header matching the configured value. There is no bypass: enable **"Add API key for Streaming Protocol"** and set a key before sending events from a backend.
-
-Requests with `event_origin` set to `Website` are not affected by this setting, ensuring seamless browser tracking without the need for additional headers or CORS preflight requests.
-
-The [Nameless Analytics Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) allows you to send data from your backend directly to the Nameless Analytics Server-side Client Tag endpoint.
+Website requests do not require this header. Authorized-origin filtering still applies when enabled. Keep the API key on the server and see the [Streaming Protocol documentation](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol) for the complete request format.
 
 
 
 ## Google BigQuery settings
 ### Google BigQuery project ID
-The unique ID of the Google Cloud project that holds the dataset.
-
+Enter the Google Cloud project used for both BigQuery and the Nameless Analytics Firestore database.
 
 ### Google BigQuery dataset ID
-The ID of the BigQuery dataset where Nameless Analytics will store its tables. The dataset must be created before the tag can write data.
-
+Enter the existing BigQuery dataset where raw events are stored.
 
 ### Google BigQuery table ID
-The ID of the main raw events table. Create it using the DML query in the [Create raw tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/TABLES.md#create-raw-tables) section before you start sending events.
+Enter the raw events table created through [Create raw tables](https://github.com/nameless-analytics/nameless-analytics/blob/main/tables/TABLES.md#create-raw-tables).
 
-The setup script creates the table as `events_raw`, and the table functions that read the raw table expect that name, so use a different one only if you also update them.
-
-All three fields are required and start empty: the tag will not save until each one has a value.
+The provided setup and reporting functions expect `events_raw`. Use another name only if you also update the dependent queries. All three BigQuery fields are required.
 
 
 
 ## Session settings
 ### Change user and session cookie prefix
-Override the default name of the user and session cookies. When enabled, set the new prefix in the **Cookie prefix** field.
+The default cookie names are `na_u` and `na_s`. When this option is enabled, the value in **Cookie prefix** is prepended to both names: `brand` produces `brand_na_u` and `brand_na_s`.
 
-Default prefix: `na_u` and `na_s`. See [Server-side cookies](https://github.com/nameless-analytics/nameless-analytics/#server-side-cookies) for more information.
-
+Changing the prefix prevents the client from reading cookies created under the previous names, so returning browsers are treated as new until the new cookies exist. See [Server-side cookies](https://github.com/nameless-analytics/nameless-analytics/#server-side-cookies).
 
 ### Change default session duration
-Override the default duration of the session cookie. When enabled, set the new value, in minutes, in the **Session duration** field.
-
-Default value: 30 minutes.
+The session cookie expires after 30 minutes by default and is refreshed as website events are processed. Enable this option and set **Session duration** in minutes to use another positive value.
 
 
 
 ## Advanced settings
 ### Send data to custom endpoint
-Send POST requests to custom endpoint with the same data loaded into Google BigQuery.
+After Firestore and BigQuery succeed, send the enriched, unencoded event as a JSON `POST` request to the HTTPS URL in **Full endpoint domain path**.
 
-Set the destination in **Full endpoint domain path**: unlike the other domain fields of the platform, this one is a complete URL and must start with `https://`.
+Enable **Add custom request headers** to configure authentication or other headers under **Custom request headers**. These values are not sent to the browser, but remain visible to authorized GTM editors and in container exports.
 
-To authenticate the call, check **Add custom request headers** and fill in the **Custom request headers** table, which has a **Header name** and a **Header value** column. Credentials set here never reach the browser, since the request leaves from your server-side container.
-
+A forwarding failure does not roll back Firestore or BigQuery. Check `processing.custom_endpoint` in the response to confirm whether delivery succeeded.
 
 ### Enable logs in debug view
-Enable logs for all events in the GTM server debug view. The Client-side Tracker Tag logs to the browser JavaScript console, this tag logs here.
-
-If cross-domain is enabled, all cross-domain requests will be visible in each domain's respective debug view. For more information, see the [Cross-domain section](https://github.com/nameless-analytics/client-side-tracker-configuration-variable/#enable-cross-domain-tracking).
+Print processing details in GTM Server Preview. **Disabled by default.** Enable it while validating or diagnosing the implementation.
 
 
 
 ## Verifying the setup
-Enable [logs in debug view](#enable-logs-in-debug-view), start GTM Server Preview and load a page where the Client-side Tracker Tag sends `page_view`.
+Enable logs, start GTM Server Preview and load a page where the Client-side Tracker Tag sends `page_view`.
 
-A successfully processed `page_view` for an existing user and session follows this path:
+| Check | Expected result |
+|:---|:---|
+| Configuration | `CLIENT TAG CONFIGURATION` shows the expected endpoint and security settings. |
+| Request | The client identifies a `Website` request and a valid `page_view`. |
+| Identity | The cookie check reports the expected new or returning user and session state. |
+| Firestore | The user and session are created, added or updated successfully. |
+| BigQuery | The enriched payload is inserted successfully. |
+| Custom endpoint | `custom_endpoint` is `success`, or `skipped` when forwarding is disabled. |
+| Response | HTTP status is `200`; `claim_request`, `firestore` and `bigquery` are `success`. |
+| Final status | The debug log ends with `🟢 Request processed successfully`. |
 
-```text
-NAMELESS ANALYTICS
-CLIENT TAG CONFIGURATION
-  👉 Endpoint: /na/collect
-  👉 Authorized origins: All
-  👉 Bot detection enabled
-  👉 Unauthorized IPs: None
-CHECKING REQUEST
-  👉 Request type: Website
-  👉 Event name: page_view
-  🟢 Request correct
-CHECKING USER AND SESSION COOKIES
-  👉 Same client_id, same session_id
-  👉 Extend cookies max-age
-SENDING EVENT DATA TO GOOGLE FIRESTORE
-  👉 User exist
-  👉 Session exist
-  👉 Payload to send: {…}
-  🟢 User already in Firestore, session successfully updated to Firestore
-SENDING EVENT DATA TO GOOGLE BIGQUERY
-  👉 Payload to send: {…}
-  🟢 Payload data inserted successfully into BigQuery
-SENDING EVENT DATA TO CUSTOM ENDPOINT
-  👉 Payload to send: {…}
-  🟢 Request sent successfully to: https://api.yourcrm.com/v1/events
-REQUEST STATUS
-  🟢 Request processed successfully
-```
+For cross-domain tracking, a valid `get_user_data` request returns the current identifiers with `firestore`, `bigquery` and `custom_endpoint` marked as `skipped`. For Streaming Protocol, also confirm the request type, `User-Agent`, API key and existing user/session context.
 
-Validate these points:
-
-1. `CLIENT TAG CONFIGURATION` shows the expected endpoint, authorized origins, bot protection and banned IP settings.
-2. `CHECKING REQUEST` identifies the request as `Website` and confirms `page_view` as valid.
-3. `CHECKING USER AND SESSION COOKIES` reports the expected identity state: new user on the first visit, existing session on subsequent hits, or a new session after expiry.
-4. Firestore reports that the user and session were created, added or updated successfully.
-5. BigQuery confirms that the payload was inserted successfully.
-6. The custom endpoint confirms delivery when enabled; when disabled, `custom_endpoint` is `skipped`.
-7. `REQUEST STATUS` ends with `🟢 Request processed successfully`.
-
-In the request response, confirm HTTP `200` and these processing values:
-
-```json
-{
-  "claim_request": "success",
-  "firestore": "success",
-  "bigquery": "success",
-  "custom_endpoint": "skipped"
-}
-```
-
-For cross-domain tracking, a successful `get_user_data` request ends with `🟢 Request claimed successfully`; Firestore, BigQuery and the custom endpoint are intentionally `skipped` for this handshake.
-
-If a stage is missing, a status is not successful or the request is refused, use the [Troubleshooting Guide](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md).
-
-
-
-## Troubleshooting
-If you encounter any issues or see 🔴 error messages in the console, please refer to the [Troubleshooting Guide](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md).
+If a stage is missing, a processing value is not successful or the request is refused, use the [Troubleshooting Guide](https://github.com/nameless-analytics/nameless-analytics/blob/main/setup-guides/TROUBLESHOOTING-GUIDE.md).
 
 #
 
