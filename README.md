@@ -232,7 +232,7 @@ Two further `User-Agent` checks are always active, even when general bot protect
 ### Request body validation
 The endpoint accepts `POST` requests containing a valid JSON object. Before storage, the client validates the payload structure, required fields, value types, dates and identifier formats. Unsupported top-level fields are not accepted.
 
-The Client-side Tracker Tag builds the website payload automatically. Backend implementations should follow the [Streaming Protocol request requirements](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol#request-requirements). Except for the `get_user_data` handshake, a website `page_view` must create the user and session before later events can use them.
+The Client-side Tracker Tag builds the website payload automatically. Backend implementations should follow the [Streaming Protocol request requirements](https://github.com/nameless-analytics/nameless-analytics/blob/main/streaming-protocol/STREAMING-PROTOCOL.md#request-requirements). Except for the `get_user_data` handshake, a website `page_view` must create the user and session before later events can use them.
 
 ### Cross-domain ID validation
 The client accepts `cross_domain_id` only when it follows the server-issued session ID format: two groups of 15 alphanumeric characters separated by an underscore.
