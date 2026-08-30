@@ -1,6 +1,6 @@
 # Nameless Analytics | Server-side Client Tag
 
-The Nameless Analytics Server-side Client Tag claims and validates Nameless Analytics requests, enriches them with user and session data, writes events to Firestore and BigQuery, and can forward them to an external endpoint.
+The Nameless Analytics Server-side Client Tag claims and validates requests from the [Nameless Analytics Client-side Tracker Tag](https://github.com/nameless-analytics/client-side-tracker-tag/) and the [Streaming Protocol](https://github.com/nameless-analytics/nameless-analytics/tree/main/streaming-protocol), enriches them with user and session data, writes events to Firestore and BigQuery, and can forward them to an external endpoint.
 
 For an overview of how Nameless Analytics works [start from here](https://github.com/nameless-analytics/nameless-analytics/#overview).
 
@@ -85,10 +85,10 @@ These user parameters are reserved and can't be modified:
 </details>
 
 #### Add/override user level parameters
-Add custom fields to every tracked event. A matching field received from the Client-side Tracker Configuration Variable is replaced before Firestore enrichment.
+Add custom fields to every tracked event, one row per field with **Param name** and **Param value**. A matching field received from the Client-side Tracker Configuration Variable is replaced before Firestore enrichment.
 
 #### Remove user level parameters
-Remove matching custom fields from the incoming `user_data` object after server-side additions are applied.
+Remove matching custom fields from the incoming `user_data` object after server-side additions are applied. The table takes **Param name** only.
 
 This option does not currently delete a value already stored in Firestore. For an existing user, the stored value can therefore be added back to the enriched event.
 
@@ -201,7 +201,7 @@ Enter the dedicated request path beginning with `/` and without a trailing slash
 The client claims only requests whose path matches this value. Avoid using a path claimed by another client in the same server container.
 
 ### Accept requests from authorized domains only
-Restrict requests to the domains listed under **Authorized domains**. This option is off by default, so every origin is accepted until it is enabled; enable it for production containers.
+Grouped under **Security rules**. Restrict requests to the domains listed under **Authorized domains**. This option is off by default, so every origin is accepted until it is enabled; enable it for production containers.
 
 Enter bare domain names without protocol, path or trailing slash. The comparison uses the registrable domain, so one entry covers its subdomains. Include every production, staging and cross-domain participant.
 
@@ -275,7 +275,7 @@ The session cookie expires after 30 minutes by default and is refreshed as websi
 ### Send data to custom endpoint
 After Firestore and BigQuery succeed, send the enriched, unencoded event as a JSON `POST` request to the HTTPS URL in **Full endpoint domain path**.
 
-Enable **Add custom request headers** to configure authentication or other headers under **Custom request headers**. These values are not sent to the browser, but remain visible to authorized GTM editors and in container exports.
+Enable **Add custom request headers** to configure authentication or other headers under **Custom request headers**, a table of **Header name** and **Header value** pairs. Each header name is required and must be unique. These values are not sent to the browser, but remain visible to authorized GTM editors and in container exports.
 
 A forwarding failure does not roll back Firestore or BigQuery. Check `processing.custom_endpoint` in the response to confirm whether delivery succeeded.
 
