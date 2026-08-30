@@ -287,6 +287,8 @@ Print processing details in GTM Server Preview. **Disabled by default.** Enable 
 ## Verifying the setup
 Enable logs, start GTM Server Preview and load a page where the Client-side Tracker Tag sends `page_view`.
 
+For a successfully processed event, the JSON response contains `status_code`, `response`, `processing` and `data`, where `data` is the complete server-side enriched payload.
+
 | Check | Expected result |
 |:---|:---|
 | Configuration | `CLIENT TAG CONFIGURATION` shows the expected endpoint and security settings. |
