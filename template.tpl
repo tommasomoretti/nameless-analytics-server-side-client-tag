@@ -2031,6 +2031,9 @@ function validate_payload_schema(payload) {
   validate_optional_object(payload, 'gtm_data', errors);
   validate_optional_object(payload, 'consent_data', errors);
 
+  validate_consent_data_values(payload.consent_data, errors);
+  validate_gtm_data_values(payload.gtm_data, errors);
+
   if (getType(payload.consent_data) === 'object' && Object.keys(payload.consent_data).length === 0) {
     errors.push('consent_data must be a non-empty object or null');
   }
@@ -2053,6 +2056,33 @@ function validate_optional_object(payload, key, errors) {
   if (value_type !== 'undefined' && value_type !== 'null' && value_type !== 'object') {
     errors.push(key + ' must be an object or null');
   }
+}
+
+
+function validate_consent_data_values(consent_data, errors) {
+  if (getType(consent_data) !== 'object') { return; }
+
+  Object.keys(consent_data).forEach((key) => {
+    const value_type = getType(consent_data[key]);
+
+    if (value_type !== 'string' && value_type !== 'null') {
+      errors.push('consent_data.' + key + ' must be a string or null');
+    }
+  });
+}
+
+
+function validate_gtm_data_values(gtm_data, errors) {
+  if (getType(gtm_data) !== 'object') { return; }
+
+  Object.keys(gtm_data).forEach((key) => {
+    const value = gtm_data[key];
+    const value_type = getType(value);
+
+    if (value_type !== 'string' && value_type !== 'null' && (value_type !== 'number' || value % 1 !== 0)) {
+      errors.push('gtm_data.' + key + ' must be a string, integer or null');
+    }
+  });
 }
 
 
