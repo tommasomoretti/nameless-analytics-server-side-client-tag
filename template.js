@@ -1214,8 +1214,11 @@ function return_response(event_data, status_code, message, processing_status) {
   runContainer(event_data, () => {
     setResponseStatus(status_code);
 
-    setResponseHeader('Access-Control-Allow-Credentials', 'true');
-    setResponseHeader('Access-Control-Allow-Origin', request_origin);
+    if (request_origin) {
+      setResponseHeader('Access-Control-Allow-Credentials', 'true');
+      setResponseHeader('Access-Control-Allow-Origin', request_origin);
+    }
+
     setResponseHeader('Access-Control-Allow-Methods', 'POST');
     if (status_code === 401) {
       setResponseHeader('WWW-Authenticate', 'ApiKey realm="Nameless Analytics"');
@@ -1732,7 +1735,9 @@ function send_to_custom_endpoint(custom_request_endpoint_path, event_data) {
 
   const request_options = {
     method: 'POST',
-    headers: {}
+    headers: {
+      'Content-Type': 'application/json'
+    }
   };
 
   // Add custom headers

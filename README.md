@@ -274,7 +274,7 @@ The session cookie expires after 30 minutes by default and is refreshed as websi
 
 ## Advanced settings
 ### Send data to custom endpoint
-After Firestore and BigQuery succeed, send the enriched, unencoded event as a JSON `POST` request to the HTTPS URL in **Full endpoint domain path**.
+After Firestore and BigQuery succeed, send the enriched, unencoded event as a JSON `POST` request to the HTTPS URL in **Full endpoint domain path**. The request includes `Content-Type: application/json` by default.
 
 Enable **Add custom request headers** to configure authentication or other headers under **Custom request headers**, a table of **Header name** and **Header value** pairs. Each header name is required and must be unique. These values are not sent to the browser, but remain visible to authorized GTM editors and in container exports.
 
