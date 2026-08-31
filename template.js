@@ -1404,7 +1404,7 @@ function send_to_firestore(event_data) {
             },
             () => {
               message = '🔴 User or session data not created to Firestore';
-              status_code = 403;
+              status_code = 500;
 
               return { status: false, status_code: status_code, message: message };
             }
@@ -1531,7 +1531,7 @@ function send_to_firestore(event_data) {
               },
               () => {
                 message = '🔴 User or session data not added to Firestore';
-                status_code = 403;
+                status_code = 500;
 
                 return { status: false, status_code: status_code, message: message };
               }
@@ -1619,7 +1619,7 @@ function send_to_firestore(event_data) {
               // RESPONSE ERROR
               () => {
                 message = '🔴 User or session data not updated to Firestore';
-                status_code = 403;
+                status_code = 500;
 
                 return { status: false, status_code: status_code, message: message };
               }

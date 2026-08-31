@@ -178,6 +178,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!client_id$).*"
                     ],
                     "errorMessage": "Can\u0027t add/override client_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!sessions$).*"
+                    ],
+                    "errorMessage": "Can\u0027t add/override sessions parameter."
                   }
                 ]
               },
@@ -347,6 +354,13 @@ ___TEMPLATE_PARAMETERS___
                       "^(?!client_id$).*"
                     ],
                     "errorMessage": "Can\u0027t remove client_id parameter."
+                  },
+                  {
+                    "type": "REGEX",
+                    "args": [
+                      "^(?!sessions$).*"
+                    ],
+                    "errorMessage": "Can\u0027t remove sessions parameter."
                   }
                 ]
               }
@@ -3194,7 +3208,7 @@ function send_to_firestore(event_data) {
             },
             () => {
               message = '🔴 User or session data not created to Firestore';
-              status_code = 403;
+              status_code = 500;
 
               return { status: false, status_code: status_code, message: message };
             }
@@ -3321,7 +3335,7 @@ function send_to_firestore(event_data) {
               },
               () => {
                 message = '🔴 User or session data not added to Firestore';
-                status_code = 403;
+                status_code = 500;
 
                 return { status: false, status_code: status_code, message: message };
               }
@@ -3409,7 +3423,7 @@ function send_to_firestore(event_data) {
               // RESPONSE ERROR
               () => {
                 message = '🔴 User or session data not updated to Firestore';
-                status_code = 403;
+                status_code = 500;
 
                 return { status: false, status_code: status_code, message: message };
               }
