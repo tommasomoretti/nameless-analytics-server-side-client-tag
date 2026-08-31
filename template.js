@@ -266,6 +266,74 @@ function validate_optional_object(payload, key, errors) {
 }
 
 
+function validate_reserved_parameters(payload) {
+  const errors = [];
+  const reserved_user_parameters = [
+    'user_date',
+    'client_id',
+    'sessions',
+    'user_channel_grouping',
+    'user_source',
+    'user_tld_source',
+    'user_campaign',
+    'user_campaign_id',
+    'user_campaign_click_id',
+    'user_campaign_term',
+    'user_campaign_content',
+    'user_device_type',
+    'user_country',
+    'user_city',
+    'user_language',
+    'user_first_session_timestamp',
+    'user_last_session_timestamp'
+  ];
+  const reserved_session_parameters = [
+    'session_date',
+    'session_id',
+    'session_number',
+    'cross_domain_session',
+    'session_channel_grouping',
+    'session_source',
+    'session_tld_source',
+    'session_campaign',
+    'session_campaign_id',
+    'session_campaign_click_id',
+    'session_campaign_term',
+    'session_campaign_content',
+    'session_device_type',
+    'session_country',
+    'session_city',
+    'session_language',
+    'session_hostname',
+    'session_browser_name',
+    'session_landing_page_category',
+    'session_landing_page_url',
+    'session_landing_page_path',
+    'session_landing_page_title',
+    'session_exit_page_category',
+    'session_exit_page_url',
+    'session_exit_page_path',
+    'session_exit_page_title',
+    'session_start_timestamp',
+    'session_end_timestamp'
+  ];
+
+  Object.keys(payload.user_data || {}).forEach((key) => {
+    if (reserved_user_parameters.indexOf(key) !== -1) {
+      errors.push('user_data.' + key + ' is reserved');
+    }
+  });
+
+  Object.keys(payload.session_data || {}).forEach((key) => {
+    if (reserved_session_parameters.indexOf(key) !== -1) {
+      errors.push('session_data.' + key + ' is reserved');
+    }
+  });
+
+  return errors;
+}
+
+
 function validate_required_string(container, key, errors) {
   const value_type = getType(container[key]);
 
@@ -480,7 +548,18 @@ if (check_origin()) {
         // Claim standard requests
         if (data.enable_logs) { log('🟢 Request correct'); }
 
-        claim_request(build_payload(set_ids(event_data)), null, '');
+        const processed_event_data = build_payload(set_ids(event_data));
+        const reserved_parameter_errors = validate_reserved_parameters(processed_event_data);
+
+        if (reserved_parameter_errors.length > 0) {
+          message = '🔴 Invalid payload schema: ' + reserved_parameter_errors.join('; ');
+          status_code = 400;
+
+          claim_request({ event_name: processed_event_data.event_name }, status_code, message);
+          return;
+        }
+
+        claim_request(processed_event_data, null, '');
         return;
       }
 
