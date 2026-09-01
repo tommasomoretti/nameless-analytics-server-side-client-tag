@@ -3085,146 +3085,130 @@ function send_to_firestore(event_data) {
   const queries = [['client_id', '==', event_data.client_id]];
   const collection_path = 'users';
   const document_path = collection_path + '/' + event_data.client_id;
+  var transaction_result;
+  var request_validated = false;
 
-  return Firestore.query(collection_path, queries, { projectId: project_id, limit: 1 })
-    .then((documents) => {
+  return Firestore.runTransaction((transaction) => {
+    // The callback can be retried. Reset attempt state and avoid external side effects here.
+    transaction_result = null;
+    request_validated = false;
 
-      // REJECT REQUESTS (orphan events) 
-      if (event_data.event_name !== 'page_view' && documents.length === 0) {
-        message = "🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session";
-        return { status: false, status_code: 400, message: message };
-      } else if (event_data.event_name !== 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
-        message = "🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session";
-        return { status: false, status_code: 400, message: message };
-      }
+    const query_options = {
+      projectId: project_id,
+      limit: 1,
+      transaction: transaction
+    };
+    const write_options = {
+      projectId: project_id,
+      merge: true,
+      transaction: transaction
+    };
 
-      // Set cookies
-      if (event_origin === 'Website') {
-        const user_cookie_max_age = 400 * 24 * 60 * 60;
-        const session_cookie_max_age = (makeNumber(data.session_max_age) || 30) * 60;
+    return Firestore.query(collection_path, queries, query_options)
+      .then((documents) => {
 
-        set_cookie(user_cookie_name, event_data.client_id, user_cookie_max_age);
-        set_cookie(session_cookie_name, event_data.page_id, session_cookie_max_age);
-      }
-
-      // If user does not exist in Firestore
-      if (documents && documents.length === 0) {
-        if (data.enable_logs) { log('👉 User does not exist'); }
-        if (data.enable_logs) { log('👉 Session does not exist'); }
-
-        // Set user and session parameter values for Firestore from current event data
-        const firestore_data = {
-          user_date: event_data.event_date,
-          client_id: event_data.client_id,
-          user_channel_grouping: event_data.event_data.channel_grouping,
-          user_source: event_data.event_data.source,
-          user_tld_source: event_data.event_data.tld_source,
-          user_campaign: event_data.event_data.campaign,
-          user_campaign_id: event_data.event_data.campaign_id,
-          user_campaign_click_id: event_data.event_data.campaign_click_id,
-          user_campaign_term: event_data.event_data.campaign_term,
-          user_campaign_content: event_data.event_data.campaign_content,
-          user_device_type: event_data.event_data.device_type,
-          user_country: event_data.event_data.country,
-          user_city: event_data.event_data.city,
-          user_language: event_data.event_data.browser_language,
-          user_first_session_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
-          user_last_session_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
-          sessions: [{
-            session_date: event_data.event_date,
-            session_id: event_data.session_id,
-            session_number: 1,
-            cross_domain_session: (event_data.event_data.cross_domain_id) ? 'Yes' : 'No',
-            session_channel_grouping: event_data.event_data.channel_grouping,
-            session_source: event_data.event_data.source,
-            session_tld_source: event_data.event_data.tld_source,
-            session_campaign: event_data.event_data.campaign,
-            session_campaign_id: event_data.event_data.campaign_id,
-            session_campaign_click_id: event_data.event_data.campaign_click_id,
-            session_campaign_term: event_data.event_data.campaign_term,
-            session_campaign_content: event_data.event_data.campaign_content,
-            session_device_type: event_data.event_data.device_type,
-            session_country: event_data.event_data.country,
-            session_city: event_data.event_data.city,
-            session_language: event_data.event_data.browser_language,
-            session_hostname: event_data.page_data.page_hostname,
-            session_browser_name: event_data.event_data.browser_name,
-            session_landing_page_category: event_data.page_data.page_category,
-            session_landing_page_url: event_data.page_data.page_url,
-            session_landing_page_path: event_data.page_data.page_path,
-            session_landing_page_title: event_data.page_data.page_title,
-            session_exit_page_category: event_data.page_data.page_category,
-            session_exit_page_url: event_data.page_data.page_url,
-            session_exit_page_path: event_data.page_data.page_path,
-            session_exit_page_title: event_data.page_data.page_title,
-            session_start_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
-            session_end_timestamp: event_data.event_timestamp,
-            user_id: event_data.session_data.user_id || null
-          }]
-        };
-
-        // Add user parameters to Firestore
-        for (var key in event_data.user_data) {
-          if (event_data.user_data.hasOwnProperty(key)) {
-            firestore_data[key] = event_data.user_data[key];
-          }
+        // REJECT REQUESTS (orphan events)
+        if (event_data.event_name !== 'page_view' && documents.length === 0) {
+          transaction_result = {
+            status: false,
+            status_code: 400,
+            message: "🔴 Orphan event: user doesn't exist in Firestore. Trigger a page_view event first to create a new user and a new session"
+          };
+          return transaction_result;
+        } else if (event_data.event_name !== 'page_view' && !documents[0].data.sessions.some(s => s.session_id === event_data.session_id)) {
+          transaction_result = {
+            status: false,
+            status_code: 400,
+            message: "🔴 Orphan event: session doesn't exist in Firestore. Trigger a page_view event first to create a new session"
+          };
+          return transaction_result;
         }
 
-        // Add session parameters to Firestore
-        for (var key in event_data.session_data) {
-          if (event_data.session_data.hasOwnProperty(key)) {
-            firestore_data.sessions[0][key] = event_data.session_data[key];
-          }
-        }
+        request_validated = true;
 
-        // Send data to Firestore 
-        if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
+        // If user does not exist in Firestore
+        if (documents.length === 0) {
+          const firestore_data = {
+            user_date: event_data.event_date,
+            client_id: event_data.client_id,
+            user_channel_grouping: event_data.event_data.channel_grouping,
+            user_source: event_data.event_data.source,
+            user_tld_source: event_data.event_data.tld_source,
+            user_campaign: event_data.event_data.campaign,
+            user_campaign_id: event_data.event_data.campaign_id,
+            user_campaign_click_id: event_data.event_data.campaign_click_id,
+            user_campaign_term: event_data.event_data.campaign_term,
+            user_campaign_content: event_data.event_data.campaign_content,
+            user_device_type: event_data.event_data.device_type,
+            user_country: event_data.event_data.country,
+            user_city: event_data.event_data.city,
+            user_language: event_data.event_data.browser_language,
+            user_first_session_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
+            user_last_session_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
+            sessions: [{
+              session_date: event_data.event_date,
+              session_id: event_data.session_id,
+              session_number: 1,
+              cross_domain_session: (event_data.event_data.cross_domain_id) ? 'Yes' : 'No',
+              session_channel_grouping: event_data.event_data.channel_grouping,
+              session_source: event_data.event_data.source,
+              session_tld_source: event_data.event_data.tld_source,
+              session_campaign: event_data.event_data.campaign,
+              session_campaign_id: event_data.event_data.campaign_id,
+              session_campaign_click_id: event_data.event_data.campaign_click_id,
+              session_campaign_term: event_data.event_data.campaign_term,
+              session_campaign_content: event_data.event_data.campaign_content,
+              session_device_type: event_data.event_data.device_type,
+              session_country: event_data.event_data.country,
+              session_city: event_data.event_data.city,
+              session_language: event_data.event_data.browser_language,
+              session_hostname: event_data.page_data.page_hostname,
+              session_browser_name: event_data.event_data.browser_name,
+              session_landing_page_category: event_data.page_data.page_category,
+              session_landing_page_url: event_data.page_data.page_url,
+              session_landing_page_path: event_data.page_data.page_path,
+              session_landing_page_title: event_data.page_data.page_title,
+              session_exit_page_category: event_data.page_data.page_category,
+              session_exit_page_url: event_data.page_data.page_url,
+              session_exit_page_path: event_data.page_data.page_path,
+              session_exit_page_title: event_data.page_data.page_title,
+              session_start_timestamp: (event_data.event_name === 'page_view') ? event_data.event_timestamp : null,
+              session_end_timestamp: event_data.event_timestamp,
+              user_id: event_data.session_data.user_id || null
+            }]
+          };
 
-        return Firestore.write(document_path, firestore_data, { projectId: project_id, merge: true })
-          .then(
-            (id) => {
-              if (data.enable_logs) { log('🟢 User successfully created in Firestore, session successfully added to Firestore'); }
-
-              // Add user parameters to Big Query        
-              for (var key in firestore_data) {
-                if (firestore_data.hasOwnProperty(key) && key !== 'sessions') {
-                  event_data.user_data[key] = firestore_data[key];
-                }
-              }
-
-              event_data.user_date = event_data.user_data.user_date;
-
-              Object.delete(event_data.user_data, 'user_date');
-              Object.delete(event_data.user_data, 'client_id');
-
-              // Add session parameters to Big Query 
-              event_data.session_data = firestore_data.sessions[0];
-              event_data.session_date = event_data.session_data.session_date;
-
-              Object.delete(event_data.session_data, 'session_date');
-              Object.delete(event_data.session_data, 'session_id');
-
-              return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
-            },
-            () => {
-              message = '🔴 User or session data not created to Firestore';
-              status_code = 500;
-
-              return { status: false, status_code: status_code, message: message };
+          // Add user parameters to Firestore
+          for (var key in event_data.user_data) {
+            if (event_data.user_data.hasOwnProperty(key)) {
+              firestore_data[key] = event_data.user_data[key];
             }
-          );
+          }
 
-        // If user exists in Firestore  
-      } else {
-        if (data.enable_logs) { log('👉 User exist'); }
+          // Add session parameters to Firestore
+          for (var key in event_data.session_data) {
+            if (event_data.session_data.hasOwnProperty(key)) {
+              firestore_data.sessions[0][key] = event_data.session_data[key];
+            }
+          }
 
+          transaction_result = {
+            status: true,
+            action: 'create_user',
+            firestore_data: firestore_data
+          };
+
+          return Firestore.write(document_path, firestore_data, write_options);
+        }
+
+        // If user exists in Firestore
         const firestore_data = documents[0].data;
         const sessions_data = firestore_data.sessions;
         const last_session = sessions_data.filter(s => s.session_id === event_data.session_id)[0];
         const actual_last_session = sessions_data.length > 0 ? sessions_data[sessions_data.length - 1] : null;
 
-        // Update user values in Firestore from current user data if not already exists or has a not null value        
-        const protected_keys = [
+        // Update user values in Firestore from current user data if not already exists or has a not null value
+        const protected_user_keys = [
           "user_date",
           "user_channel_grouping",
           "user_source",
@@ -3246,35 +3230,18 @@ function send_to_firestore(event_data) {
           const value = event_data.user_data[key];
 
           if (value == null) { return; }
-          if (protected_keys.indexOf(key) !== -1 && firestore_data[key] != null) { return; }
+          if (protected_user_keys.indexOf(key) !== -1 && firestore_data[key] != null) { return; }
 
           if (firestore_data[key] !== value) {
             firestore_data[key] = value;
           }
         });
 
-        // Add user parameters to Big Query        
-        for (var key in firestore_data) {
-          if (firestore_data.hasOwnProperty(key) && key !== 'sessions') {
-            event_data.user_data[key] = firestore_data[key];
-          }
-        }
-
-        event_data.user_date = event_data.user_data.user_date;
-
-        Object.delete(event_data.user_data, 'user_date');
-        Object.delete(event_data.user_data, 'client_id');
-
-        // If session doesn't exists in Firestore
+        // If session doesn't exist in Firestore
         if (!last_session) {
-          if (data.enable_logs) { log('👉 Session does not exist'); }
-
-          // Update last session timestamp of the user
           firestore_data.user_last_session_timestamp = event_data.event_timestamp;
-          event_data.user_data.user_last_session_timestamp = firestore_data.user_last_session_timestamp;
 
-          // Set new session values for Firestore from current event data
-          var new_session = {
+          const new_session = {
             session_date: event_data.event_date,
             session_id: event_data.session_id,
             session_number: actual_last_session ? actual_last_session.session_number + 1 : 1,
@@ -3313,126 +3280,198 @@ function send_to_firestore(event_data) {
             }
           }
 
-          // Add new session data to Firestore
           firestore_data.sessions.push(new_session);
+          transaction_result = {
+            status: true,
+            action: 'add_session',
+            firestore_data: firestore_data
+          };
 
-          // Send data to Firestore                    
-          if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
-
-          return Firestore.write(document_path, firestore_data, { projectId: project_id, merge: true })
-            .then(
-              (id) => {
-                if (data.enable_logs) { log('🟢 User already in Firestore, session successfully added to Firestore'); }
-
-                // Add data to BigQuery
-                event_data.session_data = firestore_data.sessions.slice(-1)[0];
-                event_data.session_date = event_data.session_data.session_date;
-
-                Object.delete(event_data.session_data, 'session_date');
-                Object.delete(event_data.session_data, 'session_id');
-
-                return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
-              },
-              () => {
-                message = '🔴 User or session data not added to Firestore';
-                status_code = 500;
-
-                return { status: false, status_code: status_code, message: message };
-              }
-            );
-
-          // If session exists in Firestore        
-        } else {
-          if (data.enable_logs) { log('👉 Session exist'); }
-
-          // Update session values in Firestore from current session data if not already exists or has a not null value 
-          const protected_keys = [
-            "session_date",
-            "session_id",
-            "session_number",
-            "cross_domain_session",
-            "session_channel_grouping",
-            "session_source",
-            "session_tld_source",
-            "session_campaign",
-            "session_campaign_id",
-            "session_campaign_click_id",
-            "session_campaign_term",
-            "session_campaign_content",
-            "session_device_type",
-            "session_country",
-            "session_city",
-            "session_language",
-            "session_hostname",
-            "session_browser_name",
-            "session_landing_page_category",
-            "session_landing_page_url",
-            "session_landing_page_path",
-            "session_landing_page_title",
-            "session_exit_page_category",
-            "session_exit_page_url",
-            "session_exit_page_path",
-            "session_exit_page_title",
-            "session_start_timestamp",
-            "session_end_timestamp",
-            "user_id"
-          ];
-
-          Object.keys(event_data.session_data).forEach(function (key) {
-            const value = event_data.session_data[key];
-
-            if (value == null) { return; }
-            if (protected_keys.indexOf(key) !== -1 && last_session[key] != null) { return; }
-
-            if (last_session[key] !== value) {
-              last_session[key] = value;
-            }
-          });
-
-          // Update session values in Firestore from current event data
-          last_session.session_exit_page_category = (event_data.page_data.page_category) ? event_data.page_data.page_category : null;
-          last_session.session_exit_page_url = event_data.page_data.page_url;
-          last_session.session_exit_page_path = event_data.page_data.page_path;
-          last_session.session_exit_page_title = event_data.page_data.page_title;
-          last_session.session_end_timestamp = event_data.event_timestamp;
-          if (last_session.cross_domain_session === 'No') {
-            last_session.cross_domain_session = (event_data.event_data.cross_domain_id) ? 'Yes' : 'No';
-          }
-
-          if (event_data.event_name === 'login') { last_session.user_id = event_data.session_data.user_id || null; }
-          if (event_data.event_name === 'logout') { last_session.user_id = null; }
-
-          // Send data to firestore                    
-          if (data.enable_logs) { log('👉 Payload to send: ', firestore_data); }
-
-          return Firestore.write(document_path, firestore_data, { projectId: project_id, merge: true })
-            .then(
-              // RESPONSE SUCCESS
-              (id) => {
-                if (data.enable_logs) { log('🟢 User already in Firestore, session successfully updated to Firestore'); }
-
-                // Add data for BigQuery
-                event_data.session_data = last_session;
-                event_data.session_date = last_session.session_date;
-
-                Object.delete(event_data.session_data, 'session_date');
-                Object.delete(event_data.session_data, 'session_id');
-
-                return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
-              },
-              // RESPONSE ERROR
-              () => {
-                message = '🔴 User or session data not updated to Firestore';
-                status_code = 500;
-
-                return { status: false, status_code: status_code, message: message };
-              }
-            );
+          return Firestore.write(document_path, firestore_data, write_options);
         }
+
+        // If session exists in Firestore
+        const protected_session_keys = [
+          "session_date",
+          "session_id",
+          "session_number",
+          "cross_domain_session",
+          "session_channel_grouping",
+          "session_source",
+          "session_tld_source",
+          "session_campaign",
+          "session_campaign_id",
+          "session_campaign_click_id",
+          "session_campaign_term",
+          "session_campaign_content",
+          "session_device_type",
+          "session_country",
+          "session_city",
+          "session_language",
+          "session_hostname",
+          "session_browser_name",
+          "session_landing_page_category",
+          "session_landing_page_url",
+          "session_landing_page_path",
+          "session_landing_page_title",
+          "session_exit_page_category",
+          "session_exit_page_url",
+          "session_exit_page_path",
+          "session_exit_page_title",
+          "session_start_timestamp",
+          "session_end_timestamp",
+          "user_id"
+        ];
+
+        Object.keys(event_data.session_data).forEach(function (key) {
+          const value = event_data.session_data[key];
+
+          if (value == null) { return; }
+          if (protected_session_keys.indexOf(key) !== -1 && last_session[key] != null) { return; }
+
+          if (last_session[key] !== value) {
+            last_session[key] = value;
+          }
+        });
+
+        // Update session values in Firestore from current event data
+        last_session.session_exit_page_category = (event_data.page_data.page_category) ? event_data.page_data.page_category : null;
+        last_session.session_exit_page_url = event_data.page_data.page_url;
+        last_session.session_exit_page_path = event_data.page_data.page_path;
+        last_session.session_exit_page_title = event_data.page_data.page_title;
+        last_session.session_end_timestamp = event_data.event_timestamp;
+        if (last_session.cross_domain_session === 'No') {
+          last_session.cross_domain_session = (event_data.event_data.cross_domain_id) ? 'Yes' : 'No';
+        }
+
+        if (event_data.event_name === 'login') { last_session.user_id = event_data.session_data.user_id || null; }
+        if (event_data.event_name === 'logout') { last_session.user_id = null; }
+
+        transaction_result = {
+          status: true,
+          action: 'update_session',
+          firestore_data: firestore_data
+        };
+
+        return Firestore.write(document_path, firestore_data, write_options);
+      });
+  }, { projectId: project_id })
+    .then(
+      () => {
+        if (!transaction_result) {
+          return { status: false, status_code: 500, message: '🔴 Firestore request failed' };
+        }
+
+        if (transaction_result.status !== true) {
+          return transaction_result;
+        }
+
+        set_request_cookies(event_data);
+        log_firestore_transaction_result(transaction_result, true);
+
+        if (!enrich_event_data_from_firestore(event_data, transaction_result.firestore_data)) {
+          return { status: false, status_code: 500, message: '🔴 Firestore request failed' };
+        }
+
+        return { status: true, status_code: 200, message: '🟢 Request claimed successfully' };
+      },
+      (error) => {
+        if (request_validated) {
+          set_request_cookies(event_data);
+        }
+
+        log_firestore_transaction_result(transaction_result, false);
+        if (data.enable_logs) { log(error); }
+
+        return {
+          status: false,
+          status_code: 500,
+          message: get_firestore_failure_message(transaction_result)
+        };
       }
+    );
+}
 
 
-    });
+// Set website cookies once, outside the retryable transaction callback
+function set_request_cookies(event_data) {
+  if (event_origin !== 'Website') { return; }
+
+  const user_cookie_max_age = 400 * 24 * 60 * 60;
+  const session_cookie_max_age = (makeNumber(data.session_max_age) || 30) * 60;
+
+  set_cookie(user_cookie_name, event_data.client_id, user_cookie_max_age);
+  set_cookie(session_cookie_name, event_data.page_id, session_cookie_max_age);
+}
+
+
+// Add the committed Firestore state to the payload before BigQuery processing
+function enrich_event_data_from_firestore(event_data, firestore_data) {
+  for (var key in firestore_data) {
+    if (firestore_data.hasOwnProperty(key) && key !== 'sessions') {
+      event_data.user_data[key] = firestore_data[key];
+    }
+  }
+
+  event_data.user_date = event_data.user_data.user_date;
+  Object.delete(event_data.user_data, 'user_date');
+  Object.delete(event_data.user_data, 'client_id');
+
+  const stored_session = firestore_data.sessions.filter(s => s.session_id === event_data.session_id)[0];
+  if (!stored_session) { return false; }
+
+  event_data.session_data = JSON.parse(JSON.stringify(stored_session));
+  event_data.session_date = event_data.session_data.session_date;
+  Object.delete(event_data.session_data, 'session_date');
+  Object.delete(event_data.session_data, 'session_id');
+
+  return true;
+}
+
+
+// Log only the final transaction attempt so retries do not duplicate messages
+function log_firestore_transaction_result(transaction_result, success) {
+  if (!data.enable_logs || !transaction_result || transaction_result.status !== true) { return; }
+
+  if (transaction_result.action === 'create_user') {
+    log('👉 User does not exist');
+    log('👉 Session does not exist');
+  } else if (transaction_result.action === 'add_session') {
+    log('👉 User exist');
+    log('👉 Session does not exist');
+  } else if (transaction_result.action === 'update_session') {
+    log('👉 User exist');
+    log('👉 Session exist');
+  }
+
+  log('👉 Payload to send: ', transaction_result.firestore_data);
+
+  if (!success) { return; }
+
+  if (transaction_result.action === 'create_user') {
+    log('🟢 User successfully created in Firestore, session successfully added to Firestore');
+  } else if (transaction_result.action === 'add_session') {
+    log('🟢 User already in Firestore, session successfully added to Firestore');
+  } else if (transaction_result.action === 'update_session') {
+    log('🟢 User already in Firestore, session successfully updated to Firestore');
+  }
+}
+
+
+function get_firestore_failure_message(transaction_result) {
+  if (!transaction_result || !transaction_result.action) {
+    return '🔴 Firestore request failed';
+  }
+
+  if (transaction_result.action === 'create_user') {
+    return '🔴 User or session data not created to Firestore';
+  }
+
+  if (transaction_result.action === 'add_session') {
+    return '🔴 User or session data not added to Firestore';
+  }
+
+  return '🔴 User or session data not updated to Firestore';
 }
 
 
