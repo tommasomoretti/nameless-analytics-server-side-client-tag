@@ -35,7 +35,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "LABEL",
     "name": "event_data_title",
-    "displayName": "\u003cb\u003eData\u003c/br\u003e"
+    "displayName": "\u003cb\u003eData\u003c/b\u003e"
   },
   {
     "type": "GROUP",
@@ -213,7 +213,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Add or override user parameters to the request in user_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved user parameters: \u003c/br\u003e  \n• user_channel_grouping \u003c/br\u003e  \n• user_source \u003c/br\u003e  \n• user_tld_source \u003c/br\u003e  \n• user_campaign \u003c/br\u003e  \n• user_campaign_id \u003c/br\u003e  \n• user_campaign_click_id\u003c/br\u003e\n• user_campaign_content \u003c/br\u003e  \n• user_campaign_term \u003c/br\u003e  \n• user_device_type \u003c/br\u003e  \n• user_country \u003c/br\u003e  \n• user_language \u003c/br\u003e  \n• user_city \u003c/br\u003e\n• user_country \u003c/br\u003e\n• user_first_session_timestamp \u003c/br\u003e\n• user_last_session_timestamp \u003c/br\u003e\n• user_date \u003c/br\u003e\n• client_id",
+        "help": "Add or override user parameters to the request in user_data. If a parameter has the same name, it will be overridden.\n\u003cbr\u003e\u003cbr\u003e\nReserved user parameters: \u003cbr\u003e  \n• user_channel_grouping \u003cbr\u003e  \n• user_source \u003cbr\u003e  \n• user_tld_source \u003cbr\u003e  \n• user_campaign \u003cbr\u003e  \n• user_campaign_id \u003cbr\u003e  \n• user_campaign_click_id\u003cbr\u003e\n• user_campaign_content \u003cbr\u003e  \n• user_campaign_term \u003cbr\u003e  \n• user_device_type \u003cbr\u003e  \n• user_country \u003cbr\u003e  \n• user_language \u003cbr\u003e  \n• user_city \u003cbr\u003e\n• user_country \u003cbr\u003e\n• user_first_session_timestamp \u003cbr\u003e\n• user_last_session_timestamp \u003cbr\u003e\n• user_date \u003cbr\u003e\n• client_id",
         "defaultValue": false,
         "displayName": "User parameters"
       },
@@ -223,7 +223,7 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Remove user level parameters",
         "simpleValueType": true,
         "displayName": "",
-        "help": "Remove user parameters from the request in user_data. If a parameter has the same name, it will be removed.\n\u003c/br\u003e\u003c/br\u003e\nReserved user parameters: \u003c/br\u003e  \n• user_channel_grouping \u003c/br\u003e  \n• user_source \u003c/br\u003e  \n• user_tld_source \u003c/br\u003e  \n• user_campaign \u003c/br\u003e  \n• user_campaign_id \u003c/br\u003e  \n• user_campaign_click_id\u003c/br\u003e\n• user_campaign_content \u003c/br\u003e  \n• user_campaign_term \u003c/br\u003e  \n• user_device_type \u003c/br\u003e  \n• user_country \u003c/br\u003e  \n• user_language \u003c/br\u003e  \n• user_city \u003c/br\u003e\n• user_country \u003c/br\u003e\n• user_first_session_timestamp \u003c/br\u003e\n• user_last_session_timestamp \u003c/br\u003e\n• user_date \u003c/br\u003e\n• client_id",
+        "help": "Remove user parameters from the request in user_data. If a parameter has the same name, it will be removed.\n\u003cbr\u003e\u003cbr\u003e\nReserved user parameters: \u003cbr\u003e  \n• user_channel_grouping \u003cbr\u003e  \n• user_source \u003cbr\u003e  \n• user_tld_source \u003cbr\u003e  \n• user_campaign \u003cbr\u003e  \n• user_campaign_id \u003cbr\u003e  \n• user_campaign_click_id\u003cbr\u003e\n• user_campaign_content \u003cbr\u003e  \n• user_campaign_term \u003cbr\u003e  \n• user_device_type \u003cbr\u003e  \n• user_country \u003cbr\u003e  \n• user_language \u003cbr\u003e  \n• user_city \u003cbr\u003e\n• user_country \u003cbr\u003e\n• user_first_session_timestamp \u003cbr\u003e\n• user_last_session_timestamp \u003cbr\u003e\n• user_date \u003cbr\u003e\n• client_id",
         "defaultValue": false,
         "alwaysInSummary": true,
         "subParams": [
@@ -674,7 +674,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Add or override session parameters to the request in session_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved session parameters: \u003c/br\u003e\n• user_id \u003c/br\u003e\n• session_number \u003c/br\u003e \n• cross_domain_session \u003c/br\u003e \n• session_channel_grouping \u003c/br\u003e \n• session_source \u003c/br\u003e \n• session_tld_source \u003c/br\u003e \n• session_campaign \u003c/br\u003e \n• session_campaign_id \u003c/br\u003e \n• session_campaign_click_id \u003c/br\u003e\n• session_campaign_content \u003c/br\u003e \n• session_campaign_term \u003c/br\u003e \n• session_device_type \u003c/br\u003e \n• session_city \u003c/br\u003e\n• session_country \u003c/br\u003e \n• session_language \u003c/br\u003e \n• session_hostname \u003c/br\u003e \n• session_browser_name \u003c/br\u003e \n• session_landing_page_category \u003c/br\u003e \n• session_landing_page_path \u003c/br\u003e \n• session_landing_page_title \u003c/br\u003e \n• session_exit_page_category \u003c/br\u003e \n• session_exit_page_path \u003c/br\u003e \n• session_exit_page_title \u003c/br\u003e \n• session_start_timestamp \u003c/br\u003e \n• session_end_timestamp \u003c/br\u003e\n• session_date \u003c/br\u003e\n• session_id \u003c/br\u003e\n• session_landing_page_url \u003c/br\u003e\n• session_exit_page_url",
+        "help": "Add or override session parameters to the request in session_data. If a parameter has the same name, it will be overridden.\n\u003cbr\u003e\u003cbr\u003e\nReserved session parameters: \u003cbr\u003e\n• user_id \u003cbr\u003e\n• session_number \u003cbr\u003e \n• cross_domain_session \u003cbr\u003e \n• session_channel_grouping \u003cbr\u003e \n• session_source \u003cbr\u003e \n• session_tld_source \u003cbr\u003e \n• session_campaign \u003cbr\u003e \n• session_campaign_id \u003cbr\u003e \n• session_campaign_click_id \u003cbr\u003e\n• session_campaign_content \u003cbr\u003e \n• session_campaign_term \u003cbr\u003e \n• session_device_type \u003cbr\u003e \n• session_city \u003cbr\u003e\n• session_country \u003cbr\u003e \n• session_language \u003cbr\u003e \n• session_hostname \u003cbr\u003e \n• session_browser_name \u003cbr\u003e \n• session_landing_page_category \u003cbr\u003e \n• session_landing_page_path \u003cbr\u003e \n• session_landing_page_title \u003cbr\u003e \n• session_exit_page_category \u003cbr\u003e \n• session_exit_page_path \u003cbr\u003e \n• session_exit_page_title \u003cbr\u003e \n• session_start_timestamp \u003cbr\u003e \n• session_end_timestamp \u003cbr\u003e\n• session_date \u003cbr\u003e\n• session_id \u003cbr\u003e\n• session_landing_page_url \u003cbr\u003e\n• session_exit_page_url",
         "defaultValue": false,
         "displayName": ""
       },
@@ -922,7 +922,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Remove session parameters from the request in session_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved session parameters: \u003c/br\u003e\n• user_id \u003c/br\u003e\n• session_number \u003c/br\u003e \n• cross_domain_session \u003c/br\u003e \n• session_channel_grouping \u003c/br\u003e \n• session_source \u003c/br\u003e \n• session_tld_source \u003c/br\u003e \n• session_campaign \u003c/br\u003e \n• session_campaign_id \u003c/br\u003e \n• session_campaign_click_id \u003c/br\u003e\n• session_campaign_content \u003c/br\u003e \n• session_campaign_term \u003c/br\u003e \n• session_device_type \u003c/br\u003e \n• session_city \u003c/br\u003e\n• session_country \u003c/br\u003e \n• session_language \u003c/br\u003e \n• session_hostname \u003c/br\u003e \n• session_browser_name \u003c/br\u003e \n• session_landing_page_category \u003c/br\u003e \n• session_landing_page_path \u003c/br\u003e \n• session_landing_page_title \u003c/br\u003e \n• session_exit_page_category \u003c/br\u003e \n• session_exit_page_path \u003c/br\u003e \n• session_exit_page_title \u003c/br\u003e \n• session_start_timestamp \u003c/br\u003e \n• session_end_timestamp \u003c/br\u003e\n• session_date \u003c/br\u003e\n• session_id \u003c/br\u003e\n• session_landing_page_url \u003c/br\u003e\n• session_exit_page_url",
+        "help": "Remove session parameters from the request in session_data. If a parameter has the same name, it will be overridden.\n\u003cbr\u003e\u003cbr\u003e\nReserved session parameters: \u003cbr\u003e\n• user_id \u003cbr\u003e\n• session_number \u003cbr\u003e \n• cross_domain_session \u003cbr\u003e \n• session_channel_grouping \u003cbr\u003e \n• session_source \u003cbr\u003e \n• session_tld_source \u003cbr\u003e \n• session_campaign \u003cbr\u003e \n• session_campaign_id \u003cbr\u003e \n• session_campaign_click_id \u003cbr\u003e\n• session_campaign_content \u003cbr\u003e \n• session_campaign_term \u003cbr\u003e \n• session_device_type \u003cbr\u003e \n• session_city \u003cbr\u003e\n• session_country \u003cbr\u003e \n• session_language \u003cbr\u003e \n• session_hostname \u003cbr\u003e \n• session_browser_name \u003cbr\u003e \n• session_landing_page_category \u003cbr\u003e \n• session_landing_page_path \u003cbr\u003e \n• session_landing_page_title \u003cbr\u003e \n• session_exit_page_category \u003cbr\u003e \n• session_exit_page_path \u003cbr\u003e \n• session_exit_page_title \u003cbr\u003e \n• session_start_timestamp \u003cbr\u003e \n• session_end_timestamp \u003cbr\u003e\n• session_date \u003cbr\u003e\n• session_id \u003cbr\u003e\n• session_landing_page_url \u003cbr\u003e\n• session_exit_page_url",
         "defaultValue": false,
         "displayName": ""
       }
@@ -1145,7 +1145,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Add or override event parameters to the request in event_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved event parameters: \u003c/br\u003e \n• event_type \u003c/br\u003e \n• channel_grouping \u003c/br\u003e \n• source \u003c/br\u003e \n• tld_source \u003c/br\u003e\n• campaign \u003c/br\u003e \n• campaign_id \u003c/br\u003e\n• campaign_click_id \u003c/br\u003e\n• campaign_term \u003c/br\u003e \n• campaign_content \u003c/br\u003e \n• user_agent \u003c/br\u003e \n• browser_name \u003c/br\u003e \n• browser_language \u003c/br\u003e \n• browser_version \u003c/br\u003e \n• device_type \u003c/br\u003e \n• device_vendor \u003c/br\u003e \n• device_model \u003c/br\u003e \n• os_name \u003c/br\u003e \n• os_version \u003c/br\u003e \n• screen_size \u003c/br\u003e \n• viewport_size \u003c/br\u003e\n• city \u003c/br\u003e\n• country \u003c/br\u003e\n• cross_domain_id",
+        "help": "Add or override event parameters to the request in event_data. If a parameter has the same name, it will be overridden.\n\u003cbr\u003e\u003cbr\u003e\nReserved event parameters: \u003cbr\u003e \n• event_type \u003cbr\u003e \n• channel_grouping \u003cbr\u003e \n• source \u003cbr\u003e \n• tld_source \u003cbr\u003e\n• campaign \u003cbr\u003e \n• campaign_id \u003cbr\u003e\n• campaign_click_id \u003cbr\u003e\n• campaign_term \u003cbr\u003e \n• campaign_content \u003cbr\u003e \n• user_agent \u003cbr\u003e \n• browser_name \u003cbr\u003e \n• browser_language \u003cbr\u003e \n• browser_version \u003cbr\u003e \n• device_type \u003cbr\u003e \n• device_vendor \u003cbr\u003e \n• device_model \u003cbr\u003e \n• os_name \u003cbr\u003e \n• os_version \u003cbr\u003e \n• screen_size \u003cbr\u003e \n• viewport_size \u003cbr\u003e\n• city \u003cbr\u003e\n• country \u003cbr\u003e\n• cross_domain_id",
         "defaultValue": false,
         "displayName": "Event parameters"
       },
@@ -1352,7 +1352,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Remove event parameters from the request in event_data. If a parameter has the same name, it will be overridden.\n\u003c/br\u003e\u003c/br\u003e\nReserved event parameters: \u003c/br\u003e \n• event_type \u003c/br\u003e \n• channel_grouping \u003c/br\u003e \n• source \u003c/br\u003e \n• tld_source \u003c/br\u003e\n• campaign \u003c/br\u003e \n• campaign_id \u003c/br\u003e\n• campaign_click_id \u003c/br\u003e\n• campaign_term \u003c/br\u003e \n• campaign_content \u003c/br\u003e \n• user_agent \u003c/br\u003e \n• browser_name \u003c/br\u003e \n• browser_language \u003c/br\u003e \n• browser_version \u003c/br\u003e \n• device_type \u003c/br\u003e \n• device_vendor \u003c/br\u003e \n• device_model \u003c/br\u003e \n• os_name \u003c/br\u003e \n• os_version \u003c/br\u003e \n• screen_size \u003c/br\u003e \n• viewport_size \u003c/br\u003e\n• city \u003c/br\u003e\n• country \u003c/br\u003e\n• cross_domain_id",
+        "help": "Remove event parameters from the request in event_data. If a parameter has the same name, it will be overridden.\n\u003cbr\u003e\u003cbr\u003e\nReserved event parameters: \u003cbr\u003e \n• event_type \u003cbr\u003e \n• channel_grouping \u003cbr\u003e \n• source \u003cbr\u003e \n• tld_source \u003cbr\u003e\n• campaign \u003cbr\u003e \n• campaign_id \u003cbr\u003e\n• campaign_click_id \u003cbr\u003e\n• campaign_term \u003cbr\u003e \n• campaign_content \u003cbr\u003e \n• user_agent \u003cbr\u003e \n• browser_name \u003cbr\u003e \n• browser_language \u003cbr\u003e \n• browser_version \u003cbr\u003e \n• device_type \u003cbr\u003e \n• device_vendor \u003cbr\u003e \n• device_model \u003cbr\u003e \n• os_name \u003cbr\u003e \n• os_version \u003cbr\u003e \n• screen_size \u003cbr\u003e \n• viewport_size \u003cbr\u003e\n• city \u003cbr\u003e\n• country \u003cbr\u003e\n• cross_domain_id",
         "defaultValue": false,
         "displayName": ""
       }
@@ -1361,7 +1361,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "LABEL",
     "name": "settings_title",
-    "displayName": "\u003c/br\u003e\u003cb\u003eSettings\u003c/b\u003e"
+    "displayName": "\u003cbr\u003e\u003cb\u003eSettings\u003c/b\u003e"
   },
   {
     "type": "GROUP",
@@ -1389,7 +1389,7 @@ ___TEMPLATE_PARAMETERS___
             "errorMessage": "The endpoint path must start with / and must not end with /."
           }
         ],
-        "help": "The request endpoint path.\n\u003c/br\u003e\u003c/br\u003e\nThe endpoint path must start with / and must not end with /."
+        "help": "The request endpoint path.\n\u003cbr\u003e\u003cbr\u003e\nThe endpoint path must start with / and must not end with /."
       },
       {
         "type": "CHECKBOX",
@@ -1439,7 +1439,7 @@ ___TEMPLATE_PARAMETERS___
           }
         ],
         "alwaysInSummary": true,
-        "help": "Authorized domains from which to accept requests.  \u003c/br\u003e\u003c/br\u003e The URL must not start with http:// or https://, must not end with /, and must contain a valid domain.",
+        "help": "Authorized domains from which to accept requests.  \u003cbr\u003e\u003cbr\u003e The URL must not start with http:// or https://, must not end with /, and must contain a valid domain.",
         "displayName": "Security rules"
       },
       {
@@ -1498,7 +1498,7 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Enable Bot protection",
         "simpleValueType": true,
         "alwaysInSummary": true,
-        "help": "If enabled, the Nameless Analytics Server-side Client Tag filters requests based on a predefined blacklist of values in the User-Agent header:\n\u003c/br\u003e\u003c/br\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cb\u003eHTTP Libraries:\u003c/b\u003e curl, wget, python, requests, httpie, go-http-client, java, okhttp, libwww, perl, axios, node, fetch, php, guzzle, ruby, faraday, rest-client.\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eAI Agents \u0026 LLMs:\u003c/b\u003e gptbot, chatgpt, anthropic, claude, perplexity, bytespider, ccbot.\n\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eSEO \u0026 Marketing Bots:\u003c/b\u003e ahrefs, semrush, dotbot, mj12, rogerbot, bot, crawler, spider, scraper.\n\u003c/li\u003e\u003c/br\u003e\n\u003cli\u003e\u003cb\u003eAutomation \u0026 Security:\u003c/b\u003e nmap, zgrab, masscan, shodan, headless, phantomjs, selenium, puppeteer, playwright, cypress, electron.\n\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/br\u003e\nRequests with a missing or empty User-Agent header are also automatically rejected."
+        "help": "If enabled, the Nameless Analytics Server-side Client Tag filters requests based on a predefined blacklist of values in the User-Agent header:\n\u003cbr\u003e\u003cbr\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cb\u003eHTTP Libraries:\u003c/b\u003e curl, wget, python, requests, httpie, go-http-client, java, okhttp, libwww, perl, axios, node, fetch, php, guzzle, ruby, faraday, rest-client.\u003c/li\u003e\u003cbr\u003e\n\u003cli\u003e\u003cb\u003eAI Agents \u0026 LLMs:\u003c/b\u003e gptbot, chatgpt, anthropic, claude, perplexity, bytespider, ccbot.\n\u003c/li\u003e\u003cbr\u003e\n\u003cli\u003e\u003cb\u003eSEO \u0026 Marketing Bots:\u003c/b\u003e ahrefs, semrush, dotbot, mj12, rogerbot, bot, crawler, spider, scraper.\n\u003c/li\u003e\u003cbr\u003e\n\u003cli\u003e\u003cb\u003eAutomation \u0026 Security:\u003c/b\u003e nmap, zgrab, masscan, shodan, headless, phantomjs, selenium, puppeteer, playwright, cypress, electron.\n\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr\u003e\nRequests with a missing or empty User-Agent header are also automatically rejected."
       },
       {
         "type": "CHECKBOX",
@@ -1793,7 +1793,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "LABEL",
         "name": "info",
-        "displayName": "\u003cb\u003eNameless Analytics Server-Side client tag | Beta version 1.0\u003c/b\u003e\u003c/br\u003e\nBeta version: 1.0. \n\u003c/br\u003e\nRead more about the \n\u003ca href\u003d\"https://github.com/nameless-analytics/nameless-analytics\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/nameless-analytics/nameless-analytics-server-tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eServer-side Client Tag\u003c/a\u003e.\n\u003c/br\u003e\nOfficial website \u003ca href\u003d\"https://namelessanalytics.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eNameless Analytics\u003c/a\u003e\n\u003c/br\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eTommaso Moretti\u003c/a\u003e\n\u003c/br\u003e\u003c/br\u003e"
+        "displayName": "\u003cb\u003eNameless Analytics Server-Side client tag | Beta version 1.0\u003c/b\u003e\u003cbr\u003e\nBeta version: 1.0. \n\u003cbr\u003e\nRead more about the \n\u003ca href\u003d\"https://github.com/nameless-analytics/nameless-analytics\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eNameless Analytics project\u003c/a\u003e or the \u003ca href\u003d\"https://github.com/nameless-analytics/nameless-analytics-server-tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eServer-side Client Tag\u003c/a\u003e.\n\u003cbr\u003e\nOfficial website \u003ca href\u003d\"https://namelessanalytics.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eNameless Analytics\u003c/a\u003e\n\u003cbr\u003e\nCreated by \u003ca href\u003d\"https://tommasomoretti.com/?utm_source\u003dtagmanager.google.com\u0026utm_medium\u003dreferral\u0026utm_campaign\u003dss_analytics_tag\" target\u003d\u0027_blank\u0027 rel\u003d\"noopener\"\u003eTommaso Moretti\u003c/a\u003e\n\u003cbr\u003e\u003cbr\u003e"
       }
     ]
   }
